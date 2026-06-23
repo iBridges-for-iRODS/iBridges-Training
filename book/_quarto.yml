@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  title: "Course template"
+  title: "iBridges Training"
   page-navigation: true
   page-footer:
     right: "This website is built and maintained with ☕ and [Quarto](https://quarto.org/)."
@@ -11,16 +11,16 @@ website:
       - icon: github
         menu:
           - text: Source code
-            url:  https://github.com/UtrechtUniversity/rdm-quarto-workshop-template
+            url:  https://github.com/iBridges-for-iRODS/iBridges-Training
           - text: Report an issue
-            url:  https://github.com/UtrechtUniversity/rdm-quarto-workshop-template/issues
+            url:  https://github.com/iBridges-for-iRODS/iBridges-Training/issues
     search: true
     pinned: true
     alignment: center
     style: docked
     collapse-level: 2
-    logo: img/uu-logo-en-geenwitruimte.png
-    logo-alt: "Logo of Utrecht University"
+    logo: img/logo.png
+    logo-alt: "Logo of iBridges"
     contents:
       - section: "Course information"
         contents:
@@ -39,5 +39,5 @@ format:
   html:
     theme: 
       light: [cosmo, styles/theme-light.scss]
-      dark: [cosmo, styles/theme-dark.scss]
-    css: styles.css
+    css:
+      - css_files/hyperlinks.css

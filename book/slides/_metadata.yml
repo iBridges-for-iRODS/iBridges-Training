@@ -8,4 +8,4 @@ format:
     slide-number: true
     navigation-mode: linear
     controls: true
-search: false
+    search: false
