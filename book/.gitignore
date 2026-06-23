@@ -1,0 +1,36 @@
+# Quarto build artifacts
+/.quarto/
+_site/
+_book/
+*.knit.md
+*.utf8.md
+
+# R / knitr cache (if ever used)
+_cache/
+*_cache/
+
+# Python cache (if any Python code is used)
+__pycache__/
+*.pyc
+
+# macOS system files
+.DS_Store
+**/.DS_Store
+
+# VSCode settings (if you use it)
+.vscode/
+
+# Temporary files
+*.tmp
+*.log
+
+# Backup files created by editors
+*~
+*.swp
+*.swo
+
+# Node modules (if extensions ever use JS)
+node_modules/
+
+# Reveal.js downloaded libs (Quarto regenerates them)
+site_libs/

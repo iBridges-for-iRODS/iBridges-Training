@@ -1,38 +1,18 @@
---- 
-format: 
+---
+format:
   revealjs:
     theme: ../styles/uu.scss
-    logo: ../img/UU_logo_2021_EN_RGB.png
     footer: "John Doe"
-execute: 
-    enabled: true
+execute:
+  enabled: true
 ---
 
-# Chapter ONE {data-background-color="#FFCD00"}
 
-![](../img/UU_logo_2021_EN_RGB.png){.absolute bottom=320 left=0 width="300" height="120"}
-
-# {data-background-color="#FFCD00"}
-
-![](../img/UU_logo_2021_EN_RGB.png){.absolute bottom=-100 left=-240 width="300" height="120"}
-
-:::::::::::::: {.columns}
-
-::: {.column width="40%"}
-
-::: {.subtitle}
-
-Title
-
-:::
-:::
-::: {.column width="60%"}
-![](../img/image.jpg){fig-align="right" width="300"}
-:::
-::::::::::::::
+# Chapter ONE {data-background-color="#d3d3d3"}
 
 
-## Quarto
+## Quarto <img src="../img/logo.png" style="height:1.5em; float:right;">
+
 ::: {style="text-align: left; margin-top: 2em"}
 Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
 :::
@@ -147,6 +127,6 @@ plot(cars)
 Learn more: [Multiple Columns](https://quarto.org/docs/presentations/revealjs/#multiple-columns)
 :::
 
-# {data-background-color="#FFCD00"}
+# {data-background-color="#d3d3d3"}
 
-![](../img/UU_logo_2021_EN_RGB_payoff.png)
+![](../img/logo.png){fig-align="center"}
