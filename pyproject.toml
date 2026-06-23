@@ -1,7 +1,7 @@
 [project]
-name = "rdm-quarto-workshop-template"
+name = "iBridges Training"
 version = "0.1.0"
-description = "Add your description here"
+description = "Training material for the iBridges Suite: GUI, CLI, API"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
