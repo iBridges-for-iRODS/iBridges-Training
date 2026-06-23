@@ -26,10 +26,10 @@ website:
         contents:
           - href: index.qmd
             text: Home
-      - section: "Introduction"
+      - section: "Beginner Training"
         contents:
-          - href: chapter1.qmd
-            text: Chapter 1
+          - href: ibridges-gui.qmd
+            text: iBridges GUI
       - section: "Advanced"
         contents:
           - href: chapter2.qmd
