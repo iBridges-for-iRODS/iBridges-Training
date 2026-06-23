@@ -1,5 +1,5 @@
 [project]
-name = "iBridges Training"
+name = "ibridges-training"
 version = "0.1.0"
 description = "Training material for the iBridges Suite: GUI, CLI, API"
 readme = "README.md"
