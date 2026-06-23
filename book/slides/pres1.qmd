@@ -1,7 +1,7 @@
 ---
 format:
   revealjs:
-    theme: ../styles/uu.scss
+    theme: ../styles/ibridges.scss
     footer: "John Doe"
 execute:
   enabled: true
