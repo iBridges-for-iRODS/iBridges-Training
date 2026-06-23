@@ -1,4 +1,5 @@
 # iBridges GUI Tutorial
+(Teacher notes)
 
 ## Install and start the GUI
 
