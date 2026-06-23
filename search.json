@@ -1,0 +1,35 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Welcome!",
+    "section": "",
+    "text": "Welcome!\n\nChapter 1\n\nChapter 2",
+    "crumbs": [
+      "Course information",
+      "Home"
+    ]
+  },
+  {
+    "objectID": "chapter2.html",
+    "href": "chapter2.html",
+    "title": "Chapter 2!",
+    "section": "",
+    "text": "Welcome to chapter 2!",
+    "crumbs": [
+      "Advanced",
+      "Chapter 2"
+    ]
+  },
+  {
+    "objectID": "chapter1.html",
+    "href": "chapter1.html",
+    "title": "Chapter 1!",
+    "section": "",
+    "text": "This template combines two quarto projects (book and slides) in one github repository for creating a book with embedded slides.",
+    "crumbs": [
+      "Introduction",
+      "Chapter 1"
+    ]
+  }
+]
