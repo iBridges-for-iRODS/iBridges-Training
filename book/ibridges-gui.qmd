@@ -11,6 +11,7 @@ ibridges gui
 ## Configuration
 
 Create a new *irods_environment.json*. Click on *Configure* in the top menu and choose *Add Configuration*.
+
 ![Configure](img/screenshots/Screenshot 2025-11-09 at 12.02.18.png)
 
 Click the green button *New Config*, delete all the text in there and paste the following text:
@@ -34,7 +35,8 @@ In the next steps we will take you through the Browser view, explore with you th
 ## Upload
 
 ### Upload a file
-![](img/screenshots/upload.png)
+
+![Upload](img/screenshots/upload.png)
 
 In the Upload dialog you can select folders or files to be uploaded to iRODS. For now let us just upload a file. After the upload close the window and click once on you uploaded file.
 
@@ -42,18 +44,18 @@ In the Upload dialog you can select folders or files to be uploaded to iRODS. Fo
 
 You will see a change in the metadata tab below the list of files and folders. It tells us that there is no metadata for this file, so let's create some:
 
-![](img/screenshots/metadata.png)
+![Metadata](img/screenshots/metadata.png)
 
 You can add a key, value and optionally also a unit, if it makes sense to your metadata.
 Click on *Add*. Of course we can change and delete this metadata.
 
 On thing to keep in mind with iRODS metadata is that you can have several entries with the same keys:
 
-![](img/screenshots/metadatakeys.png)
+![MetKeys](img/screenshots/metadatakeys.png)
 
 The key can be the same but there needs to be at least a difference in the value or unit. If we try to create exactly the same metadata triple again, iBridges will complain.
 
-![](img/screenshots/metadataerror.png)
+![MetaError](img/screenshots/metadataerror.png)
 
 ## Preview
 Click on the second of the lower tabs. If you uploaded a `txt`, `json` or `csv` file, you will see the first characters being printed in the screen. We will explore later in the API tutorial how we can read data from iRODS without downloading it. 
@@ -62,7 +64,7 @@ Click on the second of the lower tabs. If you uploaded a `txt`, `json` or `csv` 
 The next tab, is the permissions tab.
 Here you see who has access to your file:
 
-![](img/screenshots/permissions.png)
+![Permissions](img/screenshots/permissions.png)
 
 At the moment you have `own`rights. That means you are allowed to do anything with the data object. 
 There are also other access levels: `read`, `write` and of course rights can be retracted by choosing `delete`. Note, that the `write` access level means that you can be changed but not deleted or shared. Only people with access level own, can do so.
@@ -88,7 +90,7 @@ Let's explore which kind of data policy is installed on this little iRODS instan
 Click on the button *Create Collection* and create the collection with the name `event`.
 Double click on the new collection to go into that collection and upload a small file.
 
-![](img/screenshots/event.png)
+![Policy](img/screenshots/event.png)
 
 Inspect the metadata and the permissions. What do you see and which effect does it have?
 
