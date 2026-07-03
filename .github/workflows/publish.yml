@@ -1,4 +1,4 @@
-name: Quarto Publish
+name: Publish Website
 
 on:
   workflow_dispatch:
@@ -8,20 +8,27 @@ on:
       - 'book/**.qmd'
       - 'book/**.yml'
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
-  build-deploy:
+  quarto:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Check out repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-
-      - name: Set up uv
+      - name: Setup uv
         uses: astral-sh/setup-uv@v5
         with:
           python-version-file: "pyproject.toml"
@@ -40,9 +47,11 @@ jobs:
             any::rmarkdown
             any::reticulate
 
-      # Render manually so Quarto uses your uv + R environment
-      - name: Render site
-        run: quarto render book/
+      - name: Setup Pages
+        uses: actions/configure-pages@v1
+
+      - name: Render Website
+        run: uv run quarto render book/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -50,4 +59,5 @@ jobs:
           path: 'book/_site'
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+        id: deployment
+        uses: actions/deploy-pages@main
