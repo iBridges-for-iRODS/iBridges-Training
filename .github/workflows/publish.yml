@@ -28,6 +28,9 @@ jobs:
         with:
           python-version-file: "pyproject.toml"
 
+      - name: Install Python dependencies
+        run: uv sync
+
       # Install Python dependencies declared in pyproject.toml
       - name: Install Python dependencies
         run: uv sync
