@@ -41,3 +41,6 @@ format:
       light: [cosmo, styles/theme-light.scss]
     css:
       - css_files/hyperlinks.css
+execute:
+  python: system
+
