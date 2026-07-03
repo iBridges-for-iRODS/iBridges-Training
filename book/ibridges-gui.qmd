@@ -51,7 +51,7 @@ Click on *Add*. Of course we can change and delete this metadata.
 
 On thing to keep in mind with iRODS metadata is that you can have several entries with the same keys:
 
-![MetKeys](img/screenshots/metadatakeys.png)
+![MetaKeys](img/screenshots/metadatakeys.png)
 
 The key can be the same but there needs to be at least a difference in the value or unit. If we try to create exactly the same metadata triple again, iBridges will complain.
 
