@@ -18,11 +18,9 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      # Install Quarto
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      # Install Python via uv, using your pyproject.toml
       - name: Set up uv
         uses: astral-sh/setup-uv@v5
         with:
@@ -31,15 +29,9 @@ jobs:
       - name: Install Python dependencies
         run: uv sync
 
-      # Install Python dependencies declared in pyproject.toml
-      - name: Install Python dependencies
-        run: uv sync
-
-      # Install R
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
 
-      # Install R packages needed for .qmd execution
       - name: Install R packages
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
@@ -48,11 +40,14 @@ jobs:
             any::rmarkdown
             any::reticulate
 
-      # Render + publish
-      - name: Render and Publish
-        uses: quarto-dev/quarto-actions/publish@v2
+      # Render manually so Quarto uses your uv + R environment
+      - name: Render site
+        run: quarto render book/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          target: gh-pages
-          path: 'book'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          path: 'book/_site'
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
