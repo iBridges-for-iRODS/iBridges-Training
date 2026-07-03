@@ -1,28 +1,42 @@
+name: Quarto Publish
+
 on:
   workflow_dispatch:
   push:
     branches: main
-    paths: 
+    paths:
       - 'book/**.qmd'
       - 'book/**.yml'
-
-name: Quarto Publish
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      # Install Quarto
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
+      # Install Python via uv, using your pyproject.toml
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version-file: "pyproject.toml"
+
+      # Install Python dependencies declared in pyproject.toml
+      - name: Install Python dependencies
+        run: uv sync
+
+      # Install R
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
 
+      # Install R packages needed for .qmd execution
       - name: Install R packages
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
@@ -31,6 +45,7 @@ jobs:
             any::rmarkdown
             any::reticulate
 
+      # Render + publish
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
