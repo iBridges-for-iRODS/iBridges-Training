@@ -26,8 +26,10 @@ website:
         contents:
           - href: index.qmd
             text: Home
-      - section: "Beginner Training"
+      - section: "iBridges Beginner Training"
         contents:
+          - href: introduction.qmd
+            text: Introduction to iRODS and iBridges
           - href: ibridges-gui.qmd
             text: iBridges GUI
       - section: "Advanced"

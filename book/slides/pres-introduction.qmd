@@ -1,0 +1,290 @@
+---
+format:
+  revealjs:
+    theme: ../styles/ibridges.scss
+    footer: "iBridges Training"
+execute:
+  enabled: true
+---
+
+# Introduction {data-background-color="#d3d3d3"}
+
+## Why this training exists <img src="../img/logo.png" style="height:1.5em; float:right;">
+- Many research data platforms use iRODS  
+- You interact with iRODS when uploading or organising data  
+- This training introduces iRODS and iBridges  
+
+## What is iRODS <img src="../img/logo.png" style="height:1.5em; float:right;">
+:::: {.columns}
+
+::: {.column width="40%"}
+**iRODS**: 
+
+- Virtual data layer  
+- Unified way to organise and access data  
+- Works on top of storage systems
+:::
+
+:::{.column width="10%"}
+:::
+
+::: {.column width="50%"}
+**Difference to normal file systems**: 
+
+- Collections are virtual  
+- Data Objects can have multiple replicas  
+- Physical storage is hidden  
+:::
+
+::::
+  
+## Virtual view vs physical storage <img src="../img/logo.png" style="height:1.5em; float:right;">
+:::: {.columns}
+::: {.column width="40%"}
+
+- Data in iRODS is virtualised: it lives in storage resources  
+- Resources have logical names and physical locations  
+- Replicas provide safety and performance  
+- You see Data Objects and Collections, tha actual file is stored elsewhere
+- iRODS manages storage: you do not need to worry about that.
+
+:::
+
+::: {.column width="60%"}
+<div style="text-align: center;">
+
+  <div style="display: inline-block; transform: scale(1.4); transform-origin: top center;">
+
+```{dot}
+
+digraph irods_replication {
+    rankdir=TB;
+
+    graph [fontsize=11, fontname="Arial"];
+    node  [
+        shape=box,
+        style=filled,
+        color="#15a589",
+        fillcolor="#a8e3d7",
+        fontsize=11,
+        fontname="Arial"
+    ];
+    edge  [
+        fontsize=11,
+        fontname="Arial",
+        color="#7fbfb5",
+        penwidth=1
+    ];
+
+    subgraph cluster_zone {
+        label="iRODS Zone";
+        style=rounded;
+        color="#15a589";
+
+        Collection   [label=<Collection<br/><i>/my_project</i>>];
+        DataObject   [label=<Data Object<br/><i>report.csv</i>>];
+
+        Collection -> DataObject;
+    }
+
+    ResourceA [label="Resource Active\nHost: storage1\nPath: /data/report.csv"];
+    ResourceB [label="Resource Archive\nHost: storage2\nPath: /data_backup/report.csv"];
+
+    DataObject -> ResourceA [label="Replica 1"];
+    DataObject -> ResourceB [label="Replica 2"];
+}
+```
+  </div>
+</div>
+:::
+::::
+
+## Metadata <img src="../img/logo.png" style="height:1.5em; float:right;">
+
+:::: {.columns}
+
+::: {.column width="55%"}
+- Metadata describes data  
+- Metadata enables discovery  
+- Metadata supports automation  
+
+
+![](../img/cli_shots/cli_ls_meta.png)
+
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+- System metadata  
+    - Set by the system  
+    - Time stamps, identifiers, checksums  
+
+- User metadata  
+    - Used by developers for automation  
+    - Used by scientists to annotate data  
+:::
+
+:::: 
+
+## iBridges client suite <img src="../img/logo.png" style="height:1.5em; float:right;">
+
+- Python API  
+- Command line interface  
+- Graphical user interface  
+
+Made for: 
+
+- Researchers  
+- Workflow developers  
+- Lab technicians  
+- Data managers  
+
+## iBridges capabilities <img src="../img/logo.png" style="height:1.5em; float:right;">
+
+- Connect to iRODS  
+- Upload and download  
+- Edit metadata  
+- Synchronise folders  
+- Create tickets  
+- Search metadata  
+
+## Python API <img src="../img/logo.png" style="height:1.5em; float:right;">
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+- Convenience layer around python irods client  
+- Creates an irods session automatically  
+- Suitable for scripts and workflows  
+
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="50%"}
+
+![](../img/api_reference.png)
+
+:::
+::::
+
+## Command line interface <img src="../img/logo.png" style="height:1.5em; float:right;">
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+- Simple commands  
+- Auto completion  
+- No Python code needed  
+
+:::
+
+::: {.column width="60%"}
+![](../img/cli_shots/cli_help.png){scale=150%}
+:::
+::::
+
+## Graphical user interface <img src="../img/logo.png" style="height:1.5em; float:right;">
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+- Browse collections  
+- Upload / Download files and metadata
+- Edit metadata  
+- Find data by their metadata
+
+:::
+::: {.column width="60%"}
+![](../img/ibridgesgui.png)
+:::
+::::
+
+## Architecture overview <img src="../img/logo.png" style="height:1.5em; float:right;">
+:::: {.columns}
+
+::: {.column width="40%"}
+- iBridges uses *python-irodsclient* internally   
+- CLI and GUI are based on the iBridges API  
+:::
+
+::: {.column width="60%"}
+<div style="text-align: center;">
+  <div style="display: inline-block; transform: scale(1.4); transform-origin: top center;">
+
+```{dot}
+//| fig-align: center
+
+digraph ibridges_prc {
+
+    rankdir=TD;   // top-down layout
+
+    graph [fontsize=11, fontname="Arial"];
+    node  [
+        shape=box,
+        style=filled,
+        color="#15a589",
+        fillcolor="#a8e3d7",
+        fontsize=11,
+        fontname="Arial"
+    ];
+    edge [
+        fontsize=10,
+        fontname="Arial",
+        color="#7fbfb5",
+        penwidth=1
+    ];
+
+    // Cluster for user facing components
+    subgraph cluster_ibridges_ui {
+        label="iBridges components";
+        style=rounded;
+        color="#15a589";
+
+        API      [label="Python API"];
+        CLI      [label="Command line interface"];
+        GUI      [label="Graphical user interface"];
+    }
+
+    // Cluster for API features
+    subgraph cluster_api_features {
+        label="Python API features";
+        style=rounded;
+        color="#15a589";
+
+        Session    [label="iBridges session\ninstantiates irods_session"];
+        DataOps    [label="data operations"];
+        IrodsPath  [label="IrodsPath"];
+        Permissions[label="Permissions"];
+    }
+
+    // python irods client
+    PRC [label=<<i>python-irodsclient</i><br/>underlying library>];
+
+    // Relationships between UI components and API
+    CLI -> API [label="calls"];
+    GUI -> API [label="calls"];
+
+    // Relationships inside API features
+    API       -> Session     [label="creates"];
+    DataOps   -> Session     [label="uses"];
+    IrodsPath -> Session     [label="uses"];
+    Permissions -> Session   [label="uses"];
+
+    Session   -> PRC         [label="contains irods_session"];
+}
+```
+  </div>
+</div>
+:::
+::::
+
+# Questions {data-background-color="#d3d3d3"}
+
+
