@@ -1,2 +1,7 @@
+# Quarto rendering
+
 /book/.quarto/
 /book/_site/
+
+**/.DS_Store
+**.Rhistory
