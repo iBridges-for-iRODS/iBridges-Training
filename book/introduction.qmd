@@ -217,7 +217,31 @@ digraph ibridges_prc {
 
 You do not need to choose between them. iBridges uses the *python-irodsclient* internally. When you connect, you automatically get an `irods_session` that you can use directly if you want to.
 
-```{=html}
-<iframe class="slide-deck" src="./slides/pres-introduction.html" title="Introduction" width="720" height="540">
-</iframe>
-```
+## Slides
+
+<div style="
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+">
+  <iframe class="slide-deck"
+          src="./slides/pres-introduction.html"
+          title="Introduction"
+          width="720"
+          height="540"
+          style="border: none;">
+  </iframe>
+</div>
+
+<div style="
+  width: 100%;
+  display: flex;
+  margin-bottom: 1em;
+">
+  <a href="./slides/pres-introduction.html" target="_blank" rel="noopener"
+     style="font-size: 1.2em; text-decoration: none; color: #15a588;">
+    Open slides in a new tab
+  </a>
+</div>
+
