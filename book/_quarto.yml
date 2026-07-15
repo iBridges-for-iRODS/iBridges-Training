@@ -25,7 +25,9 @@ website:
       - section: "Course information"
         contents:
           - href: index.qmd
-            text: Home
+            text: Welcome
+          - href: prerequisites.qmd
+            text: Prerequisites
       - section: "iBridges Beginner Training"
         contents:
           - href: introduction.qmd
