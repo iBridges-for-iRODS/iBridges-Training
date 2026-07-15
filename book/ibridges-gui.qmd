@@ -4,12 +4,6 @@ toc: true
 toc-depth: 2
 ---
 
-Here is a **clearer, more polished, more structured** version of your text, keeping your meaning but improving readability, flow, and correctness. I also make it work well with a Quarto page TOC (headings tightened, sections structured).
-
----
-
-# The iBridges Graphical User Interface (GUI)
-
 Please start the iBridges GUI with:
 
 ```
@@ -134,7 +128,9 @@ The data object containg the file is now listed in our *demo* collection, the ob
 
 ### Exercise
 
-Upload the same file again to the same *demo* collection. What happens? How can we update already existing data?
+- Upload the `hello.txt` file from before again to the same *demo* collection. What happens? How can we update already existing data?
+
+- Can you also upload a folder? Try it out with a small folder which only contains small files. 
 
 Why is the data object  different from the file we uploaded? The simplest answer is **Metadata**.
 
@@ -219,7 +215,7 @@ Click on the second of the lower tabs. If you uploaded a file in ascii, i.e. pla
 ## Permissions
 iRODS uses Permissions to share data among users. Click on the Permission tab. 
 
-![Permissions](img/gui_shots/permissions.png)
+![](img/gui_shots/permissions.png)
 
 At the moment you have `own`rights. That means you are allowed to do anything with the data object. 
 There are also other access levels: `read`, `write` and of course rights can be retracted by choosing `delete`. Note, that the `write` access level means that you can overwrite the data and metadata but you are not aloowed to delete or share. Only people with access level own, can do so.
@@ -232,7 +228,7 @@ You will also see that the person who uploaded the data will be known as the own
 
 ## Replicas
 
-The last part that belongs to a data object is the storage. In the *replicas* you can see how many copies of the file you uploaded you have under this path and on which storage they lie. Here it is relatively plain, we have one storage system called `TrainingResc`.
+The last part that belongs to a data object is the storage. In the *Replicas* tab you can see how many copies of the file you have under this path and on which storage they lie. Here it is relatively plain, we have one storage system called `TrainingResc`.
 
 There are iRODS systems that copy the file (not the data object) to another storage system and your data object would have two files under the same iRODS path. The status then shows you whether those data files on the two storage systems are synchronised or not.
 
@@ -263,3 +259,32 @@ The irods server automatically labels the data with some metadata, here `ibridge
 - We can open our data to other users.
 - We can find data by their metadata.
 - The iRODS server executes policies which we have to be aware of **before** we start working with it.
+
+## Exercise Slides
+
+<div style="
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+">
+  <iframe class="slide-deck"
+          src="./slides/exercises_gui.html"
+          title="Introduction"
+          width="720"
+          height="540"
+          style="border: none;">
+  </iframe>
+</div>
+
+<div style="
+  width: 100%;
+  display: flex;
+  margin-bottom: 1em;
+">
+  <a href="./slides/exercises_gui.html" target="_blank" rel="noopener"
+     style="font-size: 1.2em; text-decoration: none; color: #15a588;">
+    Open slides in a new tab
+  </a>
+</div>
+
