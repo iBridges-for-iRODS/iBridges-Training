@@ -25,9 +25,9 @@ Create two more metadata entries with the Key-Value-Units:
 
 Try it out:
 
-- What happens if you try now to update the key of the second one to "format"?
-- What happens if you try to add and already existing metadata entry?
-- Navigate to the Search tab and try to find your data by their metadata key. Only fill in the key you would like to search for.
+- What happens if you try to update the key of the second metadata entry from "type" to "format"?
+- What happens if you try to add an already existing metadata entry?
+- Navigate to the Search tab and try to find your data by their metadata key. You only need to fill in the key you would like to search for, e.g. "type". You can leave the value and units empty.
 - What happens if you use `%key` as metadata key in the search mask? 
 - And what if you changed the `Search in` path to `/tempZone/home/` and you search for the key `auth%`? Double-click on one of the results and go back to your browser. What has changed?
 
