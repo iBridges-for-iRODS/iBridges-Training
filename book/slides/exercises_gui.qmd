@@ -1,0 +1,34 @@
+---
+format:
+  revealjs:
+    theme: ../styles/ibridges.scss
+    footer: "iBridges Training"
+execute:
+  enabled: true
+---
+
+# iBridges GUI Exercises {data-background-color="#d3d3d3"}
+
+## Data Uploads <img src="../img/logo.png" style="height:1.5em; float:right;">
+
+- Upload the `hello.txt` file from before again to the same *demo* collection. What happens? How can we update already existing data?
+
+- Can you also upload a folder? Try it out with a small folder which only contains small files. 
+
+
+## Metadata and Searching <img src="../img/logo.png" style="height:1.5em; float:right;">
+
+Create two more metadata entries with the Key-Value-Units:
+
+- type, test_file
+- type, ascii
+
+Try it out:
+
+- What happens if you try to update the key of the second metadata entry from "type" to "format"?
+- What happens if you try to add an already existing metadata entry?
+- Navigate to the Search tab and try to find your data by their metadata key. You only need to fill in the key you would like to search for, e.g. "type". You can leave the value and units empty.
+- What happens if you use `%key` as metadata key in the search mask? 
+- And what if you changed the `Search in` path to `/tempZone/home/` and you search for the key `auth%`? Double-click on one of the results and go back to your browser. What has changed?
+
+# Questions {data-background-color="#d3d3d3"}
