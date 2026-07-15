@@ -32,10 +32,18 @@ website:
             text: Introduction to iRODS and iBridges
           - href: ibridges-gui.qmd
             text: iBridges GUI
-      - section: "Advanced"
+      - section: "iBridges for programmers"
         contents:
-          - href: chapter2.qmd
-            text: Chapter 2
+          - href: ibridges-api.qmd
+            text: The iBridges API
+          - href: compute-workflow.qmd
+            text: iBridges and compute workflows
+
+author:
+  - name: Christine Staiger
+    orcid: 0000-0002-6754-7647
+  - name: Raoul Schram
+    orcid: 0000-0001-6616-230X
 
 format:
   html:

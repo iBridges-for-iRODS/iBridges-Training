@@ -1,4 +1,45 @@
-# Welcome! {.unnumbered}
+# Welcome
 
-- [Chapter 1](chapter1.qmd)  
-- [Chapter 2](chapter2.qmd)
+Welcome to this full day course on iRODS and iBridges.
+This training is designed for researchers who are already or are starting to begin to work with research data management tools.
+
+The morning session is for beginners and does not require any knowledge of scripting or programming.
+You will explore iRODS concepts through the iBridges graphical interface and the command line interface.
+During this session you will practice uploading and downloading files, working with metadata and searching for data.
+
+The afternoon session is for participants who already know the basics of Python syntax.
+You will learn how to create workflows that interact with iRODS using the iBridges API.
+Together we will design a small compute workflow that finds input data by metadata, analyses this data and writes results back to iRODS with metadata linking input, workflow and output.
+All processing happens directly on iRODS as the storage system.
+
+Before you start please take a look at the [prerequisites](prerequisites.qmd).
+
+We hope you enjoy the day and feel confident exploring iRODS and iBridges.
+
+## Course objectives
+
+This course introduces researchers to the iBridges ecosystem and teaches iRODS concepts through practical use of iBridges tools.
+You will learn how iRODS organises data through data objects, collections and metadata, and how these concepts support structured and searchable research data.
+
+After completing the course you will be able to
+
+- work confidently with the iBridges GUI and CLI
+- understand data objects, collections and metadata
+- search for data using metadata
+- use the iBridges API to automate common tasks
+- design small workflows that operate entirely within iRODS
+
+## Timetable
+
+| Time | Topic |
+| ---- | ---- |
+| 9.00am to 9.30am | Coffee and trouble shooting |
+| 9.30am to 9.15am | [**Introduction: What are iRODS and iBridges**](introduction.qmd) |
+| 9.45am to 10.45am | [**The iBridges GUI**](ibridges-gui.qmd) |
+| 10.45am to 11.00am | Coffee break |
+| 11.00am to 12.00pm | **The iBridges CLI** |
+| 12.00pm to 1pm | Lunch break |
+| 1pm to 2.45pm | **The iBridges API**: Basics (upload, download, metadata, search, permissions) |
+| 2.45pm to 4.00pm | Coffee break |
+| 4.00pm to 4.45pm | **Putting it all together**: the Workflow |
+| 4.45pm to 5.00pm | **Questions and Discussion** |
