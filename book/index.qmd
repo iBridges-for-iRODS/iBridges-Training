@@ -22,11 +22,12 @@ This course introduces researchers to the iBridges ecosystem and teaches iRODS c
 You will learn how iRODS organises data through data objects, collections and metadata, and how these concepts support structured and searchable research data.
 
 After completing the course you will be able to
-work confidently with the iBridges GUI and CLI
-understand data objects, collections and metadata
-search for data using metadata
-use the iBridges API to automate tasks
-design small workflows that operate entirely within iRODS.
+
+- work confidently with the iBridges GUI and CLI
+- understand data objects, collections and metadata
+- search for data using metadata
+- use the iBridges API to automate common tasks
+- design small workflows that operate entirely within iRODS
 
 ## Timetable
 
