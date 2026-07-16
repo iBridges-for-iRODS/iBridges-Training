@@ -53,6 +53,7 @@ format:
       light: [cosmo, styles/theme-light.scss]
     css:
       - css_files/hyperlinks.css
+      - css_files/toc.css
 execute:
   python: system
 
