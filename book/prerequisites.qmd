@@ -1,5 +1,5 @@
 ---
-title: "Prerequistes"
+title: "Prerequisites"
 toc: true
 toc-depth: 2
 ---
