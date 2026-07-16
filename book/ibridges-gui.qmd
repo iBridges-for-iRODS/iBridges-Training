@@ -70,7 +70,7 @@ This configuration file can be used by all iBridges tools (API, GUI, CLI) and al
 
 ## Login and first view
 
-Since we have now a configuration file we can login to the iRODS server. From the main menu click on **Connect** and then **Connect to iRODS**. This opens a new pop-up window with a drop-down menu containing your confiigurations and a password field. If you already logged in to an iRODS server the password field will already be populated and you do not need to type in your password again.
+Since we have now a configuration file we can login to the iRODS server. From the main menu click on **Connect** and then **Connect to iRODS**. This opens a new pop-up window with a drop-down menu containing your configurations and a password field. If you already logged in to an iRODS server the password field will already be populated and you do not need to type in your password again.
 
 Select the environment we set up, type in your password and hit **Connect**. This will open the application and take you to the *Browser*.
 
@@ -124,7 +124,7 @@ Each file or folder we want to upload will be listed in the table. You can also 
 
 Each row will show an own button **Metadata JSON** with which you can automatically add metadata to files and whole folders in iRODS. We will inspect that later. For now hit the **Upload** button and after the transfer finished close the window.
 
-The data object containg the file is now listed in our *demo* collection, the object carries a checksum, which is the checksum of the file. We also see the status *good*, which means all replicas (here just on file) have been checked and are consistent. 
+The data object contaning the file is now listed in our *demo* collection, the object carries a checksum, which is the checksum of the file. We also see the status *good*, which means all replicas (here just on file) have been checked and are consistent. 
 
 ### Exercise
 
@@ -138,7 +138,7 @@ Why is the data object  different from the file we uploaded? The simplest answer
 
 When you select the *hello.txt* in the table, the **Metadata View** will tell you that there is no metadata for the object in iRODS. Let's create some.
 
-Metadata in iRODS is provided as Key-Value-Units triple. With the text fields on the right you cann add them. The Key and Value are always mandatory, you can optionally also set the Units. Click **Add**.
+Metadata in iRODS is provided as Key-Value-Units triple. With the text fields on the right you can add them. The Key and Value are always mandatory, you can optionally also set the Units. Click **Add**.
 
 ![Metadata](img/gui_shots/add_meta.png)
 
@@ -169,7 +169,7 @@ We have now a data object which contains more than just a file. How can we downl
 
 Select the data object and click on the **Download** button.
 
-With **Open Folders** you can select the donwload location, choose your Downloads folder. In the options we see that we can also download the metadata as json formatted file. Let us try this out and tick the box.
+With **Open Folders** you can select the download location, choose your Downloads folder. In the options we see that we can also download the metadata as json formatted file. Let us try this out and tick the box.
 
 Again hit the **Download** button and close the window after the transfer finished.
 
@@ -213,15 +213,15 @@ The metadata file first mentions the version of the metadata schema `"ibridges_m
 The `root_path` is the parent collection of all of the `items`. You also see that some system metadata was added like the checksum and file size. The most important part for you is the metadata, you can clearly see how it is listed. This is also the current format for automatically uploading data with their metadata.
 
 ## Preview
-Click on the second of the lower tabs. If you uploaded a file in ascii, i.e. plain text format like txt, csf, tsv, you will see the first characters being printed in the screen. 
+Click on the second of the lower tabs. If you uploaded a file in ascii, i.e. plain text format like txt, csv, tsv, you will see the first characters being printed in the screen. 
 
 ## Permissions
 iRODS uses Permissions to share data among users. Click on the Permission tab. 
 
 ![](img/gui_shots/permissions.png)
 
-At the moment you have `own`rights. That means you are allowed to do anything with the data object. 
-There are also other access levels: `read`, `write` and of course rights can be retracted by choosing `delete`. Note, that the `write` access level means that you can overwrite the data and metadata but you are not aloowed to delete or share. Only people with access level own, can do so.
+At the moment you have `own` rights. That means you are allowed to do anything with the data object. 
+There are also other access levels: `read`, `write` and of course rights can be retracted by choosing `delete`. Note, that the `write` access level means that you can overwrite the data and metadata but you are not allowed to delete or share. Only people with access level own, can do so.
 
 To prevent you from locking yourself out of your own data, in iBridges you cannot change your own permissions. Try it! Try to give yourself only `read` rights.
 
@@ -235,7 +235,7 @@ The last part that belongs to a data object is the storage. In the *Replicas* ta
 
 There are iRODS systems that copy the file (not the data object) to another storage system and your data object would have two files under the same iRODS path. The status then shows you whether those data files on the two storage systems are synchronised or not.
 
-> **You can have one data object which consists of one metadata blobb and two files!** 
+> **You can have one data object which consists of one metadata blob and two files!** 
 
 
 ## iRODS as Policy engine
