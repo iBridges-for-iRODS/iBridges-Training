@@ -1,0 +1,120 @@
+---
+title: "A Compute Workflow with iBridges"
+toc: true
+toc-depth: 2
+---
+
+## Overview
+
+| **Questions** | **Objectives** | **Key Concepts / Tools** |
+| --- | --- | --- |
+| How can I stream data directly into memory instead of saving locally? | Stream data objects into Python variables without touching disk. | ``IrodsPath.open()``, streaming reads |
+| How do I run a compute workflow on streamed data? | Apply analysis logic to in‑memory content. | Python text processing, ``Counter`` |
+| How do I write results back to iRODS? | Create new data objects and attach provenance metadata. | ``IrodsPath.open()``, metadata operations |
+
+ This chapter demonstrates how to combine the building blocks from earlier chapters into a complete compute workflow using iBridges and iRODS. The workflow illustrates a modern pattern: no local files, no temporary disk storage, and full provenance tracking.
+
+You will:
+
+- Find data objects in iRODS using metadata search.
+- Stream their content directly into memory.
+- Analyze the combined text using Python.
+- Write the results back to iRODS, including descriptive provenance metadata.
+
+This pattern works well in situations where you don’t want to store files on your own computer, e.g. when working in a cloud notebook, a shared compute environment, or a temporary workspace that doesn’t keep files between sessions.
+
+## Prerequisites
+
+- Access to an iRODS instance
+- Some textual data files labeled with the metadata key `author` and metadata value `Lewis Carroll`.
+
+## 1. Find the data in iRODS
+
+We begin by authenticating and performing a metadata search. The example looks for all data objects labeled with:
+
+metadata key: `author`
+
+metadata value: `Lewis Carroll`
+
+```python
+from pprint import pprint
+from ibridges.authenticate import interactive_auth
+from ibridges.search import search_data, MetaSearch
+ 
+session = interactive_auth(irods_env_path="/path/to/your/irods/environment.json")
+ 
+KEY = 'author'
+VALUE = 'Lewis Carroll'
+ 
+data = search_data(session, metadata=MetaSearch(key=KEY, value=VALUE))
+pprint(data)
+```
+
+## 2. Stream content into a variable
+
+Instead of downloading files, we stream their content directly into a Python string. This avoids temporary files and keeps the workflow lightweight.
+
+```python
+from ibridges import IrodsPath
+ 
+text = ""
+for irods_path in data:
+    with irods_path.open('r') as handle:
+        text = text + handle.read().decode()
+ 
+print(text[1700:1900])
+```
+Each `IrodsPath.open()` call yields a file‑like handle whose `.read()` method streams bytes from the server.
+
+
+## 3. Do your analysis
+Here we perform a simple word‑count analysis. The function removes punctuation, splits the text into words, and counts occurrences.
+
+```python
+from collections import Counter
+import string
+
+def wordcount(text):
+    # Convert to list of words, without punctuation
+    words = [''.join(char for char in word
+             if char not in string.punctuation) for word in text.split()]
+    print("Number of words:", len(words))
+    unique_words_count = Counter(words)
+    return unique_words_count
+ 
+result = wordcount(text)
+print(f"Alice: {result['Alice']}")
+```
+
+## 4. Write the results directly to iRODS
+
+### Create a new empty data object
+We serialize the result dictionary as JSON and write it directly into a new iRODS data object.
+
+```python
+import json
+irods_path = IrodsPath(session, "wordcount_result.json")
+with irods_path.open('w') as obj_write:
+    obj_write.write(json.dumps(result).encode())
+ 
+print(f"New object of size {irods_path.size}")
+```
+
+### Add some descriptive metadata
+To make the result discoverable and reproducible, we attach provenance metadata:
+
+```python
+from datetime import datetime
+
+datetime.today()
+ 
+irods_path.meta.add('ISEARCH', KEY + '==' + VALUE)
+irods_path.meta.add('prov:SoftwareAgent', 'wordcount.py')
+irods_path.meta.add('prov:wasDerivedFrom', str(data))
+irods_path.meta.add('prov:actedOnBehalfOf', 'Christine')
+irods_path.meta.add('prov:generatedAtTime', datetime.now().strftime("%m/%d/%Y, %H:%M"))
+ 
+print(irods_path.meta)
+```
+
+This metadata ensures that other users or automated workflows can trace how the result was produced.
