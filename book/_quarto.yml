@@ -34,6 +34,8 @@ website:
             text: Introduction to iRODS and iBridges
           - href: ibridges-gui.qmd
             text: iBridges GUI
+          - href: ibridges-cli.qmd
+            text: iBridges CLI
       - section: "iBridges for programmers"
         contents:
           - href: ibridges-api.qmd

@@ -1,0 +1,283 @@
+---
+title: "The iBridges Command Line Interface (CLI)"
+toc: true
+toc-depth: 2
+---
+
+In the previous chapter, we learned how to connect to an iRODS server and explore data using the **iBridges GUI**.  
+The GUI gives you a visual overview of collections, metadata, permissions, and replicas.
+
+In this chapter, we use the **same configuration** and perform the equivalent operations using the **Command Line Interface (CLI)**.  
+The CLI exposes every action as a command, making it ideal for automation, scripting, and reproducible workflows.
+
+## Connect
+
+Before interacting with iRODS, we must ensure that the correct environment configuration is active.
+
+### Inspect existing configurations
+
+```
+ibridges alias
+```
+
+Example output:
+
+```
+  [no alias] -> /Users/christine/.irods/irods_environment.json
+  geo        -> /Users/christine/.irods/irods_environment_geo.json
+  surf       -> /Users/christine/.irods/surf.json
+* christine  -> /Users/christine/.irods/christine.json
+```
+
+The asterisk marks the currently active environment.
+
+### Switching environments
+
+Activate a configuration by its path:
+
+```
+ibridges init /Users/christine/.irods/irods_environment.json
+```
+
+or by its alias:
+
+```
+ibridges init surf
+```
+
+We only need the `init` to switch between configurations or when our passwords are expired and need to be refreshed.
+
+### Inspecting the alias command
+
+```
+ibridges alias -h
+```
+
+This shows how to create or delete aliases:
+
+```
+usage: ibridges alias [-h] [--delete] [alias] [env_path]
+
+Print existing aliases or create new ones.
+```
+
+Every iBridges command provides such a help section with usage and examples, just like the GUI’s tooltips and pop‑ups.
+
+
+## iBridges help system
+
+To list all available commands:
+
+```
+ibridges ls
+```
+
+Each subcommand also includes its own help:
+
+```
+ibridges <command> -h
+```
+
+This mirrors the GUI’s menu structure: every action is discoverable and documented.
+
+## Browsing through data
+
+The CLI provides several commands that correspond directly to the GUI’s Browser view.
+
+### Listing collections
+
+```
+ibridges ls
+```
+
+This shows the contents of the current iRODS directory.
+
+### Navigating
+
+Use `cd` to change directories:
+
+```
+ibridges cd demo
+```
+
+To go up one level:
+
+```
+ibridges cd ..
+```
+
+### Creating collections
+
+```
+ibridges mkcoll demo2
+```
+
+### Viewing the hierarchy
+
+```
+ibridges tree
+```
+
+This prints a tree‑like structure similar to the GUI’s folder table.
+
+### Exercises
+
+- Navigate back to your home directory using `ibridges cd ..`.
+- What does  
+  `ibridges ls irods:demo -m`  
+  show?
+- What does  
+  `ibridges ls irods:demo -mr`  
+  show?
+- Why is the `irods:` prefix required in some commands but not others?
+
+
+## Transferring data
+
+Explore the help of the relevant commands:
+
+```
+ibridges upload -h
+ibridges download -h
+```
+
+### Uploading and downloading
+
+Upload your `hello.txt` file:
+
+```
+ibridges upload hello.txt irods:demo
+```
+
+Download it again:
+
+```
+ibridges download irods:demo/hello.txt .
+```
+
+### Synchronising
+
+```
+ibridges sync
+```
+
+This synchronises a local folder with an iRODS collection.
+
+### Why the `irods:` prefix?
+
+The CLI must distinguish between local paths and iRODS paths.  
+The prefix `irods:` marks a path as remote, ensuring the command knows which side of the transfer you mean.
+
+## Metadata
+
+You can inspect metadata using:
+
+```
+ibridges ls -m irods:demo
+```
+
+To add metadata:
+
+```
+ibridges meta-add irods:demo type example_data
+```
+
+### Overwriting metadata
+
+Try adding the same key again with a different value:
+
+```
+ibridges meta-add irods:demo type ascii
+```
+
+As in the GUI, iRODS allows multiple triples with the same key and value if the units differ.
+
+### Downloading metadata only
+
+Inspect the help of:
+
+```
+ibridges meta-download -h
+```
+
+Try it out on your `demo` collection.
+
+## Searching for data
+
+The CLI mirrors the GUI’s search functionality.
+
+Inspect the help:
+
+```
+ibridges search -h
+```
+
+Try searching for the metadata you discovered earlier.
+
+### Exercises
+
+- Search for data labeled with a key starting with `auth`.  
+  Remember to set the search root to:
+
+  ```
+  tempZone/home
+  ```
+
+- The help contains examples for searching **collections only**.  
+  Try one of them.
+
+## Summary
+
+The CLI gives you full control over iRODS operations:
+
+- Switching configurations  
+- Navigating collections  
+- Uploading, downloading, and synchronising data  
+- Creating and editing metadata  
+- Searching for data  
+- Inspecting permissions and replicas (via `ls` flags)
+
+It mirrors the GUI but exposes every operation as a command.
+
+
+# GUI vs CLI
+
+This section helps learners understand how both interfaces relate to each other.  
+It reinforces the idea that the GUI and CLI are two views on the same iRODS concepts.
+
+## Overview Table
+
+| Concept | GUI | CLI |
+|--------|-----|-----|
+| **Configuration** | Configure → Add Configuration | `ibridges alias`, `ibridges init` |
+| **Connect to iRODS** | Connect → Connect to iRODS | Uses active environment; no explicit “connect” command |
+| **Browse collections** | Browser view, navigation bar | `ibridges ls`, `ibridges cd`, `ibridges tree` |
+| **Create collection** | Button: *Create Collection* | `ibridges mkcoll` |
+| **Upload data** | Upload pop‑up | `ibridges upload` |
+| **Download data** | Download pop‑up | `ibridges download` |
+| **Metadata** | Metadata panel | `ibridges ls -m`, `ibridges meta-add`, `meta-rm`, `meta-edit` |
+| **Search** | Search tab | `ibridges search` |
+| **Synchronisation** | Synchronisation tab| `ibridges sync`|
+| **Permissions** | Permissions tab | `ibridges ls -A` |
+| **Replicas** | Replicas tab | --- |
+
+### Working with data
+
+In the GUI, you interact with collections and data objects through buttons, tables, pop‑ups and the synchronisation tab.  
+In the CLI, you perform the same operations using explicit commands such as `ibridges ls`, `ibridges upload`, and `ibridges meta-add`.
+
+### Metadata
+
+The GUI shows metadata in a dedicated panel.  
+The CLI exposes metadata through flags (`-m`) and commands (`meta-add`, `meta-rm`, `meta-edit`).  
+Both interfaces follow the same iRODS rules: metadata triples must be unique only in their full Key‑Value‑Unit combination.
+
+### Permissions and replicas
+
+The GUI provides visual tabs.  
+The CLI uses flags (`-A` for accession permissions) to show the same information. The CLI currently does not show the replicas stored under the digital object.
+
+### Policies
+
+In both interfaces, policies are not “visible” as code, you observe them through their effects:  
+automatic metadata, ownership changes, or other server‑side actions.
