@@ -242,8 +242,7 @@ It mirrors the GUI but exposes every operation as a command.
 
 # GUI vs CLI
 
-This section helps learners understand how both interfaces relate to each other.  
-It reinforces the idea that the GUI and CLI are two views on the same iRODS concepts.
+The GUI and CLI are two views on the same iRODS concepts.
 
 ## Overview Table
 
