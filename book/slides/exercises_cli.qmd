@@ -1,0 +1,71 @@
+---
+format:
+  revealjs:
+    theme: ../styles/ibridges.scss
+    css: ../styles/slides-codefont.scss
+    footer: "iBridges Training"
+execute:
+  enabled: true
+---
+
+# iBridges CLI Exercises {data-background-color="#d3d3d3"}
+
+## Navigation <img src="../img/logo.png" style="height:1.5em; float:right;">
+
+- Navigate back to your home directory using `ibridges cd ..`.
+- What does  
+  `ibridges ls irods:demo -m`  
+  show?
+- What does  
+  `ibridges ls irods:demo -mr`  
+  show?
+- Why is the `irods:` prefix required in some commands but not others?
+
+## Uploading, Downloading, Synchromisation <img src="../img/logo.png" style="height:1.5em; float:right;">
+
+- Download the "demo/hello.txt" to your Downloads folder
+- What happens if you upload the downloaded file again to the "demo" collection?
+- What does the `dry-run` option do? Try it out: Use the download command with the `dry-run` option on the whole "demo" collection to your Downloads folder on your laptop.
+- Create a "demo" folder inside of your "Downloads" folder. Use the `sync` command to synchronise the "demo" collection to the "demo" folder.
+
+## Metadata only download <img src="../img/logo.png" style="height:1.5em; float:right;">
+
+Inspect the help of:
+
+```
+ibridges meta-download -h
+```
+
+Try it out on your `demo` collection.
+
+## Searching for data <img src="../img/logo.png" style="height:1.5em; float:right;">
+
+- Search for data labeled with a key starting with `auth`.  
+  Remember to set the search root to:
+
+  ```
+  tempZone/home
+  ```
+
+- The help contains examples for searching **collections only**.  
+  Try one of them.
+
+## GUI vs CLI <img src="../img/logo.png" style="height:1.5em; float:right;">
+
+| Concept | GUI | CLI |
+|--------|-----|-----|
+| **Configuration** | Configure → Add Configuration | `ibridges alias`, `ibridges init` |
+| **Connect to iRODS** | Connect → Connect to iRODS | Uses active environment; no explicit “connect” command |
+| **Browse collections** | Browser view, navigation bar | `ibridges ls`, `ibridges cd`, `ibridges tree` |
+| **Create collection** | Button: *Create Collection* | `ibridges mkcoll` |
+| **Upload data** | Upload pop‑up | `ibridges upload` |
+| **Download data** | Download pop‑up | `ibridges download` |
+| **Metadata** | Metadata panel | `ibridges ls -m`, `ibridges meta-add`, `meta-rm`, `meta-edit` |
+| **Search** | Search tab | `ibridges search` |
+| **Synchronisation** | Synchronisation tab| `ibridges sync`|
+| **Permissions** | Permissions tab | `ibridges ls -A` |
+| **Replicas** | Replicas tab | --- |
+
+
+
+# Questions {data-background-color="#d3d3d3"}
