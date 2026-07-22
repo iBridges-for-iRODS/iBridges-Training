@@ -120,7 +120,7 @@ ibridges tree
 
 This prints a tree‑like structure similar to the GUI’s folder table.
 
-### Exercises
+### Exercises (5 minutes)
 
 - Navigate back to your home directory using `ibridges cd ..`.
 - What does  
@@ -163,7 +163,14 @@ ibridges sync
 
 This synchronises a local folder with an iRODS collection.
 
-### Why the `irods:` prefix?
+### Exercises (15 minutes)
+
+- Download the "demo/hello.txt" to your Downloads folder
+- What happens if you upload the downloaded file again to the "demo" collection?
+- What does the `dry-run` option do? Try it out: Use the download command with the `dry-run` option on the whole "demo" collection to your Downloads folder on your laptop.
+- Create a "demo" folder inside of your "Downloads" folder. Use the `sync` command to synchronise the "demo" collection to the "demo" folder.
+
+### Recap: why the `irods:` prefix?
 
 The CLI must distinguish between local paths and iRODS paths.  
 The prefix `irods:` marks a path as remote, ensuring the command knows which side of the transfer you mean.
@@ -192,7 +199,7 @@ ibridges meta-add irods:demo type ascii
 
 As in the GUI, iRODS allows multiple triples with the same key and value if the units differ.
 
-### Downloading metadata only
+### Exercise: Downloading metadata only (5 minutes)
 
 Inspect the help of:
 
@@ -214,7 +221,7 @@ ibridges search -h
 
 Try searching for the metadata you discovered earlier.
 
-### Exercises
+### Exercises (10 minutes)
 
 - Search for data labeled with a key starting with `auth`.  
   Remember to set the search root to:
@@ -280,3 +287,33 @@ The CLI uses flags (`-A` for accession permissions) to show the same information
 
 In both interfaces, policies are not “visible” as code, you observe them through their effects:  
 automatic metadata, ownership changes, or other server‑side actions.
+
+## Exercise Slides
+
+<div style="
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+">
+  <iframe class="slide-deck"
+          src="./slides/exercises_cli.html"
+          title="Introduction"
+          width="720"
+          height="540"
+          style="border: none;">
+  </iframe>
+</div>
+
+<div style="
+  width: 100%;
+  display: flex;
+  margin-bottom: 1em;
+">
+  <a href="./slides/exercises_cli.html" target="_blank" rel="noopener"
+     style="font-size: 1.2em; text-decoration: none; color: #15a588;">
+    Open slides in a new tab
+  </a>
+</div>
+
+
