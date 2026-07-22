@@ -1,0 +1,200 @@
+# The Session: creating and managing connections
+
+Before performing any operation on an iRODS server, the Python API needs a Session.  
+A Session represents an authenticated connection and is used by all functions that interact with iRODS.  
+It reads your `irods_environment.json` file, just like the GUI and CLI, and establishes a secure connection.
+
+There are two main ways to create a Session:
+
+- interactive authentication  
+- non‑interactive authentication  
+
+Both return a connected Session object, but they differ in how they obtain the password and how they integrate with the CLI configuration.
+
+
+### `interactive_auth`
+
+The function interactive_auth is designed for situations where entering a password is acceptable or preferred.
+
+```python
+from ibridges.authenticate import interactive_auth
+
+session = interactive_auth()
+```
+
+This function:
+
+- looks for an `irods_environment.json` file
+- checks whether a cached password exists in `~/.irods/.irodsA`  
+- if no cached password is available, or if it is outdated, it asks you to type your password  
+- after successful authentication, it stores an obfuscated password for future use  
+
+You can specify a different environment file:
+
+```python
+session = interactive_auth(irods_env_path="/path/to/irods_environment.json")
+```
+
+If you want to ignore the cached password and force reauthentication:
+
+```python
+session = interactive_auth(reauthenticate=True)
+```
+
+This method is useful when you prefer not to store passwords in scripts or notebooks, or when teaching and demonstrating iBridges.
+
+### `non_interactive_auth`
+
+The function `non_interactive_auth` is designed for automated workflows where you do not want to type a password.  
+It never prompts for a password.  
+Instead, it relies entirely on the cached password created earlier by:
+
+- the CLI or GUI  
+- `interactive_auth`  
+- previous successful authentication attempts  
+
+Example:
+
+```python
+from ibridges.authenticate import non_interactive_auth
+
+session = non_interactive_auth()
+```
+
+You can also specify an alias or an environment file:
+
+```python
+session = non_interactive_auth(ienv_path_or_alias="surf")
+```
+
+or
+
+```python
+session = non_interactive_auth(ienv_path_or_alias="/path/to/irods_environment.json")
+```
+
+This method is ideal for scheduled jobs, automated pipelines, and reproducible workflows where no user interaction is possible.  
+If no cached password exists, authentication will fail rather than prompting.
+
+
+### Choosing between interactive and non‑interactive authentication
+
+Use interactive_auth when:
+
+- you are working in a notebook or terminal  
+- you prefer not to store passwords in scripts  
+- you want to authenticate manually once and reuse the cached password  
+- you are teaching or demonstrating iBridges  
+
+Use non_interactive_auth when:
+
+- you run automated workflows  
+- you schedule jobs on a cluster  
+- you build reproducible pipelines  
+- you want zero user interaction  
+- you rely on CLI aliases to select environments  
+
+
+### Using Sessions as context managers
+
+Both authentication functions return a Session object that can be used as a context manager.  
+This ensures that connections are closed cleanly, even if an error occurs.
+
+```python
+from ibridges.authenticate import interactive_auth, non_interactive_auth
+
+with interactive_auth() as session:
+    session.home
+
+with non_interactive_auth() as session:
+    session.home
+```
+
+If you do not use a with statement, you must close the session manually:
+
+```python
+session.close()
+```
+
+## Session attributes
+
+A Session contains useful information about your connection and user identity:
+
+```python
+print(session.username)
+print(session.default_resc)
+print(session.zone)
+print(session.server_version)
+print(session.get_user_info())
+print(session.home)
+print(session.cwd)
+```
+
+These values correspond to fields in your environment file and information retrieved from the iRODS server.
+
+
+## `Session.home`
+
+Session.home defines your working path in iRODS.  
+It can be referred to using the tilde symbol (~) when constructing paths with IrodsPath.
+
+There are three ways to set the home:
+
+1. Define irods_home in your irods_environment.json  
+2. Pass irods_home when creating the Session  
+3. Assign it later:
+
+```python
+session.home = "/tempZone/home/christine"
+```
+
+If you do not set a home, it defaults to:
+
+```
+/<zone_name>/home/<username>
+```
+
+If the home collection does not exist, some operations may fail.  
+You can check its existence:
+
+```python
+from ibridges.path import IrodsPath
+
+IrodsPath(session, session.home).collection_exists()
+```
+
+You can refer to the session home with `~`.
+
+## `Session.cwd`
+
+Apart from the home collection, the Session also has a current working directory (cwd).  
+By default, cwd is equal to home.
+
+You can change it:
+
+```python
+session.cwd = "/tempZone/home/christine/demo"
+```
+
+When using IrodsPath, the dot symbol `.` refers to the current working directory:
+
+```python
+from ibridges import IrodsPath
+
+print("cwd", IrodsPath(session, "."))
+print("home", IrodsPath(session, "~"))
+```
+
+This mirrors the CLI’s cd command and the GUI’s navigation bar.
+
+## How `Session.home` and `Session.cwd` affect path handling
+
+All relative paths created with IrodsPath are interpreted relative to Session.home or Session.cwd.  
+This means:
+
+- ~ refers to your home  
+- . refers to your current working directory  
+- relative paths behave like in a filesystem  
+- absolute paths must be prefixed with irods:
+
+This makes Python workflows predictable and consistent with the GUI and CLI.
