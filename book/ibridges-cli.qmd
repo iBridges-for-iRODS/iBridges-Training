@@ -10,6 +10,22 @@ The GUI gives you a visual overview of collections, metadata, permissions, and r
 In this chapter, we use the **same configuration** and perform the equivalent operations using the **Command Line Interface (CLI)**.  
 The CLI exposes every action as a command, making it ideal for automation, scripting, and reproducible workflows.
 
+## iBridges help system
+
+To list all available commands:
+
+```
+ibridges -h
+```
+
+Each subcommand also includes its own help:
+
+```
+ibridges <command> -h
+```
+
+This mirrors the GUI’s menu structure: every action is discoverable and documented.
+
 ## Connect
 
 Before interacting with iRODS, we must ensure that the correct environment configuration is active.
@@ -23,13 +39,28 @@ ibridges alias
 Example output:
 
 ```
-  [no alias] -> /Users/christine/.irods/irods_environment.json
+* [no alias] -> /Users/christine/.irods/irods_environment.json
   geo        -> /Users/christine/.irods/irods_environment_geo.json
-  surf       -> /Users/christine/.irods/surf.json
-* christine  -> /Users/christine/.irods/christine.json
 ```
 
 The asterisk marks the currently active environment.
+
+There is always one configuration with no alias/name that points to the default location for your ``irods_environment.json`` file. Other libraries such as the `ICommands` and `python-irodsclient` will use this file by default.
+
+### Adding or removing configurations
+
+In case you have access to multiple iRODS instances, or you have different configurations for one iRODS instance, you might want to use multiple configurations at the same time. This can be done with the ``ibridges alias`` command:
+
+```shell
+ibridges alias a_new_alias /path/to/some/irods_environment_file.json
+```
+
+You can of course also delet aliases when you don't need them anymore:
+
+```shell
+ibridges alias a_new_alias --delete
+```
+
 
 ### Switching environments
 
@@ -47,38 +78,6 @@ ibridges init surf
 
 We only need the `init` to switch between configurations or when our passwords are expired and need to be refreshed.
 
-### Inspecting the alias command
-
-```
-ibridges alias -h
-```
-
-This shows how to create or delete aliases:
-
-```
-usage: ibridges alias [-h] [--delete] [alias] [env_path]
-
-Print existing aliases or create new ones.
-```
-
-Every iBridges command provides such a help section with usage and examples, just like the GUI’s tooltips and pop‑ups.
-
-
-## iBridges help system
-
-To list all available commands:
-
-```
-ibridges ls
-```
-
-Each subcommand also includes its own help:
-
-```
-ibridges <command> -h
-```
-
-This mirrors the GUI’s menu structure: every action is discoverable and documented.
 
 ## Browsing through data
 
@@ -124,12 +123,11 @@ This prints a tree‑like structure similar to the GUI’s folder table.
 
 - Navigate back to your home directory using `ibridges cd ..`.
 - What does  
-  `ibridges ls irods:demo -m`  
+  `ibridges ls demo -m`  
   show?
 - What does  
-  `ibridges ls irods:demo -mr`  
+  `ibridges ls demo -mr`  
   show?
-- Why is the `irods:` prefix required in some commands but not others?
 
 
 ## Transferring data
@@ -169,6 +167,7 @@ This synchronises a local folder with an iRODS collection.
 - What happens if you upload the downloaded file again to the "demo" collection?
 - What does the `dry-run` option do? Try it out: Use the download command with the `dry-run` option on the whole "demo" collection to your Downloads folder on your laptop.
 - Create a "demo" folder inside of your "Downloads" folder. Use the `sync` command to synchronise the "demo" collection to the "demo" folder.
+- Why is the `irods:` prefix required in some commands but not others?
 
 ### Recap: why the `irods:` prefix?
 
@@ -180,13 +179,13 @@ The prefix `irods:` marks a path as remote, ensuring the command knows which sid
 You can inspect metadata using:
 
 ```
-ibridges ls -m irods:demo
+ibridges ls -m demo
 ```
 
 To add metadata:
 
 ```
-ibridges meta-add irods:demo type example_data
+ibridges meta-add demo type example_data
 ```
 
 ### Overwriting metadata
@@ -194,7 +193,7 @@ ibridges meta-add irods:demo type example_data
 Try adding the same key again with a different value:
 
 ```
-ibridges meta-add irods:demo type ascii
+ibridges meta-add demo type ascii
 ```
 
 As in the GUI, iRODS allows multiple triples with the same key and value if the units differ.

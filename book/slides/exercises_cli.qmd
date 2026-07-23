@@ -21,12 +21,13 @@ execute:
   show?
 - Why is the `irods:` prefix required in some commands but not others?
 
-## Uploading, Downloading, Synchromisation <img src="../img/logo.png" style="height:1.5em; float:right;">
+## Uploading, Downloading, Synchronisation <img src="../img/logo.png" style="height:1.5em; float:right;">
 
 - Download the "demo/hello.txt" to your Downloads folder
 - What happens if you upload the downloaded file again to the "demo" collection?
-- What does the `dry-run` option do? Try it out: Use the download command with the `dry-run` option on the whole "demo" collection to your Downloads folder on your laptop.
+- What does the `--dry-run` option do? Try it out: Use the download command with the `--dry-run` option on the whole "demo" collection to your Downloads folder on your laptop.
 - Create a "demo" folder inside of your "Downloads" folder. Use the `sync` command to synchronise the "demo" collection to the "demo" folder.
+- Try to do the same thing with the `ibridges download` command. What are the differences between `download/upload` and `sync`?
 
 ## Metadata only download <img src="../img/logo.png" style="height:1.5em; float:right;">
 

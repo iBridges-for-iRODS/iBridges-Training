@@ -130,7 +130,7 @@ digraph irods_replication {
 
 ## iBridges client suite <img src="../img/logo.png" style="height:1.5em; float:right;">
 
-- Python API  
+- Python API (layer to access (meta)data using Python)
 - Command line interface  
 - Graphical user interface  
 
@@ -241,20 +241,9 @@ digraph ibridges_prc {
         penwidth=1
     ];
 
-    // Cluster for user facing components
-    subgraph cluster_ibridges_ui {
-        label="iBridges components";
-        style=rounded;
-        color="#15a589";
-
-        API      [label="Python API"];
-        CLI      [label="Command line interface"];
-        GUI      [label="Graphical user interface"];
-    }
-
     // Cluster for API features
     subgraph cluster_api_features {
-        label="Python API features";
+        label="iBridges Python API";
         style=rounded;
         color="#15a589";
 
@@ -266,13 +255,13 @@ digraph ibridges_prc {
 
     // python irods client
     PRC [label=<<i>python-irodsclient</i><br/>underlying library>];
-
+    CLI [label="Command line interface"];
+    GUI [label="Graphical user interface"];
     // Relationships between UI components and API
-    CLI -> API [label="calls"];
-    GUI -> API [label="calls"];
+    CLI -> DataOps [label="calls"];
+    GUI -> DataOps [label="calls"];
 
     // Relationships inside API features
-    API       -> Session     [label="creates"];
     DataOps   -> Session     [label="uses"];
     IrodsPath -> Session     [label="uses"];
     Permissions -> Session   [label="uses"];
