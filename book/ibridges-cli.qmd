@@ -233,6 +233,33 @@ Try searching for the metadata you discovered earlier.
 - The help contains examples for searching **collections only**.  
   Try one of them.
 
+
+## The iBridges Shell
+
+The iBridges CLI also has a special command: ``ibridges shell``. This opens up
+a new shell where you can perform many of the same commands as the normal CLI. The main advantages:
+
+- Commands (such as ls) are much faster, since the session is maintained
+- Autocompletion is supported (not for Windows)
+- History for shell commands
+- You don't have to type ``ibridges`` before every command.
+
+You can start the shell with:
+
+```shell
+ibridges shell
+```
+
+And submit commands, for example:
+
+```shell
+ibshell:home>ls
+game
+ibshell:home>cd game
+ibshell:game>ls
+a_very_nice_game.bin
+```
+
 ## Summary
 
 The CLI gives you full control over iRODS operations:
