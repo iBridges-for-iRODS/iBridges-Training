@@ -207,25 +207,25 @@ Made for:
 ::::
 
 ## Architecture overview <img src="../img/logo.png" style="height:1.5em; float:right;">
-:::: {.columns}
+<!-- :::: {.columns} -->
 
-::: {.column width="40%"}
+<!-- ::: {.column width="40%"} -->
 - iBridges uses *python-irodsclient* internally   
 - CLI and GUI are based on the iBridges API  
-:::
+<!-- ::: -->
 
-::: {.column width="60%"}
-<div style="text-align: center;">
-  <div style="display: inline-block; transform: scale(1.4); transform-origin: top center;">
+<!-- ::: {.column width="60%"}
+<!-- <div style="text-align: center;"> -->
+  <!-- <div style="display: inline-block; transform: scale(1.4); transform-origin: top center;"> -->
 
 ```{dot}
-//| fig-align: center
-
+//| fig-width: 15
+//| fig-height: 15
 digraph ibridges_prc {
-
+    compound=True;
     rankdir=TD;   // top-down layout
 
-    graph [fontsize=11, fontname="Arial"];
+    graph [fontsize=11, fontname="Arial", rank = TB, style=rounded, color="#15a589"];
     node  [
         shape=box,
         style=filled,
@@ -240,12 +240,9 @@ digraph ibridges_prc {
         color="#7fbfb5",
         penwidth=1
     ];
-
     // Cluster for API features
     subgraph cluster_api_features {
         label="iBridges Python API";
-        style=rounded;
-        color="#15a589";
 
         Session    [label="iBridges session\ninstantiates irods_session"];
         DataOps    [label="data operations"];
@@ -253,26 +250,54 @@ digraph ibridges_prc {
         Permissions[label="Permissions"];
     }
 
-    // python irods client
-    PRC [label=<<i>python-irodsclient</i><br/>underlying library>];
-    CLI [label="Command line interface"];
-    GUI [label="Graphical user interface"];
-    // Relationships between UI components and API
-    CLI -> DataOps [label="calls"];
-    GUI -> DataOps [label="calls"];
+    subgraph cluster_gui_features {
+        label="iBridges Graphical User Interface";
 
+        GuiDataOps[label="data operations"];
+        GuiPermissions[label="Permission operations"];
+        GuiMetadata[label="Metadata operations"];
+    }
+
+    subgraph cluster_cli_features {
+        label="iBridges Command Line Interface";
+
+        CliDataOps[label="Data operations"];
+        CliNavigation[label="Navigation"];
+        CliMetadata[label="Metadata Operations"];
+    }
+
+    subgraph cluster_prc {
+        label="Python iRODS client (PRC)";
+        PrcSession[label="iRODSSession"];
+        PrcDataObjects[label="data_objects"];
+        PrcCollections[label="collections"];
+        PrcPut[label="put"];
+        PrcGet[label="get"];
+    }
+
+    // python irods client
+    // PRC [label=<<i>python-irodsclient</i><br/>underlying library>];
+    // CLI [label="Command line interface"];
+    // GUI [label="Graphical user interface"];
+    // Relationships between UI components and API
+    // CLI -> DataOps [label="calls"];
+    // GUI -> DataOps [label="calls"];
+    GuiPermissions -> IrodsPath[label="calls", ltail="cluster_gui_features", lhead="cluster_api_features"]
+    CliNavigation -> IrodsPath[label="calls", ltail="cluster_cli_features", lhead="cluster_api_features"]
+
+    // cluster_gui_features -> cluster_api_features;
     // Relationships inside API features
     DataOps   -> Session     [label="uses"];
     IrodsPath -> Session     [label="uses"];
     Permissions -> Session   [label="uses"];
 
-    Session   -> PRC         [label="contains irods_session"];
+    Session   -> PrcCollections[label="calls", ltail="cluster_api_features", lhead="cluster_prc"];
 }
 ```
-  </div>
-</div>
-:::
-::::
+  <!-- </div> -->
+<!-- </div> -->
+<!-- ::: -->
+<!-- :::: -->
 
 # Questions {data-background-color="#d3d3d3"}
 
