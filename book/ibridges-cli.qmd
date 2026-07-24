@@ -260,6 +260,14 @@ ibshell:game>ls
 a_very_nice_game.bin
 ```
 
+While working in the shell you can also quickly open up the GUI by typing:
+
+```shell
+ibshell:some_col>gui
+```
+
+In this case the GUI will start without you having to login, and it will navigate to the collection that you were in while working in the shell.
+
 ## Summary
 
 The CLI gives you full control over iRODS operations:
