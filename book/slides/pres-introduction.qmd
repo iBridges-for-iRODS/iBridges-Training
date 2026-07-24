@@ -219,8 +219,8 @@ Made for:
   <!-- <div style="display: inline-block; transform: scale(1.4); transform-origin: top center;"> -->
 
 ```{dot}
-//| fig-width: 15
-//| fig-height: 15
+//| fig-width: 16
+//| fig-height: 11
 digraph ibridges_prc {
     compound=True;
     rankdir=TD;   // top-down layout
