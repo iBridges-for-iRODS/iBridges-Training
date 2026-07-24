@@ -34,3 +34,5 @@ node_modules/
 
 # Reveal.js downloaded libs (Quarto regenerates them)
 site_libs/
+
+**/*.quarto_ipynb
