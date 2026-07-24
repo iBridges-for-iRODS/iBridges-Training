@@ -227,7 +227,7 @@ To prevent you from locking yourself out of your own data, in iBridges you canno
 
 In the API tutorial we will show you how to give access to data and we will share data with each other.
 
-You will also see that the person who uploaded the data will be known as the owner of the data. However that does NOT mean, that you have the rights to do something with the data, We will see that when we explore the data policy which is installed on this iRODS server.
+You will also see that the person who uploaded the data will be known as the owner of the data. However that does NOT mean, that you have the rights to do something with the data. We will see that when we explore the data policy which is installed on this iRODS server.
 
 ## Replicas
 
