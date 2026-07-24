@@ -207,16 +207,9 @@ Made for:
 ::::
 
 ## Architecture overview <img src="../img/logo.png" style="height:1.5em; float:right;">
-<!-- :::: {.columns} -->
 
-<!-- ::: {.column width="40%"} -->
 - iBridges uses *python-irodsclient* internally   
 - CLI and GUI are based on the iBridges API  
-<!-- ::: -->
-
-<!-- ::: {.column width="60%"}
-<!-- <div style="text-align: center;"> -->
-  <!-- <div style="display: inline-block; transform: scale(1.4); transform-origin: top center;"> -->
 
 ```{dot}
 //| fig-width: 16
@@ -275,17 +268,10 @@ digraph ibridges_prc {
         PrcGet[label="get"];
     }
 
-    // python irods client
-    // PRC [label=<<i>python-irodsclient</i><br/>underlying library>];
-    // CLI [label="Command line interface"];
-    // GUI [label="Graphical user interface"];
-    // Relationships between UI components and API
-    // CLI -> DataOps [label="calls"];
-    // GUI -> DataOps [label="calls"];
+
     GuiPermissions -> IrodsPath[label="calls", ltail="cluster_gui_features", lhead="cluster_api_features"]
     CliNavigation -> IrodsPath[label="calls", ltail="cluster_cli_features", lhead="cluster_api_features"]
 
-    // cluster_gui_features -> cluster_api_features;
     // Relationships inside API features
     DataOps   -> Session     [label="uses"];
     IrodsPath -> Session     [label="uses"];
@@ -294,10 +280,6 @@ digraph ibridges_prc {
     Session   -> PrcCollections[label="calls", ltail="cluster_api_features", lhead="cluster_prc"];
 }
 ```
-  <!-- </div> -->
-<!-- </div> -->
-<!-- ::: -->
-<!-- :::: -->
 
 # Questions {data-background-color="#d3d3d3"}
 
