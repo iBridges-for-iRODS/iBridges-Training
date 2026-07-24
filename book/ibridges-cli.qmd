@@ -45,7 +45,7 @@ Example output:
 
 The asterisk marks the currently active environment.
 
-There is always one configuration with no alias/name that points to the default location for your ``irods_environment.json`` file. Other libraries such as the `ICommands` and `python-irodsclient` will use this file by default.
+There is always one configuration with no alias/name that points to the default location for your ``irods_environment.json`` file. Other libraries such as the `icommands` and `python-irodsclient` will use this file by default.
 
 ### Adding or removing configurations
 
