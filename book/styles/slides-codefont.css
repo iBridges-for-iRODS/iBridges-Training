@@ -1,0 +1,13 @@
+.reveal section pre,
+.reveal section pre code {
+  font-size: 1.1em !important;
+}
+
+
+.reveal section table {
+  font-size: 0.8em;
+  width: auto;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
