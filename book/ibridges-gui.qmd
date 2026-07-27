@@ -78,7 +78,7 @@ Select the environment we set up, type in your password and hit **Connect**. Thi
 
 ## The Browser
 
-The Browser is one of the most complex views in the iBridges GUI. It combines a view like a file-folder table as you know it from your file explorer with all aspects of the iRODS data objects and collections. Let's walk through it.
+The Browser is the main view of the iBridges GUI. It combines a view like a file-folder table as you know it from your file explorer with all aspects of the iRODS data objects and collections. Let's walk through it.
 
 On the top you have a navigation bar. You can type in an iRODS path or you can use the three buttons: **Refresh**, **Up Arrow** and the **Home** to navigate through iRODS collections.
 
@@ -227,7 +227,7 @@ To prevent you from locking yourself out of your own data, in iBridges you canno
 
 In the API tutorial we will show you how to give access to data and we will share data with each other.
 
-You will also see that the person who uploaded the data will be known as the owner of the data. However that does NOT mean, that you have the rights to do something with the data, We will see that when explore the data policy which is installed on this iRODS server.
+You will also see that the person who uploaded the data will be known as the owner of the data. However that does NOT mean, that you have the rights to do something with the data. We will see that when we explore the data policy which is installed on this iRODS server.
 
 ## Replicas
 
