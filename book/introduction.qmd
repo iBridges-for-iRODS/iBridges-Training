@@ -158,12 +158,12 @@ The graphical interface is the easiest way to start working with iRODS. It lets 
 //| label: fig-ibridges-prc
 //| fig-cap: Relationship between iBridges components, API features, and the python irods client.
 //| fig-align: center
-
+//| fig-width: 9
 digraph ibridges_prc {
+    compound=True;
+    rankdir=TD;   // top-down layout
 
-    rankdir=TB;   // top-down layout
-
-    graph [fontsize=11, fontname="Arial"];
+    graph [fontsize=11, fontname="Arial", rank = TB, style=rounded, color="#15a589"];
     node  [
         shape=box,
         style=filled,
@@ -178,46 +178,58 @@ digraph ibridges_prc {
         color="#7fbfb5",
         penwidth=1
     ];
-
-    // Cluster for user facing components
-    subgraph cluster_ibridges_ui {
-        label="iBridges components";
-        style=rounded;
-        color="#15a589";
-
-        API      [label="Python API"];
-        CLI      [label="Command line interface"];
-        GUI      [label="Graphical user interface"];
-    }
-
     // Cluster for API features
     subgraph cluster_api_features {
-        label="Python API features";
-        style=rounded;
-        color="#15a589";
+        label="iBridges Python API";
 
         Session    [label="iBridges session\ninstantiates irods_session"];
-        DataOps    [label="data operations"];
+        DataOps    [label="Data operations"];
         IrodsPath  [label="IrodsPath"];
-        Permissions[label="Permissions"];
+        Permissions[label="Permissions"]
     }
 
-    // python irods client
-    PRC [label=<<i>python-irodsclient</i><br/>underlying library>];
+    subgraph cluster_gui_features {
+        label="iBridges Graphical User Interface";
 
-    // Relationships between UI components and API
-    CLI -> API [label="calls"];
-    GUI -> API [label="calls"];
+        GuiDataOps[label="Data operations"];
+        GuiIrodspath[label="IrodsPath"]
+        GuiPermissions[label="Permission operations"];
+        GuiMetadata[label="Metadata operations"];
+    }
+
+    subgraph cluster_cli_features {
+        label="iBridges Command Line Interface";
+
+        CliDataOps[label="Data operations"];
+        CliNavigation[label="Navigation"];
+        CliMetadata[label="Metadata operations"];
+        CliPermissions[label="Permissions"]
+    }
+
+    subgraph cluster_prc {
+        label="Python iRODS client (PRC)";
+        PrcSession[label="iRODSSession"];
+        PrcDataObjects[label="data_objects"];
+        PrcCollections[label="collections"];
+        PrcPut[label="put"];
+        PrcGet[label="get"];
+        PrcACLs[label="Permissions"];
+        PrcRescs[label="Resources"]
+    }
+
+
+    GuiDataOps -> IrodsPath[label="calls", ltail="cluster_gui_features", lhead="cluster_api_features"]
+    CliPermissions -> IrodsPath[label="calls", ltail="cluster_cli_features", lhead="cluster_api_features"]
 
     // Relationships inside API features
-    API       -> Session     [label="creates"];
     DataOps   -> Session     [label="uses"];
     IrodsPath -> Session     [label="uses"];
-    Permissions -> Session   [label="uses"];
-
-    Session   -> PRC         [label="contains irods_session"];
+    Permissions -> Session   [label="uses"]
+    
+    Session   -> PrcPut[label="calls", ltail="cluster_api_features", lhead="cluster_prc"];
 }
 ```
+
 
 You do not need to choose between them. iBridges uses the *python-irodsclient* internally. When you connect, you automatically get an `irods_session` that you can use directly if you want to.
 

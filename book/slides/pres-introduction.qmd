@@ -238,15 +238,16 @@ digraph ibridges_prc {
         label="iBridges Python API";
 
         Session    [label="iBridges session\ninstantiates irods_session"];
-        DataOps    [label="data operations"];
+        DataOps    [label="Data operations"];
         IrodsPath  [label="IrodsPath"];
-        Permissions[label="Permissions"];
+        Permissions[label="Permissions"]
     }
 
     subgraph cluster_gui_features {
         label="iBridges Graphical User Interface";
 
-        GuiDataOps[label="data operations"];
+        GuiDataOps[label="Data operations"];
+        GuiIrodspath[label="IrodsPath"]
         GuiPermissions[label="Permission operations"];
         GuiMetadata[label="Metadata operations"];
     }
@@ -256,7 +257,8 @@ digraph ibridges_prc {
 
         CliDataOps[label="Data operations"];
         CliNavigation[label="Navigation"];
-        CliMetadata[label="Metadata Operations"];
+        CliMetadata[label="Metadata operations"];
+        CliPermissions[label="Permissions"]
     }
 
     subgraph cluster_prc {
@@ -266,18 +268,20 @@ digraph ibridges_prc {
         PrcCollections[label="collections"];
         PrcPut[label="put"];
         PrcGet[label="get"];
+        PrcACLs[label="Permissions"];
+        PrcRescs[label="Resources"]
     }
 
 
-    GuiPermissions -> IrodsPath[label="calls", ltail="cluster_gui_features", lhead="cluster_api_features"]
-    CliNavigation -> IrodsPath[label="calls", ltail="cluster_cli_features", lhead="cluster_api_features"]
+    GuiDataOps -> IrodsPath[label="calls", ltail="cluster_gui_features", lhead="cluster_api_features"]
+    CliPermissions -> IrodsPath[label="calls", ltail="cluster_cli_features", lhead="cluster_api_features"]
 
     // Relationships inside API features
     DataOps   -> Session     [label="uses"];
     IrodsPath -> Session     [label="uses"];
-    Permissions -> Session   [label="uses"];
-
-    Session   -> PrcCollections[label="calls", ltail="cluster_api_features", lhead="cluster_prc"];
+    Permissions -> Session   [label="uses"]
+    
+    Session   -> PrcPut[label="calls", ltail="cluster_api_features", lhead="cluster_prc"];
 }
 ```
 
