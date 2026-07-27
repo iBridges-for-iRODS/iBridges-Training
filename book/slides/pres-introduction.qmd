@@ -247,9 +247,9 @@ digraph ibridges_prc {
         label="iBridges Graphical User Interface";
 
         GuiDataOps[label="Data operations"];
-        GuiIrodspath[label="IrodsPath"]
-        GuiPermissions[label="Permission operations"];
+        GuiIrodspath[label="IrodsPath"];
         GuiMetadata[label="Metadata operations"];
+        GuiPermissions[label="Permission operations"]
     }
 
     subgraph cluster_cli_features {
@@ -258,7 +258,7 @@ digraph ibridges_prc {
         CliDataOps[label="Data operations"];
         CliNavigation[label="Navigation"];
         CliMetadata[label="Metadata operations"];
-        CliPermissions[label="Permissions"]
+        CliPermissions[label="Permission operations"]
     }
 
     subgraph cluster_prc {
@@ -283,6 +283,7 @@ digraph ibridges_prc {
     
     Session   -> PrcPut[label="calls", ltail="cluster_api_features", lhead="cluster_prc"];
 }
+
 ```
 
 # Questions {data-background-color="#d3d3d3"}
