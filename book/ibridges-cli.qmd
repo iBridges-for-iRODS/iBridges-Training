@@ -119,16 +119,12 @@ ibridges tree
 
 This prints a tree‑like structure similar to the GUI’s folder table.
 
-### Exercises (5 minutes)
+::: {.callout-tip}
 
-- Navigate back to your home directory using `ibridges cd ..`.
-- What does  
-  `ibridges ls demo -m`  
-  show?
-- What does  
-  `ibridges ls demo -mr`  
-  show?
+## Exercise Navigation (5 minutes)
 
+See Exercise slide.
+:::
 
 ## Transferring data
 
@@ -161,13 +157,12 @@ ibridges sync
 
 This synchronises a local folder with an iRODS collection.
 
-### Exercises (15 minutes)
+::: {.callout-tip}
+## Exercise Uploading, Downloading, .. (15 minutes)
 
-- Download the "demo/hello.txt" to your Downloads folder
-- What happens if you upload the downloaded file again to the "demo" collection?
-- What does the `dry-run` option do? Try it out: Use the download command with the `dry-run` option on the whole "demo" collection to your Downloads folder on your laptop.
-- Create a "demo" folder inside of your "Downloads" folder. Use the `sync` command to synchronise the "demo" collection to the "demo" folder.
-- Why is the `irods:` prefix required in some commands but not others?
+See Exercise slide.
+
+:::
 
 ### Recap: why the `irods:` prefix?
 
@@ -198,15 +193,12 @@ ibridges meta-add demo type ascii
 
 As in the GUI, iRODS allows multiple triples with the same key and value if the units differ.
 
-### Exercise: Downloading metadata only (5 minutes)
+::: {.callout-tip}
 
-Inspect the help of:
+## Exercise: Downloading metadata only (5 minutes)
 
-```
-ibridges meta-download -h
-```
-
-Try it out on your `demo` collection.
+See Exercise slide.
+:::
 
 ## Searching for data
 
@@ -220,17 +212,13 @@ ibridges search -h
 
 Try searching for the metadata you discovered earlier.
 
-### Exercises (10 minutes)
+::: {.callout-tip}
 
-- Search for data labeled with a key starting with `auth`.  
-  Remember to set the search root to:
+### Exercise: Searching for data (10 minutes)
 
-  ```
-  tempZone/home
-  ```
+See Exercise slide.
 
-- The help contains examples for searching **collections only**.  
-  Try one of them.
+:::
 
 ## Summary
 
