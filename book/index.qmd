@@ -16,6 +16,28 @@ Before you start please take a look at the [prerequisites](prerequisites.qmd).
 
 We hope you enjoy the day and feel confident exploring iRODS and iBridges.
 
+::: {.callout-tip }
+
+### Upcoming trainings
+
+- Tuesday, November 24, 2026; Utrecht University 
+
+  <a href="https://bookings.uu.nl/calendar/intern/ibridges"
+     style="background:#c8efe6; padding:6px 12px; color:#15a589 !important;
+          border-radius:4px; text-decoration:none;">
+     Register
+  </a>
+
+- Thursday, April 29, 2027, Utrecht University 
+
+  <a href="https://bookings.uu.nl/calendar/intern/ibridgesApril2027"
+     style="background:#c8efe6; padding:6px 12px; color:#15a589 !important;
+          border-radius:4px; text-decoration:none;">
+     Register
+  </a>
+:::
+
+
 ## Course objectives
 
 This course introduces researchers to the iBridges ecosystem and teaches iRODS concepts through practical use of iBridges tools.
