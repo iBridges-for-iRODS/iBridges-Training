@@ -118,7 +118,7 @@ To find this file easily please store it on your Desktop.
 
 Now let's navigate into our *demo* collection hit the **Upload** button, Click **Select Files** and select your text file.
 
-![Upload](img/gui_shots/upload_file.png)
+![](img/gui_shots/upload_file.png)
 
 Each file or folder we want to upload will be listed in the table. You can also remove a file or folder again from the upload list with the **Delete rows** button. All selected rows will be deleted.
 
@@ -126,13 +126,15 @@ Each row will show an own button **Metadata JSON** with which you can automatica
 
 The data object contaning the file is now listed in our *demo* collection, the object carries a checksum, which is the checksum of the file. We also see the status *good*, which means all replicas (here just on file) have been checked and are consistent. 
 
-### Exercise
+::: {.callout-tip}
 
-- Upload the `hello.txt` file from before again to the same *demo* collection. What happens? How can we update already existing data?
+## Exercise Data Uploads (10 minutes)
 
-- Can you also upload a folder? Try it out with a small folder which only contains small files. 
+See Exercise slide.
+:::
 
 Why is the data object  different from the file we uploaded? The simplest answer is **Metadata**.
+
 
 ## Metadata
 
@@ -140,7 +142,7 @@ When you select the *hello.txt* in the table, the **Metadata View** will tell yo
 
 Metadata in iRODS is provided as Key-Value-Units triple. With the text fields on the right you can add them. The Key and Value are always mandatory, you can optionally also set the Units. Click **Add**.
 
-![Metadata](img/gui_shots/add_meta.png)
+![](img/gui_shots/add_meta.png)
 
 When you now click on the newly created metadata, it will load in the text fields and you can edit the content again. If you click **Add**, a new metadata entry will be created, when you click **Update** the previous metadata will be replaced with the new content.
 
@@ -148,20 +150,10 @@ Why does a change in a Key-Value-Unit triple not always lead to an update? That 
 
 Metadata can be used to find data when you are not sure where it is saved. that is especially handy for shared data. In the exercises we will explore that.
 
-### Exercises
-
-Create two more metadata entries with the Key-Value-Units:
-
-- type, test_file
-- type, ascii
-
-Try it out:
-
-- What happens if you try to update the key of the second metadata entry from "type" to "format"?
-- What happens if you try to add an already existing metadata entry?
-- Navigate to the Search tab and try to find your data by their metadata key. You only need to fill in the key you would like to search for, e.g. "type". You can leave the value and units empty.
-- What happens if you use `%key` as metadata key in the search mask? 
-- And what if you changed the `Search in` path to `/tempZone/home/` and you search for the key `auth%`? Double-click on one of the results and go back to your browser. What has changed?
+::: {.callout-tip}
+## Exercise Metadata and Searching (10 minutes)
+See Exercise slide.
+:::
 
 ## Download data and metadata
 
