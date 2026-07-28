@@ -1,0 +1,383 @@
+# Metadata and Search
+
+Next to system metadata, iRODS allows you to create own metadata with data objects and collections.
+
+You can use that metadata to describe your data and later search for this data; and it can help you keeping the overview of what was the input for an analysis and what is the outcome.
+
+Technically, iRODS offers metadata as key-value-units triple. Let's investigate this.
+
+## Add metadata to an `IrodsPath`
+
+```python
+from ibridges.path import IrodsPath
+
+irods_path = IrodsPath(session, "demo", "hello.txt")
+print("Demo object name", irods_path, "exists: ", irods_path.dataobject_exists())
+```
+
+We can retrieve the metadata associated with the data object from its `IrodsPath`, for convenience we will store it in the variable `obj_meta`. The `obj_meta` is no longer an `IrodsPath` but of type `MetaData`:
+
+
+```python
+print(irods_path.meta)
+obj_meta = irods_path.meta
+print(type(obj_meta))
+```
+
+Most probably you will see no metadata in the output of the above cell. 
+
+> Note, that system metadata and user-defined metadata are two different entities in a data object and collection!
+
+With the command `IrodsPath.meta` we only retrieve the user-defined metadata.
+
+Now we can add some own metadata. The metadata comes as key-value-units triple:
+
+
+```python
+obj_meta.add('Key', 'Value', 'Units')
+print(obj_meta)
+```
+
+Sometimes we do not really have `units`, so we can leave this part empty:
+
+
+```python
+obj_meta.add('Author', 'Christine')
+print(obj_meta)
+```
+
+We can also add a second author:
+
+
+```python
+obj_meta.add('Author', 'Alice')
+print(obj_meta)
+```
+
+You see, that in iRODS metadata keys can have different values. That is different from Python dictionaries where one key can only have one value. 
+
+How then to overwrite a value?
+
+## Inspecting and extracting metadata parts
+
+We saw above how easily we can add and print the metadata. But sometimes we need to extract values or units for our workflows. You can inspect and extract each of the three parts like this:
+
+
+```python
+for item in obj_meta:
+    print(item.key, item.value, item.units)
+```
+
+## Overwrite metadata
+
+If you wish to *overwrite* a key, value or units, we will first have to retrieve the respective metadata item. You can retrieve an item by providing the key. If you have several items with the same key you will have to provide the value too and sometimes also the units.
+
+The syntax looks like accessing a dictionary. Let's have a look how to retrieve the author metadata:
+
+
+```python
+obj_meta["Author"]
+```
+
+*iBridges* complains that there are several metadata items with the key `Author`. Let's have a look at all of those:
+
+
+```python
+print(obj_meta.find_all('Author'))
+```
+
+Now we can retrieve the one where the author is `Christine`:
+
+
+```python
+meta_item = obj_meta['Author', 'Christine']
+print(meta_item)
+```
+
+And we can change the value of exactly that metadata item:
+
+
+```python
+meta_item.value = "AnotherAuthor"
+print(meta_item)
+```
+
+> **Important**: What happens if we would change the metadata item to one which is already present in the metadata of the object? Changing `AnotherAuthor` to `Alice` would create an identical metadata item in the list of all metadata of that object. Let's try it out:
+
+
+```python
+meta_item.value = 'Alice'
+```
+
+Of course you can also alter the `key` and the `units` of a metadata item:
+
+
+```python
+print("Changing: ", meta_item)
+meta_item.key = 'Key'
+print("Overwriting the key:", meta_item)
+meta_item.units = 'MyUnits'
+print("Overwriting the units:", meta_item)
+```
+
+### Setting metadata
+
+Another way to set a metadata key to a new value and units is with the bracket `[]` notation.
+
+
+```python
+print(obj_meta)
+```
+
+
+```python
+obj_meta['Author'] = 'person'
+print(obj_meta)
+```
+
+**Note**, that if there are several entries with the same key, the following will fail:
+
+
+```python
+obj_meta['Key'] = 'OtherValue'
+print(obj_meta)
+```
+
+If you like to set all metadata items to one new item, do:
+
+
+```python
+obj_meta[['Key']] = [['OtherValue']]
+```
+
+
+```python
+print(obj_meta)
+```
+
+## Deleting metadata
+
+
+```python
+obj_meta.delete('Author', 'AnotherAuthor')
+print(obj_meta)
+```
+
+### Deleting a single metadata item
+
+To delete a single metadata item you will have to be again specific with your key, value and units information to identify the correct metadata item. To delete all metadata with the key `Key` we can simply use:
+
+
+```python
+obj_meta.delete('Key')
+print(obj_meta)
+```
+
+The same command on the metadata with the key `Author` would delete all of the entries:
+
+
+```python
+obj_meta.delete('Author')
+print(obj_meta)
+```
+
+If you want to clear the whole metadata, use:
+
+
+```python
+obj_meta.clear()
+print(obj_meta)
+```
+
+## Finding data by their metadata
+
+Metadata does not only help you to keep an overview over your data, but can also be used to select and retrieve data. In iBridges you can use the user-defined metadata and some system metadata fields to search for data.
+
+In our first example, we are looking for objects and collections called *demo* in our `home`:
+
+
+```python
+from ibridges.search import search_data, MetaSearch
+result = search_data(session, path_pattern="demo")
+print(result)
+```
+
+By default the search will only search in our home collection.
+
+The output is a list of `CachedIrodsPaths` indicating the locations of the data objects and collections.
+If the parameter `path` is not provided, *ibridges* will automatically fall back on your `home`.
+
+Let's see what we can find on the whole iRODS instance when we use the key "type" and the value "demo":
+
+
+```python
+result = search_data(session, path = "/tempZone/home",
+                     metadata=MetaSearch(key='type', value='demo'))
+print(result)
+```
+
+If we do not want to specify the particular value for this metadata entry, we can leave it out.
+
+
+```python
+result = search_data(session, path = "/tempZone/home",
+                     metadata=MetaSearch(key='type'))
+print(result)
+```
+Now we receive three objects.
+
+And of course we can combine information about the path and the metadata. They will be connected with `and`.
+
+## Searches using wildcards
+
+Sometimes we are not sure about the exact pattern that we search for, be it metadata keys, values and units or path patterns. iRODS knows the `%` sign as a wild card.
+
+### Wildcards in metadata
+
+The following line will give us all objects and collections in our home collection, which carries any metadata key:
+
+
+```python
+result = search_data(session, path=IrodsPath(session),
+                     metadata=MetaSearch(key='%'))
+print(result)
+```
+
+### Wildcards in path patterns
+
+Let us go back to the very first example of this section, we are loking for collections and data objects called `demo` and they need to lie directly in our `home`:
+
+
+```python
+result = search_data(session, path=session.home, path_pattern="my_books")
+print(result)
+```
+
+How can we retrieve also all data and possible subcollections?
+
+#### 1. Find all data and collections ending with `my_books` in your home
+
+
+```python
+result = search_data(session, path=session.home, path_pattern="%my_books")
+print('\n'.join([str(p) for p in result]))
+```
+
+#### 2. Find all data and collections starting with `my_books` in your home
+
+
+```python
+result = search_data(session, path=session.home, path_pattern="my_books%")
+print('\n'.join([str(p) for p in result]))
+```
+
+#### 3. Find all collections and data on a path containing `my_books` in your home
+
+
+```python
+result = search_data(session, path=session.home, path_pattern="%/my_books/%")
+print('\n'.join([str(p) for p in result]))
+```
+
+#### 4. Find all `txt` files that lie on a collection path that contains `my_books`
+
+For this case we have to think of a pattern for the collection path and the object name and separate both with `/`:
+
+
+```python
+coll_pattern = "%my_books%"
+obj_pattern = "%.txt"
+print(f"Search pattern: {coll_pattern+'/'+obj_pattern}")
+result = search_data(session, path=session.home, path_pattern=coll_pattern+"/"+obj_pattern)
+print('\n'.join([str(p) for p in result]))
+```
+
+## Exercise: Find the easter bunny (15 min)
+
+The easter bunny has hidden on this little iRODS instance.
+
+Some data in the whole iRODS instance is annotated with the key `game`. The metadata contains hints where to find the bunny. Download the easter bunny!
+
+
+::: {.callout-tip collapse="true"}
+
+### Solution
+
+```python
+res = search_data(session, path="/tempZone/home",  metadata=MetaSearch(key='game'))
+```
+
+
+```python
+idx_names = [(idx, str(path)) for idx, path in enumerate(res)]
+sorted_files = sorted(idx_names, key=lambda x: x[1])
+order = [i for i, _ in sorted_files]
+
+for idx in order:
+    meta = res[idx].meta
+    for item in meta:
+        print(item.value, item.units)
+```
+:::
+
+
+
+## Upload and download with metadata (optional)
+
+In most situations you will work with metadata directly through the `MetaData` class. This allows you to inspect, add, modify, and delete metadata on individual data objects and collections. However, there are cases where it is useful to work with metadata in bulk. For example, you may want to create a complete backup of all metadata in a collection, transfer metadata from one iRODS system to another, or make metadata available during computation on a system that is not connected to iRODS.
+
+For these situations, iBridges provides functions to create a metadata archive and to apply such an archive to an existing collection.
+
+### Creating a metadata archive
+
+```python
+from ibridges import create_meta_archive
+from ibridges.path import IrodsPath
+
+collection_path = IrodsPath(session, "/tempZone/home/training/my_books")
+create_meta_archive(collection_path, "meta_archive.json")
+```
+
+This creates a file `meta_archive.json` in your current working directory.  
+The archive contains all user-defined metadata of the collection `my_books`, including all subcollections and all data objects.
+
+```python
+!cat meta_archive.json
+```
+
+### Applying a metadata archive
+
+If you have uploaded a collection without its metadata, or if you want to restore metadata from a previous backup, you can apply the archive to the corresponding collection. This will add or overwrite metadata on the iRODS server using the information stored in the archive.
+
+Make sure that the paths of the subcollections and data objects match the paths used when the archive was created. Otherwise the metadata cannot be applied correctly.
+
+```python
+from ibridges import add_meta_from_archive
+
+books_path = IrodsPath(session, "my_books")
+print(books_path)
+```
+
+```python
+add_meta_from_archive("meta_archive.json", books_path)
+```
+
+You can verify the result by inspecting the metadata of the restored objects:
+
+```python
+for item in books_path.collection.data_objects:
+    item_path = books_path / item.name
+    print(item_path, item_path.meta)
+```
+
+### Exercise: Upload and download with metadata
+
+Have a look again at the uploads and downloads and inspect the metadata flag.
+
+- Remove or rename your iRODS books collection, or use a different destination for the upload.  
+- Do a dry run of an upload of your books collection specifying the metadata file we just created.  
+- Upload the data and the metadata and verify the result.
+
+---
+
+If you want, I can also harmonise the introduction of the metadata chapter with the earlier *Working with data* module so the transition feels even smoother.
