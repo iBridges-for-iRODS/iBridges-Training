@@ -28,7 +28,7 @@ We hope you enjoy the day and feel confident exploring iRODS and iBridges.
      Register
   </a>
 
-- Thursday, April 29, 2027, Utrecht University 
+- Thursday, April 29, 2027; Utrecht University 
 
   <a href="https://bookings.uu.nl/calendar/intern/ibridgesApril2027"
      style="background:#c8efe6; padding:6px 12px; color:#15a589 !important;
