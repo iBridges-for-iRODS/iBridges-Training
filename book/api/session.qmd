@@ -12,9 +12,9 @@ There are two main ways to create a Session:
 Both return a connected Session object, but they differ in how they obtain the password and how they integrate with the CLI configuration.
 
 
-### `interactive_auth`
+### interactive_auth
 
-The function interactive_auth is designed for situations where entering a password is acceptable or preferred.
+The function `interactive_auth` is designed for situations where entering a password is acceptable or preferred.
 
 ```python
 from ibridges.authenticate import interactive_auth
@@ -41,9 +41,9 @@ If you want to ignore the cached password and force reauthentication:
 session = interactive_auth(reauthenticate=True)
 ```
 
-This method is useful when you prefer not to store passwords in scripts or notebooks, or when teaching and demonstrating iBridges.
+This method is useful when you are working interactively in python.
 
-### `non_interactive_auth`
+### non_interactive_auth
 
 The function `non_interactive_auth` is designed for automated workflows where you do not want to type a password.  
 It never prompts for a password.  
@@ -73,16 +73,15 @@ or
 session = non_interactive_auth(ienv_path_or_alias="/path/to/irods_environment.json")
 ```
 
-This method is ideal for scheduled jobs, automated pipelines, and reproducible workflows where no user interaction is possible.  
-If no cached password exists, authentication will fail rather than prompting.
+This method is ideal for scheduled jobs, automated pipelines, and reproducible workflows where no user interaction is possible. Before starting a job you would use the `interactive_auth`, the CLI or the GUI to set your obfuscated password. The workflow will authenticate the session from that passowrd.
 
+If no cached password exists, authentication will fail rather than prompting.
 
 ### Choosing between interactive and non‑interactive authentication
 
 Use interactive_auth when:
 
-- you are working in a notebook or terminal  
-- you prefer not to store passwords in scripts  
+- you are working in a notebook or terminal    
 - you want to authenticate manually once and reuse the cached password  
 - you are teaching or demonstrating iBridges  
 
