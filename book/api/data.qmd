@@ -147,7 +147,9 @@ ops = sync(
 )
 ```
 
-The returned ops object summarises all created folders and transferred files.
+The returned `ops` object summarises all created folders and transferred files.
+
+> Note, that the iBridges `sync` function will never delete files or data objects!
 
 ## System metadata
 

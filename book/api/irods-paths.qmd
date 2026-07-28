@@ -30,19 +30,19 @@ But let us first explore the home and the current working directory a bit more.
 
 The Session defines two important locations:
 
-- session.home  
-- session.cwd  
+- `session.home`  
+- `session.cwd`  
 
 The home is your default working directory in iRODS.  
 It can be set in three ways:
 
 1. In irods_environment.json  
 2. When creating the Session  
-3. By assigning session.home manually
+3. By assigning `session.home` manually
 
 If not set, it defaults to `/zone/home/username`.
 
-The cwd is optional and defaults to the home.  
+The `cwd` is optional and defaults to the `home`.  
 The dot symbol refers to the cwd:
 
 ```
@@ -63,7 +63,7 @@ print("cwd:", session.cwd)
 print("home:", session.home)
 ```
 
-Relative paths are resolved against the session’s cwd:
+Relative paths are resolved against the session’s `cwd`:
 
 ```python
 p = IrodsPath(session, "subcoll")

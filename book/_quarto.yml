@@ -43,7 +43,7 @@ website:
             - href: api/session.qmd
               text: Creating an iBridges Session
             - href: api/irods-paths.qmd
-              text: Paths on an iRODS server
+              text: iRODS Paths
             - href: api/data.qmd
               text: Uploading, Downloading, Synchronising data
           - href: compute-workflow.qmd
