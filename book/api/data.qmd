@@ -5,15 +5,13 @@ In iRODS you have data objects and collections.
 This analogy is useful for now, although later tutorials will show that collections and data objects have additional behaviour beyond a normal filesystem.
 
 To work with data you need a connected session and an `IrodsPath` pointing to a location inside iRODS.  
-We assume that a session named `session` already exists from the previous module.
+We assume that a session named `session` already exists from the previous module and you already created a collection `demo`.
 
-## Create a collection and upload a file
+## Upload a file
 
-Create a collection under your home:
+Ensure that a collection `demo` under your home exists:
 
 ```python
-from ibridges.path import IrodsPath
-
 home = IrodsPath(session, "~")
 coll = home / "demo"
 coll.create_collection()
@@ -35,8 +33,19 @@ Upload the file:
 
 ```python
 from ibridges import upload
+ops = upload(local_file, coll)
+```
+
+If you took part in the CLI and GUI training you already have a file `hello.txt` under `demo`. You will see an error. 
+
+Inspect the error and see why the upload is failing.
+
+Adjust your code to:
+
+```
 ops = upload(local_file, coll, overwrite=True)
 ```
+
 
 Inspect the collection:
 
@@ -68,14 +77,83 @@ Download:
 download(coll / "hello.txt", local_dir)
 ```
 
-Downloading again without overwrite raises `FileExistsError`.  
+Again, if the file already exists in the Download directory, you will see an error.
+
+Downloading again without overwrite raises `FileExistsError`. With the `overwrite` flag you can force iBridges to trigger the download. 
 iBridges compares checksums and skips transfers when source and destination match.
+
+## Synchronising data
+
+Synchronisation keeps two locations aligned: a local directory on your computer and a collection in iRODS.  
+The function sync compares checksums and transfers only what has changed.  
+It creates new files and overwrites outdated ones, but it does not delete files from the target if they were removed from the source.
+
+The direction is determined automatically:
+
+- local Path → IrodsPath means uploading  
+- IrodsPath → local Path means downloading  
+
+Both locations must exist.
+
+Example setup:
+
+```python
+from pathlib import Path
+from ibridges.path import IrodsPath
+
+source = IrodsPath(session, "~", "demo_sync")
+source.create_collection()
+
+target = Path.home() / "Downloads" / "Sync"
+print("Local target exists:", target.is_dir())
+print("iRODS source exists:", source.collection_exists())
+```
+
+You can control how deeply the directory tree is synchronised:
+
+- max_level=None synchronises everything  
+- max_level=1 synchronises only the top level  
+- max_level=2 includes the first level of subcollections  
+
+Other options:
+
+- copy_empty_folders controls whether empty folders are included  
+- dry_run lists planned changes without transferring data  
+
+Dry run:
+
+```python
+from ibridges import sync
+
+ops = sync(
+    source=source,
+    target=target,
+    max_level=None,
+    dry_run=True,
+    copy_empty_folders=True
+)
+ops.print_summary()
+```
+
+Actual synchronisation:
+
+```python
+ops = sync(
+    source=source,
+    target=target,
+    max_level=None,
+    dry_run=False,
+    copy_empty_folders=True
+)
+```
+
+The returned ops object summarises all created folders and transferred files.
 
 ## System metadata
 
 Collections and data objects carry system metadata such as creation time, modification time, owner, size, and checksum.
 
-We can use the IrodsPath and extend it with `.collection` or `.dataobject` to see the real data behind that path. Note, that this only works, when the path exists.
+We can use the IrodsPath and extend it with `.collection` or `.dataobject` to see the real data behind that path. Note that this only works when the path exists.
 
 Collection metadata:
 
@@ -116,21 +194,27 @@ print(replicas)
 Each entry contains the replica index, storage resource, checksum, size, and status.  
 A status of good means the replica is verified.
 
-
 ## Exercises (15 minutes)
 
 ### Exercise 1: Uploading
 - Use your collection `~/demo`
-- Inspect the parameter of the `upload` function  
-- Change the content of hello.txt on your computer
-- Use the `dry-run` to only inspect what would change in a new upload
-- Which other options looks useful for updating the data on iRODS?
-- (Optional) List the collections data objects, use `IrodsPath.walk`
+- Inspect the parameters of the upload function  
+- Change the content of `hello.txt` on your computer
+- Use `dry-run` to inspect what would change in a new upload
+- Which other options look useful for updating the data on iRODS?
+- Optional: list the collection’s data objects using IrodsPath.walk
 
 ### Exercise 2: Metadata
-- Print creation time, owner, size, and checksum of your data object  
+- Print creation time, owner, size, and checksum of your data object
+- Reupload a new version of your `hello.txt`
 - Compare checksum before and after downloading  
 
 ### Exercise 3: Replicas
 - Retrieve replica information for your data object  
 - Print the status of each replica  
+
+### Exercise 4 (optional): Synchronisation
+- Create a new local folder and a new iRODS collection  
+- Perform a dry-run synchronisation  
+- Change one file locally and synchronise again  
+- Inspect which files were transferred and why  
