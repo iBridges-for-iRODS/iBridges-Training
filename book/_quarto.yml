@@ -38,8 +38,14 @@ website:
             text: iBridges CLI
       - section: "iBridges for programmers"
         contents:
-          - href: ibridges-api.qmd
-            text: The iBridges API
+          - section: "The iBridges Python API"
+            contents:  
+            - href: api/session.qmd
+              text: Creating an iBridges Session
+            - href: api/irods-paths.qmd
+              text: iRODS Paths
+            - href: api/data.qmd
+              text: Uploading, Downloading, Synchronising data
           - href: compute-workflow.qmd
             text: iBridges and compute workflows
 
