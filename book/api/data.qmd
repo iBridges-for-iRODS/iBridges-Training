@@ -206,16 +206,22 @@ A status of good means the replica is verified.
 - Which other options look useful for updating the data on iRODS?
 - Optional: list the collection’s data objects using IrodsPath.walk
 
-### Exercise 2: Metadata
+### Exercise 2: Downloading and uploading a Collection
+
+- You have "read" access to `/tempZone/home/training/my_books`
+- Download the whole collection to your Downloads folder
+- Upload the collecion again to your iRODS home 
+
+### Exercise 3: Metadata
 - Print creation time, owner, size, and checksum of your data object
 - Reupload a new version of your `hello.txt`
 - Compare checksum before and after downloading  
 
-### Exercise 3: Replicas
+### Exercise 4 (optional): Replicas
 - Retrieve replica information for your data object  
 - Print the status of each replica  
 
-### Exercise 4 (optional): Synchronisation
+### Exercise 5 (optional): Synchronisation
 - Create a new local folder and a new iRODS collection  
 - Perform a dry-run synchronisation  
 - Change one file locally and synchronise again  
