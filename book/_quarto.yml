@@ -5,7 +5,8 @@ website:
   title: "iBridges Training"
   page-navigation: true
   page-footer:
-    right: "This website is built and maintained with ☕ and [Quarto](https://quarto.org/)."
+    left: "©️ [Creative Commons Attribution 4.0 International](https://github.com/iBridges-for-iRODS/iBridges-Training/blob/main/LICENSE)"
+    right: "Built with [Quarto](https://quarto.org/) & [GitHub](https://github.com/)<br>Maintained with 🍵 & ☕"  
   sidebar:
     tools:
       - icon: github
@@ -65,6 +66,9 @@ format:
       - css_files/hyperlinks.css
       - css_files/toc.css
       - css_files/callouts.css
+    comments: 
+      utterances: 
+        repo: iBridges-for-iRODS/iBridges-Training
 execute:
   python: system
 
