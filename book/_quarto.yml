@@ -5,7 +5,7 @@ website:
   title: "iBridges Training"
   page-navigation: true
   page-footer:
-    left: "©️ [Creative Commons Attribution 4.0 International](https://github.com/iBridges-for-iRODS/iBridges-Training/blob/main/LICENSE)<br>&ensp;&ensp;&ensp;[Authors & Contributors](https://github.com/rdm-foundations/rdm-architecture#contributors)"
+    left: "©️ [Creative Commons Attribution 4.0 International](https://github.com/iBridges-for-iRODS/iBridges-Training/blob/main/LICENSE)"
     right: "Built with [Quarto](https://quarto.org/) & [GitHub](https://github.com/)<br>Maintained with 🍵 & ☕"  
   sidebar:
     tools:
