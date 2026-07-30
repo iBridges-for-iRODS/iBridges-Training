@@ -68,7 +68,7 @@ format:
       - css_files/callouts.css
     comments: 
       utterances: 
-        repo: rdm-foundations/rdm-architecture
+        repo: iBridges-for-iRODS/iBridges-Training
 execute:
   python: system
 
