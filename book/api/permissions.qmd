@@ -13,7 +13,7 @@ They define which users or groups can access your data and at what level.
 iRODS provides three main permission levels:
 
 | Access | Meaning|
-|:---:|:---|
+|---|---|
 |read| The user or the group can **read and download** the data.|
 |write| The user or group can **modify data objects and upload data to collections**, but can not delete the data or collection.|
 |own| The user or group can **share and delete** the data.|
@@ -24,7 +24,7 @@ Some iRODS deployments introduce additional permission levels, but these are sti
 
 To inspect who can access your *demo* collection:
 
-```
+```python
 from ibridges.permissions import Permissions
 from ibrodges import IrodsPath
 
@@ -39,7 +39,7 @@ You must first resolve the path to the underlying collection or data object.
 
 To determine what the path points to:
 
-```{python}
+```python
 coll_path.is_collection()
 coll_path.is_dataobject()
 ```
@@ -94,7 +94,7 @@ Permissions for data objects work exactly like for collections.
 
 Example: give read access to the data object *demo/hello.txt*:
 
-```{python}
+```python
 obj_path = IrodsPath(session, "~") / "demo" / "hello.txt"
 ```
 
@@ -117,14 +117,14 @@ This does not affect existing items.
 
 Enable inheritance:
 
-```{python}
+```python
 coll_perm.set('inherit')
 print(coll_perm)
 ```
 
 Disenable inheritance:
 
-```{python}
+```python
 coll_perm.set('noinherit')
 print(coll_perm)
 ```
