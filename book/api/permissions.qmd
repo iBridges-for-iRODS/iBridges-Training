@@ -1,0 +1,130 @@
+# Sharing data
+
+Sharing data is a core part of research data management.
+It helps to avoid unnecessary copies, prevents accidental modification, and ensures that data is only accessible to the intended collaborators.
+
+In iRODS, data sharing is controlled through Access Control Lists (ACLs), often simply called permissions.
+
+## What are permissions
+
+Permissions in iRODS are a special type of metadata attached to collections and data objects.
+They define which users or groups can access your data and at what level.
+
+iRODS provides three main permission levels:
+
+| Access | Meaning|
+|---|---|
+|read| The user or the group can **read and download** the data.|
+|write| The user or group can **modify data objects and upload data to collections**, but can not delete the data or collection.|
+|own| The user or group can **share and delete** the data.|
+
+Some iRODS deployments introduce additional permission levels, but these are still [under development](https://github.com/iBridges-for-iRODS/iBridges/issues/412#issuecomment-4583041660) and not part of this training. 
+
+## Retrieve the permissions of a collection
+
+To inspect who can access your *demo* collection:
+
+```python
+from ibridges.permissions import Permissions
+from ibrodges import IrodsPath
+
+coll_path = IrodsPath(session, '~').joinpath('demo')
+coll_perm = Permissions(session, irods_coll_path.collection)
+
+print(coll_perm)
+```
+
+Permissions cannot be retrieved directly from an IrodsPath.
+You must first resolve the path to the underlying collection or data object.
+
+To determine what the path points to:
+
+```python
+coll_path.is_collection()
+coll_path.is_dataobject()
+```
+
+The Permissions object shows:
+
+- users and groups with access
+- their role (user, admin, group)
+- their zone (important in federated systems)
+- the access level (read, write, own)
+
+## Giving access to your data
+
+You can add or remove permissions using the `set` method.
+
+Example: give your neighbour read access to your collection:
+
+```python
+coll_perm.set('read', '<username>')
+print(coll_perm)
+```
+
+Note, that permissions do have synonyms:
++ read object: 'read', 'read object', 'read_object'
++ modify object: 'write', 'modify object', 'modify_object'
+
+Permissions apply only to the specific collection or data object.
+Parent collections remain invisible unless they also have permissions.
+
+### Exercise: Verify that your neighbour can really see the collection (5 min)
+
+Use the GUI or CLI to list the collection. From a notebook, you can call the CLI:
+
+```
+!ibridges list <path>
+```
+
+Your neighbour must use the full path, because they cannot see your *home* collection.
+
+## Removing access
+
+To remove a permission, use the keyword `null`:
+
+```python
+coll_perm.set('null', '<username>')
+print(coll_perm)
+```
+
+## Sharing data objects
+
+Permissions for data objects work exactly like for collections.
+
+Example: give read access to the data object *demo/hello.txt*:
+
+```python
+obj_path = IrodsPath(session, "~") / "demo" / "hello.txt"
+```
+
+Your neighbour can now access the data object directly, even if they cannot see the parent collection.
+
+For example, they can list metadata:
+
+```
+!ibridges list /<path>/hello.txt -m
+```
+
+Try it out! (5 minutes)
+
+## Collections: Inheritance (optional)
+
+Collections have a special flag: `inherit` or `noinherit`.
+When inheritance is enabled, all permissions on the collection are automatically applied to newly created data objects and subcollections.
+
+This does not affect existing items.
+
+Enable inheritance:
+
+```python
+coll_perm.set('inherit')
+print(coll_perm)
+```
+
+Disenable inheritance:
+
+```python
+coll_perm.set('noinherit')
+print(coll_perm)
+```

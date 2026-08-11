@@ -49,6 +49,8 @@ website:
               text: Uploading, Downloading, Synchronising data
             - href: api/metadata-search.qmd
               text: Metadata and Search
+            - href: api/permissions.qmd
+              text: Sharing data
           - href: compute-workflow.qmd
             text: iBridges and compute workflows
 
