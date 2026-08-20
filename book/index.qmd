@@ -22,6 +22,7 @@
     margin-right:auto;
     font-weight:500;
   ">
+    <br>
     A compact introduction to YODA, iRODS, and iBridges. The morning sessions build the foundation for metadata-driven research data management. The afternoon sessions apply that foundation in small compute workflows powered by this meta(data) for search and analysis.
     <br>
     A clear path from organising research data to actually using it. 
