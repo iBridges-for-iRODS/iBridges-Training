@@ -1,3 +1,34 @@
+<div style="
+  background-color:#c8efe6;
+  padding: 1rem 1rem;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 2.5rem;
+">
+  <h1 style="
+    font-size:2.rem;
+    font-weight:700;
+    margin:0;
+    color:#0f7f68;
+  ">
+    iBridges: Where data management meets data work
+  </h1>
+
+  <p style="
+    font-size:1rem;
+    color:#000;
+    max-width:500px;
+    margin-left:auto;
+    margin-right:auto;
+    font-weight:500;
+  ">
+    <br>
+    A compact introduction to YODA, iRODS, and iBridges. The morning sessions build the foundation for metadata-driven research data management. The afternoon sessions apply that foundation in small compute workflows powered by this meta(data) for search and analysis.
+    <br>
+    A clear path from organising research data to actually using it. 
+  </p>
+</div>
+
 # Welcome
 
 Welcome to this full day course on iRODS and iBridges.
