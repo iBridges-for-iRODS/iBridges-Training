@@ -213,7 +213,7 @@ Made for:
 
 ```{dot}
 //| fig-width: 16
-//| fig-height: 11
+//| fig-height: 8
 digraph ibridges_prc {
     compound=True;
     rankdir=TD;   // top-down layout
