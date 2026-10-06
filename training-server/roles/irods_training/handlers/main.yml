@@ -1,0 +1,4 @@
+- name: Restart iRODS after config change
+  ansible.builtin.systemd:
+    name: irods
+    state: restarted

@@ -1,0 +1,177 @@
+{
+    "ibridges_metadata_version": "1.0",
+    "recursive": true,
+    "root_path": "/uu/home/research-christine/my_books",
+    "items": [
+        {
+            "rel_path": ".",
+            "type": "collection",
+            "name": "my_books_backup",
+            "irods_id": 3804097,
+            "metadata": []
+        },
+        {
+            "rel_path": "AdventuresSherlockHolmes.txt",
+            "type": "data object",
+            "name": "AdventuresSherlockHolmes.txt",
+            "irods_id": 3804115,
+            "checksum": "sha2:Y8VmrN3ikAZyEXOR/u+4XtbOL8R386UkE49HxUlkd7k=",
+            "metadata": [
+                [
+                    "author",
+                    "Conan Doyle",
+                    ""
+                ],
+                [
+                    "book_type",
+                    "short_stories",
+                    ""
+                ]
+            ]
+        },
+        {
+            "rel_path": "AliceAdventuresInWonderLand.txt",
+            "type": "data object",
+            "name": "AliceAdventuresInWonderLand.txt",
+            "irods_id": 3804112,
+            "checksum": "sha2:yOy1EpYEPYX2re4eJ4IXr+KuSP4u1f1GLw12wp0e57g=",
+            "metadata": [
+                [
+                    "author",
+                    "Lewis Carroll",
+                    ""
+                ]
+            ]
+        },
+        {
+            "rel_path": "DonQuixote.txt",
+            "type": "data object",
+            "name": "DonQuixote.txt",
+            "irods_id": 3804121,
+            "checksum": "sha2:ah7XmESWX4c0YbapPTbdQ7OA3VrdSfMpjQuTZyXlT/c=",
+            "metadata": [
+                [
+                    "author",
+                    "Miguel de Cervantes",
+                    ""
+                ]
+            ]
+        },
+        {
+            "rel_path": "Dracula.txt",
+            "type": "data object",
+            "name": "Dracula.txt",
+            "irods_id": 3804119,
+            "checksum": "sha2:EHZWaB6b/9G4BlWbdPoyp99U4lQ/bIWGAMLVLBl+m4Q=",
+            "metadata": [
+                [
+                    "author",
+                    "Bram Stoker",
+                    ""
+                ]
+            ]
+        },
+        {
+            "rel_path": "Frankenstein.txt",
+            "type": "data object",
+            "name": "Frankenstein.txt",
+            "irods_id": 3804117,
+            "checksum": "sha2:pMJ0aBDRWZjBcVNo7NfHYw74tCviuEPNFbd5ofPoAwQ=",
+            "metadata": [
+                [
+                    "author",
+                    "Mary Shelley",
+                    ""
+                ]
+            ]
+        },
+        {
+            "rel_path": "Phantasmagoria.txt",
+            "type": "data object",
+            "name": "Phantasmagoria.txt",
+            "irods_id": 3804111,
+            "checksum": "sha2:Z9xEmYl2VmWnj4F9fP5zHa9R0U5+gxToSUvayi5Jagk=",
+            "metadata": [
+                [
+                    "author",
+                    "Terry Breverton",
+                    ""
+                ],
+                [
+                    "book_type",
+                    "novel",
+                    ""
+                ]
+            ]
+        },
+        {
+            "rel_path": "RobinsonCrusoe.txt",
+            "type": "data object",
+            "name": "RobinsonCrusoe.txt",
+            "irods_id": 3804118,
+            "checksum": "sha2://YrQkzxBMazO5CnBl1MdWoHOLUDb2YOwCOEphuFLhY=",
+            "metadata": [
+                [
+                    "author",
+                    "Daniel Defoe",
+                    ""
+                ],
+                [
+                    "book_type",
+                    "novel",
+                    ""
+                ]
+            ]
+        },
+        {
+            "rel_path": "TheHuntingOfTheSnark.txt",
+            "type": "data object",
+            "name": "TheHuntingOfTheSnark.txt",
+            "irods_id": 3804120,
+            "checksum": "sha2:bjsPBe7lbUX2+sUvSN71vKbr5O6gMDsYoTZQCCgVqM4=",
+            "metadata": [
+                [
+                    "author",
+                    "Lewis Carroll",
+                    ""
+                ]
+            ]
+        },
+        {
+            "rel_path": "ThroughTheLookingGlass.txt",
+            "type": "data object",
+            "name": "ThroughTheLookingGlass.txt",
+            "irods_id": 3804116,
+            "checksum": "sha2:wW+wG+JxwHmE1uXEvRJQxA2nEpVJLRY2bu1KqW1mqEQ=",
+            "metadata": [
+                [
+                    "author",
+                    "Lewis Carroll",
+                    ""
+                ]
+            ]
+        },
+        {
+            "rel_path": "TravelsIntoSeveralRemoteNationsOfTheWorld.txt",
+            "type": "data object",
+            "name": "TravelsIntoSeveralRemoteNationsOfTheWorld.txt",
+            "irods_id": 3804114,
+            "checksum": "sha2:ufPP1Jl/nGHnSxZ+vRKqaTo9z6ewPpZPXauS6jet3oo=",
+            "metadata": [
+                [
+                    "author",
+                    "Jonathan Swift",
+                    ""
+                ]
+            ]
+        },
+        {
+            "rel_path": "TwentyThousandLeaguesUnderTheSea.txt",
+            "type": "data object",
+            "name": "TwentyThousandLeaguesUnderTheSea.txt",
+            "irods_id": 3804113,
+            "checksum": "sha2:JH/7VTDWivNU3WYQHdgjbYPhBT5UpbrEFJaWq3eCs4o=",
+            "metadata": []
+        }
+    ]
+}

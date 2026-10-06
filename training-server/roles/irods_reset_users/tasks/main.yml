@@ -1,0 +1,30 @@
+- name: Refuse to run without explicit confirmation
+  ansible.builtin.assert:
+    that: reset_users_confirm | bool
+    fail_msg: >-
+      This role permanently deletes the data in the home collections of the training
+      users and invalidates their passwords. Re-run with: -e reset_users_confirm=true
+
+- name: List existing users
+  ansible.builtin.command: iadmin lu
+  become: true
+  become_user: irods
+  register: reset_existing
+  changed_when: false
+
+- name: Only handle users that exist
+  ansible.builtin.set_fact:
+    reset_targets: >-
+      {{ reset_users_names
+         | select('in', reset_existing.stdout_lines | map('regex_replace', '#.*$', '') | list)
+         | list }}
+
+- name: Reset each user
+  ansible.builtin.include_tasks: reset_user.yml
+  loop: "{{ reset_targets }}"
+  loop_control:
+    loop_var: reset_user
+
+- name: Summary
+  ansible.builtin.debug:
+    msg: "Processed {{ reset_targets | length }} users; skipped (not found): {{ reset_users_names | difference(reset_targets) }}"

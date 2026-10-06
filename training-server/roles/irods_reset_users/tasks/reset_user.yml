@@ -1,0 +1,57 @@
+- name: "Delete the data of {{ reset_user }}"
+  when: reset_users_delete_data | bool
+  vars:
+    reset_home: "/{{ reset_users_zone }}/home/{{ reset_user }}"
+  block:
+    # The rodsadmin does not automatically have access to the home collections
+    - name: Take ownership of the home collection (admin mode)
+      ansible.builtin.command: ichmod -M -r own {{ reset_users_admin }} {{ reset_home }}
+      become: true
+      become_user: irods
+      changed_when: false
+
+    - name: List sub-collections
+      ansible.builtin.command:
+        argv: [iquest, --no-page, "%s", "SELECT COLL_NAME WHERE COLL_PARENT_NAME = '{{ reset_home }}'"]
+      become: true
+      become_user: irods
+      register: reset_colls
+      changed_when: false
+      failed_when: false
+
+    - name: List data objects
+      ansible.builtin.command:
+        argv: [iquest, --no-page, "%s/%s", "SELECT COLL_NAME, DATA_NAME WHERE COLL_NAME = '{{ reset_home }}'"]
+      become: true
+      become_user: irods
+      register: reset_objs
+      changed_when: false
+      failed_when: false
+
+    - name: Remove everything in the home collection (irm -rf, no trash)
+      ansible.builtin.command:
+        argv: [irm, -rf, "{{ item }}"]
+      become: true
+      become_user: irods
+      loop: "{{ (reset_colls.stdout_lines + reset_objs.stdout_lines) | select('match', '^/') | list }}"
+
+    - name: Empty the trash of the user
+      ansible.builtin.command: irmtrash -M -u {{ reset_user }}
+      become: true
+      become_user: irods
+      changed_when: false
+      failed_when: false
+
+- name: "Invalidate the password of {{ reset_user }}"
+  when: reset_users_reset_passwords | bool
+  ansible.builtin.command:
+    argv:
+      - iadmin
+      - moduser
+      - "{{ reset_user }}"
+      - password
+      - "{{ lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits') }}"
+  become: true
+  become_user: irods
+  changed_when: true
+  no_log: true

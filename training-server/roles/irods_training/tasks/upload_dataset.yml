@@ -1,0 +1,88 @@
+- name: "Dataset {{ dataset.name }}"
+  vars:
+    ds_is_file: "{{ (dataset.type | default('directory')) == 'file' }}"
+    ds_item_path: "{{ (dataset.dest ~ '/' ~ (dataset.src | basename)) if ds_is_file else dataset.dest }}"
+    ds_parent: "{{ dataset.dest if ds_is_file else (dataset.dest | dirname) }}"
+    ds_stage_root: "/var/tmp/irods_stage/{{ dataset.name }}"
+    ds_stage_item: "{{ ds_stage_root }}/{{ (dataset.src | basename) if ds_is_file else (dataset.dest | basename) }}"
+    ds_metadata: >-
+      {{ (lookup('ansible.builtin.file', dataset.metadata) | from_json)['items']
+         if (dataset.metadata | default('')) | length > 0 else [] }}
+  block:
+    - name: Check whether the data already exists in iRODS
+      ansible.builtin.command: ils {{ ds_item_path }}
+      become: true
+      become_user: irods
+      register: ds_check
+      changed_when: false
+      failed_when: false
+
+    - name: Make sure the parent collection exists
+      ansible.builtin.command: imkdir -p {{ ds_parent }}
+      become: true
+      become_user: irods
+      changed_when: false
+
+    - name: Make sure the service account may write to the parent collection
+      ansible.builtin.command: ichmod -M own {{ irods_admin_user }} {{ ds_parent }}
+      become: true
+      become_user: irods
+      changed_when: false
+
+    - name: Create the staging folders
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: irods
+        group: irods
+        mode: "0750"
+      loop:
+        - /var/tmp/irods_stage
+        - "{{ ds_stage_root }}"
+      when: ds_check.rc != 0
+
+    - name: Stage the data on the VM
+      ansible.builtin.copy:
+        src: "{{ dataset.src }}{{ '' if ds_is_file else '/' }}"
+        dest: "{{ ds_stage_item }}{{ '' if ds_is_file else '/' }}"
+        owner: irods
+        group: irods
+        mode: preserve
+      when: ds_check.rc != 0
+
+    - name: Upload into iRODS
+      ansible.builtin.command:
+        argv: >-
+          {{ ['iput', ('-K' if ds_is_file else '-rK')]
+             + (['-R', training_data_resource] if training_data_resource else [])
+             + [ds_stage_item, ds_parent ~ '/'] }}
+      become: true
+      become_user: irods
+      when: ds_check.rc != 0
+
+    - name: Make the owner own the data
+      ansible.builtin.command: ichmod -r own {{ dataset.owner }} {{ dataset.dest }}
+      become: true
+      become_user: irods
+      changed_when: false
+
+    - name: Give the training group access
+      ansible.builtin.command: ichmod -r {{ dataset.group_permission }} {{ training_group }} {{ dataset.dest }}
+      become: true
+      become_user: irods
+      changed_when: false
+      when: dataset.group_permission | default('') | length > 0
+
+    - name: Apply the metadata from the JSON export
+      ansible.builtin.command:
+        argv: >-
+          {{ ['imeta', 'set', ('-C' if item.0.type == 'collection' else '-d'),
+              dataset.dest ~ ('' if item.0.rel_path == '.' else '/' ~ item.0.rel_path),
+              item.1[0], item.1[1]]
+             + ([item.1[2]] if item.1[2] else []) }}
+      become: true
+      become_user: irods
+      changed_when: false
+      loop: "{{ ds_metadata | subelements('metadata') }}"
+      loop_control:
+        label: "{{ dataset.name }} / {{ item.0.rel_path }}: {{ item.1[0] }}"

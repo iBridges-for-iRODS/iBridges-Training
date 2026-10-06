@@ -1,0 +1,15 @@
+[Unit]
+Description=iRODS server
+After=network.target postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=simple
+User=irods
+Group=irods
+WorkingDirectory=/var/lib/irods
+ExecStart=/usr/sbin/irodsServer -u
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

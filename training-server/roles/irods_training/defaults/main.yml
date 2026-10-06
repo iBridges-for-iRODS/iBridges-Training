@@ -1,0 +1,41 @@
+training_resources:
+  - name: TrainingResc
+    vault: /data/10gb
+
+training_user_prefix: irods
+training_user_count: 30
+
+training_admin_user: training_admin
+training_group: training
+training_group_extra_members:
+  - "{{ training_admin_user }}"
+training_datasteward_group: datastewards
+training_datastewards_members:
+  - "{{ training_admin_user }}"        # set to [] for an empty group
+
+training_rulebase_name: hooks          # file is /etc/irods/<name>.re, listed in re_rulebase_set
+
+training_data_resource: TrainingResc   # "" for the default resource
+
+training_datasets:
+  - name: my_books
+    src: "{{ playbook_dir }}/data/my_books"
+    metadata: "{{ playbook_dir }}/data/ibridges_metadata_my_books_10062026-1334.json"
+    dest: "/{{ irods_zone }}/home/training/my_books"
+    owner: "{{ training_admin_user }}"
+    group_permission: read
+
+  - name: game
+    src: "{{ playbook_dir }}/data/game"
+    metadata: "{{ playbook_dir }}/data/ibridges_metadata_game_10062026-1332.json"
+    dest: "/{{ irods_zone }}/home/{{ training_admin_user }}/game"
+    owner: "{{ training_admin_user }}"
+    group_permission: read
+
+  - name: ascii_art
+    type: file
+    src: "{{ playbook_dir }}/data/ascii.txt"
+    metadata: ""
+    dest: "/{{ irods_zone }}/home/{{ training_admin_user }}/ascii_art"
+    owner: "{{ training_admin_user }}"
+    group_permission: read

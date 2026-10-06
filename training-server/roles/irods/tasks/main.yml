@@ -1,0 +1,137 @@
+- name: Install acl (needed to become unprivileged users like postgres)
+  ansible.builtin.apt:
+    name: acl
+    update_cache: true
+
+# ---------- PostgreSQL (replaces the catalog container) ----------
+- name: Install PostgreSQL and python bindings for Ansible's postgres modules
+  ansible.builtin.apt:
+    name: [postgresql, postgresql-contrib, python3-psycopg2]
+    update_cache: true
+
+- name: Ensure PostgreSQL is running
+  ansible.builtin.service:
+    name: postgresql
+    state: started
+    enabled: true
+
+- name: Create catalog user
+  community.postgresql.postgresql_user:
+    name: "{{ irods_db_user }}"
+    password: "{{ irods_db_password }}"
+  become: true
+  become_user: postgres
+  no_log: true
+
+- name: Create catalog database owned by the iRODS user
+  community.postgresql.postgresql_db:
+    name: "{{ irods_db_name }}"
+    owner: "{{ irods_db_user }}"
+  become: true
+  become_user: postgres
+
+# ---------- iRODS apt repository ----------
+- name: Install prerequisites
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https
+      - gnupg
+      - wget
+      - libcurl4-gnutls-dev
+      - python3
+      - python3-distro
+      - python3-jsonschema
+      - python3-pip
+      - python3-psutil
+      - python3-requests
+      - rsyslog
+      - unixodbc
+
+- name: Create keyring directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+
+- name: Download iRODS signing key
+  ansible.builtin.get_url:
+    url: https://packages.irods.org/irods-signing-key.asc
+    dest: /etc/apt/keyrings/irods-signing-key.asc
+    mode: "0644"
+
+- name: Install python3-debian (needed by deb822_repository)
+  ansible.builtin.apt:
+    name: python3-debian
+
+- name: Add iRODS apt repository
+  ansible.builtin.deb822_repository:
+    name: renci-irods
+    types: deb
+    uris: https://packages.irods.org/apt/
+    suites: "{{ irods_release }}"
+    components: main
+    architectures: amd64
+    signed_by: /etc/apt/keyrings/irods-signing-key.asc
+
+- name: Refresh apt cache
+  ansible.builtin.apt:
+    update_cache: true
+# ---------- iRODS packages (server + client) ----------
+- name: Install iRODS server, runtime, database plugin and icommands
+  ansible.builtin.apt:
+    name:
+      - "irods-database-plugin-postgres={{ irods_pkg_version }}"
+      - "irods-runtime={{ irods_pkg_version }}"
+      - "irods-server={{ irods_pkg_version }}"
+      - "irods-icommands={{ irods_pkg_version }}"
+    state: present
+    update_cache: true
+
+
+# ---------- Hostname must resolve to a local address (before setup) ----------
+- name: Remove entries that map this host's name to a non-local address
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    regexp: '^(?!{{ ansible_facts["default_ipv4"]["address"] | regex_escape }}\s)\S+\s+.*\b{{ ansible_facts["fqdn"] | regex_escape }}\b'
+    state: absent
+
+- name: Make the VM's hostname resolve to its local address
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    regexp: '^{{ ansible_facts["default_ipv4"]["address"] | regex_escape }}\s'
+    line: "{{ ansible_facts['default_ipv4']['address'] }} {{ ansible_facts['fqdn'] }} {{ ansible_facts['hostname'] }}"
+
+- name: Run iRODS setup script
+  ansible.builtin.command:
+    cmd: python3 /var/lib/irods/scripts/setup_irods.py
+    stdin: "{{ lookup('ansible.builtin.template', 'setup.input.j2') }}"
+    creates: /etc/irods/server_config.json
+  register: irods_setup
+  failed_when: false
+
+- name: Show setup output
+  ansible.builtin.debug:
+    msg: "{{ irods_setup.stdout_lines + irods_setup.stderr_lines }}"
+
+# ---------- Run the server as a service ----------
+- name: Install systemd unit
+  ansible.builtin.template:
+    src: irods.service.j2
+    dest: /etc/systemd/system/irods.service
+    mode: "0644"
+  notify: Reload systemd
+
+- name: Flush handlers so the unit is known
+  ansible.builtin.meta: flush_handlers
+
+- name: Start iRODS
+  ansible.builtin.service:
+    name: irods
+    state: started
+    enabled: true
+
+- name: Wait for iRODS port
+  ansible.builtin.wait_for:
+    port: 1247
+    delay: 3
+    timeout: 120
