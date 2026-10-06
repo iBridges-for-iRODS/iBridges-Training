@@ -79,9 +79,9 @@ role depends on the plain role and pulls it in.
 All playbooks are safe to run again. Existing users, groups, resources and data are
 detected and left alone, so a second run should report `changed=0`.
 
-### Roles
+## Roles
 
-#### `irods`
+### `irods`
 
 Installs PostgreSQL and iRODS and runs the one-time setup. Main steps, in order:
 
@@ -95,32 +95,32 @@ Installs PostgreSQL and iRODS and runs the one-time setup. Main steps, in order:
 6. Run `setup_irods.py`, answers come from `templates/setup.input.j2`
 7. Install and start the `irods` systemd service
 
-#### `irods_training`
+### `irods_training`
 
 Depends on `irods`. Creates the resources, users, groups, installs the rules and uploads
 the datasets. Uploads run as the iRODS service account, so the users need no password
 for the setup to work.
 
-#### `irods_reset_users`
+### `irods_reset_users`
 
 For each training user: takes ownership of the home collection with `ichmod -M`
 (an iRODS administrator has no automatic access to user homes), removes everything in
 it with `irm -rf`, empties the trash, and sets a random password nobody knows.
 
-#### `irods_cleanup`
+### `irods_cleanup`
 
 Stops the service, drops the `ICAT` database and the `irods` database user, purges all
 `irods-*` packages, deletes `/etc/irods`, `/var/lib/irods` and the `irods` user, removes
 the apt repository, and removes the `home` and `trash` folders from the extra resource
 vaults. PostgreSQL itself is kept unless you ask for it to be removed.
 
-### Configuration
+## Configuration
 
 Settings live in the `defaults/main.yml` of each role. Do not edit them for secrets: use
 an Ansible vault (see [USAGE.md](training-server/USAGE.md#9-protect-the-passwords)).
 
 
-### Known limitations
+## Known limitations
 
 - Changing `irods_version` re-installs packages, but the one-time setup only runs once
   (it is skipped when `/etc/irods/server_config.json` exists). A major upgrade such as
