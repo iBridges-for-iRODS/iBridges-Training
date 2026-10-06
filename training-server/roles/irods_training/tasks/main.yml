@@ -1,0 +1,223 @@
+# ---------- Resources ----------
+- name: Give the irods user ownership of each vault path
+  ansible.builtin.file:
+    path: "{{ item.vault }}"
+    state: directory
+    owner: irods
+    group: irods
+    mode: "0750"
+  loop: "{{ training_resources }}"
+  loop_control:
+    label: "{{ item.vault }}"
+
+- name: Verify the irods user can write to each vault path
+  ansible.builtin.command: test -w {{ item.vault }}
+  become: true
+  become_user: irods
+  changed_when: false
+  loop: "{{ training_resources }}"
+  loop_control:
+    label: "{{ item.vault }}"
+
+- name: List existing resources
+  ansible.builtin.command: ilsresc
+  become: true
+  become_user: irods
+  register: training_existing_resources
+  changed_when: false
+
+- name: Create resources
+  ansible.builtin.command: >
+    iadmin mkresc {{ item.name }} unixfilesystem
+    {{ ansible_facts['fqdn'] }}:{{ item.vault }}
+  become: true
+  become_user: irods
+  when: >-
+    training_existing_resources.stdout_lines
+    | select('match', '^' ~ (item.name | regex_escape) ~ '(:|$)')
+    | list | length == 0
+  loop: "{{ training_resources }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Read current location of each resource
+  ansible.builtin.shell: >
+    set -o pipefail;
+    ilsresc -l {{ item.name }} | awk '/^location:/ {print $2}'
+  args:
+    executable: /bin/bash
+  become: true
+  become_user: irods
+  register: training_resource_locations
+  changed_when: false
+  loop: "{{ training_resources }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Correct the location of any resource that differs
+  ansible.builtin.command: >
+    iadmin modresc {{ item.item.name }} host {{ ansible_facts['fqdn'] }}
+  become: true
+  become_user: irods
+  when: item.stdout != ansible_facts['fqdn']
+  loop: "{{ training_resource_locations.results }}"
+  loop_control:
+    label: "{{ item.item.name }}"
+
+# ---------- Users ----------
+- name: Build the list of training user names
+  ansible.builtin.set_fact:
+    training_users: >-
+      {{ range(1, (training_user_count | int) + 1)
+         | map('string')
+         | map('regex_replace', '^', training_user_prefix)
+         | list }}
+
+- name: List existing users
+  ansible.builtin.command: iadmin lu
+  become: true
+  become_user: irods
+  register: training_existing_users
+  changed_when: false
+
+- name: Create training users (no password, set by hand later)
+  ansible.builtin.command: iadmin mkuser {{ item }} rodsuser
+  become: true
+  become_user: irods
+  when: >-
+    training_existing_users.stdout_lines
+    | select('match', '^' ~ (item | regex_escape) ~ '(#|$)')
+    | list | length == 0
+  loop: "{{ training_users }}"
+
+- name: Create the admin user
+  ansible.builtin.command: iadmin mkuser {{ training_admin_user }} rodsadmin
+  become: true
+  become_user: irods
+  when: >-
+    training_existing_users.stdout_lines
+    | select('match', '^' ~ (training_admin_user | regex_escape) ~ '(#|$)')
+    | list | length == 0
+
+# ---------- Groups ----------
+- name: List existing groups
+  ansible.builtin.command: iadmin lg
+  become: true
+  become_user: irods
+  register: training_existing_groups
+  changed_when: false
+
+- name: Create groups
+  ansible.builtin.command: iadmin mkgroup {{ item }}
+  become: true
+  become_user: irods
+  when: item not in training_existing_groups.stdout_lines
+  loop:
+    - "{{ training_group }}"
+    - "{{ training_datasteward_group }}"
+
+- name: List members of the training group
+  ansible.builtin.command: iadmin lg {{ training_group }}
+  become: true
+  become_user: irods
+  register: training_group_members
+  changed_when: false
+
+- name: Add training users and extra members to the training group
+  ansible.builtin.command: iadmin atg {{ training_group }} {{ item }}
+  become: true
+  become_user: irods
+  when: >-
+    training_group_members.stdout_lines
+    | select('match', '^' ~ (item | regex_escape) ~ '(#|$)')
+    | list | length == 0
+  loop: "{{ training_users + training_group_extra_members }}"
+
+- name: List members of the datastewards group
+  ansible.builtin.command: iadmin lg {{ training_datasteward_group }}
+  become: true
+  become_user: irods
+  register: training_steward_members
+  changed_when: false
+
+- name: Add members to the datastewards group
+  ansible.builtin.command: iadmin atg {{ training_datasteward_group }} {{ item }}
+  become: true
+  become_user: irods
+  when: >-
+    training_steward_members.stdout_lines
+    | select('match', '^' ~ (item | regex_escape) ~ '(#|$)')
+    | list | length == 0
+  loop: "{{ training_datastewards_members }}"
+
+# ---------- Rules ----------
+- name: Install the rule file
+  ansible.builtin.copy:
+    src: hooks.re
+    dest: "/etc/irods/{{ training_rulebase_name }}.re"
+    owner: irods
+    group: irods
+    mode: "0644"
+  notify: Restart iRODS after config change
+
+- name: Keep a one-time backup of the original server_config.json
+  ansible.builtin.copy:
+    src: /etc/irods/server_config.json
+    dest: /etc/irods/server_config.json.orig
+    remote_src: true
+    force: false
+    owner: irods
+    group: irods
+    mode: "0600"
+
+- name: Add the rulebase to re_rulebase_set in server_config.json
+  ansible.builtin.command:
+    cmd: python3 -
+    stdin: |
+      import json
+
+      path = "/etc/irods/server_config.json"
+      name = "{{ training_rulebase_name }}"
+
+      with open(path) as f:
+          cfg = json.load(f)
+
+      changed = False
+      for engine in cfg["plugin_configuration"]["rule_engines"]:
+          if engine["plugin_name"].startswith("irods_rule_engine_plugin-irods_rule_language"):
+              rulebases = engine["plugin_specific_configuration"]["re_rulebase_set"]
+              if name not in rulebases:
+                  rulebases.insert(rulebases.index("core") + 1 if "core" in rulebases else len(rulebases), name)
+                  changed = True
+
+      if changed:
+          with open(path, "w") as f:
+              json.dump(cfg, f, indent=4)
+              f.write("\n")
+
+      print("changed" if changed else "unchanged")
+  register: training_rulebase_result
+  changed_when: training_rulebase_result.stdout.strip() == "changed"
+  notify: Restart iRODS after config change
+
+- name: Apply the config now, before any data is uploaded
+  ansible.builtin.meta: flush_handlers
+
+- name: Wait for iRODS to accept connections again
+  ansible.builtin.wait_for:
+    port: 1247
+    delay: 3
+    timeout: 120
+
+# ---------- Data ----------
+- name: Upload datasets
+  ansible.builtin.include_tasks: upload_dataset.yml
+  loop: "{{ training_datasets }}"
+  loop_control:
+    loop_var: dataset
+    label: "{{ dataset.name }}"
+
+- name: Remove the staging area
+  ansible.builtin.file:
+    path: /var/tmp/irods_stage
+    state: absent

@@ -6,5 +6,7 @@
 **/.DS_Store
 **.Rhistory
 
+**/inventory.ini
+
 /.quarto/
 **/*.quarto_ipynb

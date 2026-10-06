@@ -1,0 +1,13 @@
+# Safety switch: nothing happens unless this is true
+reset_users_confirm: false
+
+reset_users_zone: tempZone
+reset_users_admin: rods      # iRODS admin that takes ownership before deleting
+
+reset_users_prefix: irods
+reset_users_count: 30
+# Override to limit the reset to specific users, e.g. -e '{"reset_users_names":["irods1","irods2"]}'
+reset_users_names: "{{ range(1, reset_users_count | int + 1) | map('string') | map('regex_replace', '^', reset_users_prefix) | list }}"
+
+reset_users_delete_data: true
+reset_users_reset_passwords: true

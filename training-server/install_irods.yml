@@ -1,0 +1,4 @@
+- hosts: irods
+  become: true
+  roles:
+    - irods

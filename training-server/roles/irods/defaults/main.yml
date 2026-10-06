@@ -1,0 +1,14 @@
+irods_version: "4.3.5"       # or 5.1.1
+irods_release: "{{ ansible_facts['distribution_release'] }}"
+irods_pkg_version: "{{ irods_version }}-0~{{ irods_release }}"
+
+irods_db_name: ICAT
+irods_db_user: irods
+irods_db_password: testpassword        # move to ansible-vault
+
+irods_zone: tempZone
+irods_admin_user: rods
+irods_admin_password: rods             # move to ansible-vault
+irods_zone_key: TEMPORARY_ZONE_KEY
+irods_negotiation_key: 32_byte_server_negotiation_key__
+irods_control_plane_key: 32_byte_server_control_plane_key

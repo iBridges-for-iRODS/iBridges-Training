@@ -1,0 +1,27 @@
+# Safety switch: nothing happens unless this is set to true on the command line
+irods_cleanup_confirm: false
+
+irods_db_name: ICAT
+irods_db_user: irods
+
+# Off by default because they may affect more than iRODS
+irods_cleanup_remove_postgresql: false     # deletes ALL databases on the machine
+irods_cleanup_remove_hosts_entry: false    # removes the /etc/hosts line for this host
+
+# Vault paths of extra resources (keep in sync with training_resources).
+# Contents are deleted; the directories themselves are kept.
+irods_cleanup_extra_vaults:
+  - /data/10gb
+
+# Only these subfolders inside each vault are removed; everything else is left alone
+irods_cleanup_vault_subdirs:
+  - home
+  - trash
+
+# Set to false to leave the extra vaults untouched
+irods_cleanup_empty_extra_vaults: true
+
+# Also remove the temporary upload staging folder, if a run was interrupted
+irods_cleanup_staging_dirs:
+  - /var/tmp/data
+

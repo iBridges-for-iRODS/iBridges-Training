@@ -1,0 +1,73 @@
+{
+    "ibridges_metadata_version": "1.0",
+    "recursive": true,
+    "root_path": "/uu/home/research-christine/game",
+    "items": [
+        {
+            "rel_path": ".",
+            "type": "collection",
+            "name": "game",
+            "irods_id": 195433,
+            "metadata": [
+                [
+                ]
+            ]
+        },
+        {
+            "rel_path": "smile.txt",
+            "type": "data object",
+            "name": "smile.txt",
+            "irods_id": 195440,
+            "checksum": "sha2:uxtbygabgP+dVLq1obqyr5f/1jKyLhxwbr/Y2iFjyKk=",
+            "metadata": []
+        },
+        {
+            "rel_path": "test1.txt",
+            "type": "data object",
+            "name": "test1.txt",
+            "irods_id": 195437,
+            "checksum": "sha2:AlPjbQ5Y3iu9niI6qXCX1uTPaK7kGwW+xNEdsPggsYQ=",
+            "metadata": [["game", "Catch the Bunny!", ""]]
+        },
+        {
+            "rel_path": "test2.txt",
+            "type": "data object",
+            "name": "test2.txt",
+            "irods_id": 195438,
+            "checksum": "sha2:tJQYQ1XRHfQ4jSpCtm3gS90PKQvSmahlkdaCVN2DCEg=",
+            "metadata": [["game", "Can you", "find it?"]]
+        },
+        {
+            "rel_path": "test3.txt",
+            "type": "data object",
+            "name": "test3.txt",
+            "irods_id": 195439,
+            "checksum": "sha2:6tYdeKOVXpXnHTIOBn6JV58t+U1BI7WMoEJ/oxKGOh0=",
+            "metadata": [["game", "Try it.", ""]]
+        },
+        {
+            "rel_path": "test4.txt",
+            "type": "data object",
+            "name": "test4.txt",
+            "irods_id": 195435,
+            "checksum": "sha2:IQEJcl/nJlQ50faomISxwd6ZGyPKBJV65le8kxLAUVY=",
+            "metadata": [["game", "Nearly there ...", ""]]
+        },
+        {
+            "rel_path": "test5.txt",
+            "type": "data object",
+            "name": "test5.txt",
+            "irods_id": 195436,
+            "checksum": "sha2:BFymnd08V2oXuoDdGEwtoLZk//izt1A1eQPsIBZR2uc=",
+            "metadata": [["game", "Don't miss any", "messages."]]
+        },
+        {
+            "rel_path": "test6.txt",
+            "type": "data object",
+            "name": "test6.txt",
+            "irods_id": 195434,
+            "checksum": "sha2:MjyYCCb1/uWjsBXG75R5qxGp8Ebhh1yTg4CzU0dng7g=",
+            "metadata": [["game", "Download bunny here: ", "/tempZone/home/training_admin/ascii_art/ascii.txt"]]
+        }
+    ]
+}

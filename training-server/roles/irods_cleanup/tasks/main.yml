@@ -1,0 +1,178 @@
+- name: Refuse to run without explicit confirmation
+  ansible.builtin.assert:
+    that: irods_cleanup_confirm | bool
+    fail_msg: >-
+      This role deletes iRODS, its data and the {{ irods_db_name }} database.
+      Re-run with: -e irods_cleanup_confirm=true
+
+# ---------- Stop the server ----------
+- name: Stop and disable the iRODS service
+  ansible.builtin.systemd:
+    name: irods
+    state: stopped
+    enabled: false
+  register: irods_stop
+  failed_when: irods_stop is failed and 'Could not find' not in (irods_stop.msg | default(''))
+
+- name: Kill any remaining processes owned by the irods user
+  ansible.builtin.command: pkill -u irods
+  register: irods_pkill
+  changed_when: irods_pkill.rc == 0
+  failed_when: false
+
+- name: Remove systemd unit
+  ansible.builtin.file:
+    path: /etc/systemd/system/irods.service
+    state: absent
+
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+# ---------- Database ----------
+- name: Check whether PostgreSQL is installed
+  ansible.builtin.stat:
+    path: /usr/lib/postgresql
+  register: pg_dir
+
+- name: Drop the catalog database and user
+  when: pg_dir.stat.exists
+  block:
+    - name: Make sure PostgreSQL is running
+      ansible.builtin.service:
+        name: postgresql
+        state: started
+
+    - name: Install psycopg2 for the postgres modules
+      ansible.builtin.apt:
+        name: python3-psycopg2
+
+    - name: Drop catalog database
+      community.postgresql.postgresql_db:
+        name: "{{ irods_db_name }}"
+        state: absent
+        force: true
+      become: true
+      become_user: postgres
+
+    - name: Drop catalog user
+      community.postgresql.postgresql_user:
+        name: "{{ irods_db_user }}"
+        state: absent
+      become: true
+      become_user: postgres
+
+# ---------- Remove iRODS packages ----------
+- name: Find installed iRODS packages
+  ansible.builtin.shell: >
+    set -o pipefail;
+    dpkg-query -W -f='${db:Status-Abbrev} ${Package}\n' 'irods-*' 2>/dev/null
+    | awk '$1 ~ /^(ii|rc|iF|iU|hi)$/ {print $2}'
+  args:
+    executable: /bin/bash
+  register: irods_installed_packages
+  changed_when: false
+  failed_when: false
+
+- name: Purge the installed iRODS packages
+  ansible.builtin.apt:
+    name: "{{ irods_installed_packages.stdout_lines }}"
+    state: absent
+    purge: true
+    autoremove: true
+  when: irods_installed_packages.stdout_lines | length > 0
+
+# ---------- Files, user and group ----------
+- name: Remove iRODS directories and leftover config
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /var/lib/irods
+    - /etc/irods
+    - /usr/lib/irods
+    - /var/log/irods
+    - /etc/rsyslog.d/00-irods.conf
+    - /etc/logrotate.d/irods
+  register: irods_files
+
+- name: Restart rsyslog if its iRODS config was removed
+  ansible.builtin.service:
+    name: rsyslog
+    state: restarted
+  when: irods_files.results | selectattr('changed') | list | length > 0
+
+- name: Remove the irods user
+  ansible.builtin.user:
+    name: irods
+    state: absent
+    remove: true
+
+- name: Remove the irods group
+  ansible.builtin.group:
+    name: irods
+    state: absent
+
+# ---------- apt repository ----------
+- name: Remove the iRODS apt repository (current and old format)
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/apt/sources.list.d/renci-irods.sources
+    - /etc/apt/sources.list.d/renci-irods.list
+    - /etc/apt/keyrings/irods-signing-key.asc
+
+- name: Refresh apt cache
+  ansible.builtin.apt:
+    update_cache: true
+
+# ---------- Optional extras ----------
+- name: Remove this host's /etc/hosts entry
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    regexp: '\s{{ ansible_facts["fqdn"] | regex_escape }}(\s|$)'
+    state: absent
+  when: irods_cleanup_remove_hosts_entry | bool
+
+- name: Purge PostgreSQL and all its data
+  ansible.builtin.apt:
+    name:
+      - postgresql
+      - "postgresql-*"
+      - python3-psycopg2
+    state: absent
+    purge: true
+    autoremove: true
+  when: irods_cleanup_remove_postgresql | bool
+
+- name: Remove PostgreSQL data and config directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /var/lib/postgresql
+    - /etc/postgresql
+  when: irods_cleanup_remove_postgresql | bool
+
+# ---------- Extra resource vaults ----------
+- name: Remove iRODS data from the extra resource vaults
+  when: irods_cleanup_empty_extra_vaults | bool
+  block:
+    - name: Refuse to touch dangerous vault paths
+      ansible.builtin.assert:
+        that:
+          - item.startswith('/')
+          - item.rstrip('/').split('/') | length >= 3
+          - item.rstrip('/') not in ['/var/lib', '/var/log', '/usr/lib', '/usr/local', '/home', '/root', '/etc', '/opt', '/srv', '/mnt', '/media', '/tmp', '/var/tmp']
+        fail_msg: "Refusing to clean '{{ item }}': path is too broad"
+        quiet: true
+      loop: "{{ irods_cleanup_extra_vaults }}"
+
+    - name: Remove the iRODS subfolders in each vault
+      ansible.builtin.file:
+        path: "{{ item.0.rstrip('/') }}/{{ item.1 }}"
+        state: absent
+      loop: "{{ irods_cleanup_extra_vaults | product(irods_cleanup_vault_subdirs) | list }}"
+      loop_control:
+        label: "{{ item.0.rstrip('/') }}/{{ item.1 }}"
