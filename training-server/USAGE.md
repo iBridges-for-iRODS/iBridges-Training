@@ -241,7 +241,8 @@ cat > ~/.irods/irods_environment.json <<'EOF'
   "irods_host": "localhost",
   "irods_port": 1247,
   "irods_user_name": "irods1",
-  "irods_zone_name": "tempZone"
+  "irods_zone_name": "tempZone",
+  "irods_default_resource": "TrainingResc"
 }
 EOF
 iinit                      
@@ -258,7 +259,8 @@ Participants need the address of the VM instead of `localhost`:
   "irods_host": "VM_ADDRESS",
   "irods_port": 1247,
   "irods_user_name": "irods7",
-  "irods_zone_name": "tempZone"
+  "irods_zone_name": "tempZone",
+  "irods_default_resource": "TrainingResc"
 }
 ```
 
