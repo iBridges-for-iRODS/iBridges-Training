@@ -87,7 +87,7 @@ After completing the course you will be able to
 | Time | Topic |
 | ---- | ---- |
 | 9.00am to 9.30am | Coffee and trouble shooting |
-| 9.30am to 9.15am | [**Introduction: What are iRODS and iBridges**](introduction.qmd) |
+| 9.30am to 9.45am | [**Introduction: What are iRODS and iBridges**](introduction.qmd) |
 | 9.45am to 10.45am | [**The iBridges GUI**](ibridges-gui.qmd) |
 | 10.45am to 11.00am | Coffee break |
 | 11.00am to 12.00pm | **The iBridges CLI** |
