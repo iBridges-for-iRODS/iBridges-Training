@@ -11,7 +11,9 @@ irods_cleanup_remove_hosts_entry: false    # removes the /etc/hosts line for thi
 # Vault paths of extra resources (keep in sync with training_resources).
 # Contents are deleted; the directories themselves are kept.
 irods_cleanup_extra_vaults:
-  - /data/10gb
+  - /data/10gb/training_resc
+  - /data/10gb/resc1
+  - /data/10gb/resc2
 
 # Only these subfolders inside each vault are removed; everything else is left alone
 irods_cleanup_vault_subdirs:

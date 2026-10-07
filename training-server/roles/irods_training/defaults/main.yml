@@ -1,6 +1,10 @@
 training_resources:
   - name: TrainingResc
-    vault: /data/10gb #adjust to your machine
+    vault: /data/10gb/training_resc #adjust to your machine
+  - name: resc1        
+    vault: /data/10gb/resc1
+  - name: resc2
+    vault: /data/10gb/resc2
 
 training_user_prefix: irods
 training_user_count: 30

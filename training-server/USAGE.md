@@ -163,7 +163,9 @@ irods-vm : ok=…  changed=…  unreachable=0  failed=0  skipped=…
 If you only want a plain iRODS server without the training setup, run
 `install_irods.yml` instead. You do not need to run both.
 
-## 6. Set the passwords
+## Manual adjustments
+
+### 6a. Set the passwords
 
 The playbook creates the users **without passwords**. Nobody can log in until you set them. Passwords are set on the VM, as the iRODS service account:
 
@@ -195,6 +197,16 @@ iadmin moduser irods7 password 'something-else'
 Notes:
 
 - Re-running the playbook never resets passwords.
+
+### 6b. Create Coordinating resource
+
+The playbook also installed two extra resources `resc1` and `resc2`. Those will be serving as storage resources for a storage policy (coordinating resource). 
+
+```
+iadmin mkresc twiceasmuch replication
+iadmin addchildtoresc twiceasmuch resc1
+iadmin addchildtoresc twiceasmuch resc2
+```
 
 ## 7. Check that everything works
 
@@ -241,7 +253,8 @@ cat > ~/.irods/irods_environment.json <<'EOF'
   "irods_host": "localhost",
   "irods_port": 1247,
   "irods_user_name": "irods1",
-  "irods_zone_name": "tempZone"
+  "irods_zone_name": "tempZone",
+  "irods_default_resource": "TrainingResc"
 }
 EOF
 iinit                      
@@ -258,7 +271,8 @@ Participants need the address of the VM instead of `localhost`:
   "irods_host": "VM_ADDRESS",
   "irods_port": 1247,
   "irods_user_name": "irods7",
-  "irods_zone_name": "tempZone"
+  "irods_zone_name": "tempZone",
+  "irods_default_resource": "TrainingResc"
 }
 ```
 

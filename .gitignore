@@ -6,6 +6,7 @@
 **/.DS_Store
 **.Rhistory
 
+training-server/inventory.ini
 **/inventory.ini
 
 /.quarto/

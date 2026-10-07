@@ -8,10 +8,7 @@
             "type": "collection",
             "name": "game",
             "irods_id": 195433,
-            "metadata": [
-                [
-                ]
-            ]
+            "metadata": []
         },
         {
             "rel_path": "smile.txt",
