@@ -86,13 +86,13 @@ After completing the course you will be able to
 
 | Time | Topic |
 | ---- | ---- |
-| 9.00am to 9.30am | Coffee and trouble shooting |
-| 9.30am to 9.45am | [**Introduction: What are iRODS and iBridges**](introduction.qmd) |
-| 9.45am to 10.45am | [**The iBridges GUI**](ibridges-gui.qmd) |
-| 10.45am to 11.00am | Coffee break |
-| 11.00am to 12.00pm | **The iBridges CLI** |
-| 12.00pm to 1pm | Lunch break |
-| 1pm to 2.45pm | **The iBridges API**: Basics (upload, download, metadata, search, permissions) |
-| 2.45pm to 4.00pm | Coffee break |
-| 4.00pm to 4.45pm | **Putting it all together**: the Workflow |
-| 4.45pm to 5.00pm | **Questions and Discussion** |
+| 9.30 to 10.00 | Coffee and installation trouble shooting |
+| 10.00 to 10.15 | [**Introduction: What are iRODS and iBridges**](introduction.qmd) |
+| 10.15 to 11.00 | [**The iBridges GUI**](ibridges-gui.qmd) |
+| 11.00 to 11.15 | Coffee break |
+| 11.15 to 12.00 | **The iBridges CLI** |
+| 12.00 to 13.00 | Lunch break |
+| 13.00 to 14.30 | **The iBridges API**: Basics (upload, download, metadata, search, permissions) |
+| 14.30 to 14.45 | Coffee break |
+| 14.45 to 16.00 | **Putting it all together**: the Workflow |
+| 16.00 to 17.00 | **Questions and Discussion** |
