@@ -73,7 +73,7 @@ ibridges init /Users/christine/.irods/irods_environment.json
 or by its alias:
 
 ```
-ibridges init surf
+ibridges init geo
 ```
 
 We only need the `init` to switch between configurations or when our passwords are expired and need to be refreshed.
