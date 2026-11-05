@@ -1,4 +1,5 @@
 # Quarto rendering
+**/inventory.ini
 
 /book/.quarto/
 /book/_site/
