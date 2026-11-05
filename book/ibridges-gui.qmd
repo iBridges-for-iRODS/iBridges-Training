@@ -30,7 +30,7 @@ Typical home directory locations:
 - macOS: `/Users/<username>`
 - Linux: `/home/<username>`
 
-The iBridges GUI and CLI help you create and store this configuration in the correct location.
+The iBridges GUI and CLI will help you create and store this configuration in the correct location.
 
 ## Creating a Configuration in the GUI
 
@@ -50,7 +50,7 @@ You can edit these directly. In most cases, only a few parameters need to be cha
 For this training, we use a simplified configuration.  
 Please delete all existing content and paste the parameter set we provided earlier.
 
-We will now give you a username to insert into the configuration:
+For this training replace any existing content with the configuration below. The teacher will give you your username for your configuration.
 
 ```
 {
@@ -71,7 +71,7 @@ This configuration file can be used by all iBridges tools (API, GUI, CLI) and al
 
 ## Login and first view
 
-Since we have now a configuration file we can login to the iRODS server. From the main menu click on **Connect** and then **Connect to iRODS**. This opens a new pop-up window with a drop-down menu containing your configurations and a password field. If you already logged in to an iRODS server the password field will already be populated and you do not need to type in your password again.
+With this configuration file we can login to the iRODS server. From the main menu click on **Connect** and then **Connect to iRODS**. This opens a new pop-up window with a drop-down menu containing your configurations and a password field. If you already logged in to an iRODS server the password field will already be populated and you do not need to type in your password again.
 
 Select the environment we set up, type in your password and hit **Connect**. This will open the application and take you to the *Browser*.
 
@@ -79,25 +79,25 @@ Select the environment we set up, type in your password and hit **Connect**. Thi
 
 ## The Browser
 
-The Browser is the main view of the iBridges GUI. It combines a view like a file-folder table as you know it from your file explorer with all aspects of the iRODS data objects and collections. Let's walk through it.
+The Browser is the main view of the iBridges GUI. It combines a file-viewer similar to your normal file explorer with a more detailed view on the iRODS data objects and collections. Let's walk through it.
 
 On the top you have a navigation bar. You can type in an iRODS path or you can use the three buttons: **Refresh**, **Up Arrow** and the **Home** to navigate through iRODS collections.
 
 The browser starts at the home collection you defined in your iRODS environment configuration. At the moment this collection is empty. So let us create a new collection.
 
-Click on the button **Create Collection**. this will open a pop-up window showing under which iRODS path the new collection will be created and it asks you for a *New name*. Let's call our new collection *demo* and hit **Ok**.
+Click on the button **Create Collection**. this will open a pop-up window showing under which iRODS path the new collection will be created and it asks you for a name. Let's call our new collection *demo* and hit **Ok**.
 
 ![](img/gui_shots/new_coll.png)
 
 ### Navigation
 
-To navigate into this new collection, simply double-click on it. We are in the new collection. If we want to move back to our home, we have two options. As we are only on level below the home, we can use the **Up Arrow** to navigate back. Let's do that.
+To navigate into this new collection, simply double-click on it. Since nothing has been added to this collection, it will be empty. If we want to move back to our home, we have two options. As we are only on level below the home, we can use the **Up Arrow** to navigate back. Let's do that.
 
 What happens if we click the **Up Arrow** again? And again ...
 
 At some point we will reach the so-called root collection and cannot move up further. 
 
-To navigate back to our home, we could now follow the whole path back. The shortcut for that is the little **Home** button. 
+To navigate back to our home, we could now follow the whole path back. The shortcut for that is the **Home** button. 
 
 The last of the three navigation button, is the refresh button. This button becomes especially important when several persons work on the same collection and even data objects. It refreshes all of the information, i.e. new objects and collections, metadata etc. of the path in the navigation bar.
 
@@ -123,7 +123,7 @@ Now let's navigate into our *demo* collection hit the **Upload** button, Click *
 
 Each file or folder we want to upload will be listed in the table. You can also remove a file or folder again from the upload list with the **Delete rows** button. All selected rows will be deleted.
 
-Each row will show an own button **Metadata JSON** with which you can automatically add metadata to files and whole folders in iRODS. We will inspect that later. For now hit the **Upload** button and after the transfer finished close the window.
+Each row will show an own button **Metadata JSON** with which you can automatically add metadata to files and whole folders in iRODS. We will inspect that later. For now hit the **Upload** button and after the transfer has finished, close the window.
 
 The data object contaning the file is now listed in our *demo* collection, the object carries a checksum, which is the checksum of the file. We also see the status *good*, which means all replicas (here just on file) have been checked and are consistent. 
 
@@ -141,15 +141,22 @@ Why is the data object  different from the file we uploaded? The simplest answer
 
 When you select the *hello.txt* in the table, the **Metadata View** will tell you that there is no metadata for the object in iRODS. Let's create some.
 
-Metadata in iRODS is provided as Key-Value-Units triple. With the text fields on the right you can add them. The Key and Value are always mandatory, you can optionally also set the Units. Click **Add**.
+Metadata in iRODS is provided as Key-Value-Units triple. With the text fields on the right you can add them. The Key and Value are mandatory, you can optionally also set the Units. Click **Add**.
 
 ![](img/gui_shots/add_meta.png)
 
 When you now click on the newly created metadata, it will load in the text fields and you can edit the content again. If you click **Add**, a new metadata entry will be created, when you click **Update** the previous metadata will be replaced with the new content.
 
-Why does a change in a Key-Value-Unit triple not always lead to an update? That is special for iRODS. In iRODS each triple only needs to be unique, you can have metadata triples with the same key and even the same value if the Units differ. This can be very confusing.
+Why does changing a Key-Value-Unit triple sometimes create a new metadata entry instead of updating the existing one?
 
-Metadata can be used to find data when you are not sure where it is saved. that is especially handy for shared data. In the exercises we will explore that.
+This behavior is specific to iRODS. In iRODS, every metadata entry is a unique Attribute-Value-Unit (AVU) triple, and the system treats the whole triple as its identity. It doesn’t treat the key as a unique field the way many other systems do. As a result:
+
+Changing the value or unit doesn’t modify the existing entry. It produces a different triple, which is stored as a new entry.
+You can have several entries with the same key, and even with the same key and value, as long as their units differ.
+
+This can be confusing if you expect “key = value” behavior, where setting a key replaces its previous value. To change an existing entry in iRODS, you have to explicitly modify or remove the old triple, rather than just adding a new one with the same key.
+
+Metadata can be used to find data when you are not sure where it is saved. This is especially handy for shared data. In the exercises we will explore searching data using metadata.
 
 ::: {.callout-tip}
 ## Exercise Metadata and Searching (10 minutes)
@@ -158,7 +165,7 @@ See Exercise slide.
 
 ## Download data and metadata
 
-We have now a data object which contains more than just a file. How can we download all of the information?
+We have now a data object which contains more than just a file. How can we download the whole data object, including the metadata?
 
 Select the data object and click on the **Download** button.
 
@@ -214,7 +221,7 @@ iRODS uses Permissions to share data among users. Click on the Permission tab.
 ![](img/gui_shots/permissions.png)
 
 At the moment you have `own` rights. That means you are allowed to do anything with the data object. 
-There are also other access levels: `read`, `write` and of course rights can be retracted by choosing `delete`. Note, that the `write` access level means that you can overwrite the data and metadata but you are not allowed to delete or share. Only people with access level own, can do so.
+There are also other access levels: `read`, `write` and rights can be retracted by choosing `delete`. Note, that the `write` access level means that you can overwrite the data and metadata but you are not allowed to delete or share. Only people with access level own, can do so.
 
 To prevent you from locking yourself out of your own data, in iBridges you cannot change your own permissions. Try it! Try to give yourself only `read` rights.
 
