@@ -1,7 +1,7 @@
 # Sharing data
 
 Sharing data is a core part of research data management.
-It helps to avoid unnecessary copies, prevents accidental modification, and ensures that data is only accessible to the intended collaborators.
+It avoids unnecessary copies, prevents accidental modification, and ensures that data is only accessible to the intended collaborators.
 
 In iRODS, data sharing is controlled through Access Control Lists (ACLs), often simply called permissions.
 
@@ -26,15 +26,15 @@ To inspect who can access your *demo* collection:
 
 ```python
 from ibridges.permissions import Permissions
-from ibrodges import IrodsPath
+from ibridges import IrodsPath
 
-coll_path = IrodsPath(session, '~').joinpath('demo')
-coll_perm = Permissions(session, irods_coll_path.collection)
+coll_path = session.home / 'demo'
+coll_perm = Permissions(session, coll_path.collection)
 
 print(coll_perm)
 ```
 
-Permissions cannot be retrieved directly from an IrodsPath.
+Permissions cannot be retrieved directly from an `IrodsPath`.
 You must first resolve the path to the underlying collection or data object.
 
 To determine what the path points to:
@@ -44,7 +44,7 @@ coll_path.is_collection()
 coll_path.is_dataobject()
 ```
 
-The Permissions object shows:
+The `Permissions` object shows:
 
 - users and groups with access
 - their role (user, admin, group)
@@ -95,7 +95,7 @@ Permissions for data objects work exactly like for collections.
 Example: give read access to the data object *demo/hello.txt*:
 
 ```python
-obj_path = IrodsPath(session, "~") / "demo" / "hello.txt"
+obj_path = session.home / "demo" / "hello.txt"
 ```
 
 Your neighbour can now access the data object directly, even if they cannot see the parent collection.
@@ -112,6 +112,7 @@ Try it out! (5 minutes)
 
 Collections have a special flag: `inherit` or `noinherit`.
 When inheritance is enabled, all permissions on the collection are automatically applied to newly created data objects and subcollections.
+Often this flag is set to `inherit`, but it depends on the server configuration.
 
 This does not affect existing items.
 

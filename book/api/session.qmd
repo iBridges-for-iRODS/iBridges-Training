@@ -26,7 +26,7 @@ This function:
 
 - looks for an `irods_environment.json` file
 - checks whether a cached password exists in `~/.irods/.irodsA`  
-- if no cached password is available, or if it is outdated, it asks you to type your password  
+- if the cached password is unavailable or outdated, it will ask you to type your password  
 - after successful authentication, it stores an obfuscated password for future use  
 
 You can specify a different environment file:
@@ -35,13 +35,14 @@ You can specify a different environment file:
 session = interactive_auth(irods_env_path="/path/to/irods_environment.json")
 ```
 
-If you want to ignore the cached password and force reauthentication:
+If you want to ignore the cached password and force reauthentication, for example if your cached password is due to expire soon,
+you can create a session with:
 
 ```python
 session = interactive_auth(reauthenticate=True)
 ```
 
-This method is useful when you are working interactively in python.
+The interactive authentication is useful when you are working interactively in python, for example in a Jupyter notebook.
 
 ### non_interactive_auth
 
@@ -51,7 +52,7 @@ Instead, it relies entirely on the cached password created earlier by:
 
 - the CLI or GUI  
 - `interactive_auth`  
-- previous successful authentication attempts  
+- a previous successful authentication attempt 
 
 Example:
 
@@ -73,17 +74,18 @@ or
 session = non_interactive_auth(ienv_path_or_alias="/path/to/irods_environment.json")
 ```
 
-This method is ideal for scheduled jobs, automated pipelines, and reproducible workflows where no user interaction is possible. Before starting a job you would use the `interactive_auth`, the CLI or the GUI to set your obfuscated password. The workflow will authenticate the session from that passowrd.
+This method is ideal for scheduled jobs, automated pipelines, and reproducible workflows where no user interaction is possible. To ensure that a cached password is available, 
+you should use the `interactive_auth`, the CLI or the GUI before starting your job. The workflow will authenticate the session from that password.
 
-If no cached password exists, authentication will fail rather than prompting.
+If no cached password exists, authentication will fail rather than prompting for a password.
 
 ### Choosing between interactive and non‑interactive authentication
 
-Use interactive_auth when:
+Use `interactive_auth` when:
 
-- you are working in a notebook or terminal    
-- you want to authenticate manually once and reuse the cached password  
-- you are teaching or demonstrating iBridges  
+- you are working in a notebook or terminal
+- you want to authenticate manually once and reuse the cached password
+- you are teaching or demonstrating iBridges
 
 Use non_interactive_auth when:
 
