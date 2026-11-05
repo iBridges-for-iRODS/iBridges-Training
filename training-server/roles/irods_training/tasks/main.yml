@@ -150,6 +150,11 @@
     | list | length == 0
   loop: "{{ training_datastewards_members }}"
 
+- name: Grant read rights to home for training_group
+  ansible.builtin.command: ichmod read {{ training_group }} /tempZone/home
+  become: true
+  become_user: irods
+
 # ---------- Rules ----------
 - name: Install the rule file
   ansible.builtin.copy:
