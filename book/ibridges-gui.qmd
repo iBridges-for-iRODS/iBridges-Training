@@ -54,17 +54,18 @@ We will now give you a username to insert into the configuration:
 
 ```
 {
-    "irods_default_resource": "trainingResc",
+    "irods_default_resource": "TrainingResc",
     "irods_home": "/tempZone/home/irodsX",
     "irods_host": "irodsserver.researchcloudde.src.surf-hosted.nl",
     "irods_port": 1247,
-    "irods_user_name": "<USERNAME>",
+    "irods_user_name": "irodsX",
     "irods_zone_name": "tempZone"
 }
 ```
 
 After editing the configuration, click **Save As** and choose a name for the file.  
-You do not need to add an extension — the iBridges GUI automatically saves it as JSON.
+On Linux and Macou do not need to add an extension — the iBridges GUI automatically saves it as JSON.
+On Windows please make sure the file is saved as `.txt` file.
 
 This configuration file can be used by all iBridges tools (API, GUI, CLI) and also by the standard iRODS tools, the *icommands*.
 
