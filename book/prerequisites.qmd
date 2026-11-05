@@ -22,7 +22,7 @@ You need:
 - A computer running Windows, macOS or Linux
 - An internet connection
 - About 10 to 15 minutes
-- **Python 3.9 or newer.** iBridges and iBridges GUI do not work with older versions. Step 1 explains how to get Python, and Step 2 shows how to check your version.
+- **Python 3.10 or newer.** iBridges and iBridges GUI do not work with older versions. Step 1 explains how to get Python, and Step 2 shows how to check your version.
 
 ## Step 1: Choose your Python setup
 

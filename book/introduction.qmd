@@ -8,9 +8,9 @@ toc-depth: 2
 
 | Questions | Objectives | Key Concepts / Tools |
 |----------|------------|----------------------|
-| What is iRODS | Learn the idea of virtual data organisation | Collections, Data Objects, Replicas |
-| How does iRODS store and describe data | Understand storage resources and metadata | Resources, Logical locations, System metadata, User metadata |
-| What is iBridges | Learn how iBridges provides access to iRODS | Python API, Command line interface, Graphical interface |
+| What is iRODS? | Learn the idea of virtual data organisation | Collections, Data Objects, Replicas |
+| How does iRODS store and describe data? | Understand storage resources and metadata | Resources, Logical locations, System metadata, User metadata |
+| What is iBridges? | Learn how iBridges provides access to iRODS | Python API, Command line interface, Graphical interface |
 | How iBridges works internally | Understand the relationship with *python-irodsclient* | *irods_session*, API features, Underlying library |
 
 
@@ -137,7 +137,7 @@ It works on Windows, macOS and Linux.
 - Synchronise local folders with iRODS  
 - Create and manage tickets for temporary external access  
 - Search metadata across datasets and collections  
-- Provide safe defaults for working with research data
+- Provide safe settings for working with research data
 
 ## The iBridges Python API
 

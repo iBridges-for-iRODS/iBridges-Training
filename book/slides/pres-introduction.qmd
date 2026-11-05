@@ -45,7 +45,7 @@ execute:
 - Data in iRODS is virtualised: it lives in storage resources  
 - Resources have logical names and physical locations  
 - Replicas provide safety and performance  
-- You see Data Objects and Collections, tha actual file is stored elsewhere
+- You see Data Objects and Collections, the actual file is stored elsewhere
 - iRODS manages storage: you do not need to worry about that.
 
 :::

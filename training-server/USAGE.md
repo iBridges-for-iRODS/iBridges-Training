@@ -272,6 +272,7 @@ Participants need the address of the VM instead of `localhost`:
   "irods_port": 1247,
   "irods_user_name": "irods7",
   "irods_zone_name": "tempZone",
+  "irods_home": "/tempZone/home/irods7",
   "irods_default_resource": "TrainingResc"
 }
 ```
