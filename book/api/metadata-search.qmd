@@ -2,9 +2,9 @@
 
 Next to system metadata, iRODS allows you to create own metadata with data objects and collections.
 
-You can use that metadata to describe your data and later search for this data; and it can help you keeping the overview of what was the input for an analysis and what is the outcome.
+You can use that metadata to describe your data and search for this data. In a research context, it can help you keeping the overview of what was the input for an analysis and what is the outcome.
 
-Technically, iRODS offers metadata as key-value-units triple. Let's investigate this.
+iRODS offers metadata as key-value-units triple. Let's investigate this.
 
 ## Add metadata to an `IrodsPath`
 
@@ -15,7 +15,7 @@ irods_path = IrodsPath(session, "demo", "hello.txt")
 print("Demo object name", irods_path, "exists: ", irods_path.dataobject_exists())
 ```
 
-We can retrieve the metadata associated with the data object from its `IrodsPath`, for convenience we will store it in the variable `obj_meta`. The `obj_meta` is no longer an `IrodsPath` but of type `MetaData`:
+We can retrieve the metadata associated with the data object from its `IrodsPath`. For convenience we will store it in the variable `obj_meta`. The `obj_meta` is no longer an `IrodsPath` but of type `MetaData`:
 
 
 ```python
@@ -24,13 +24,13 @@ obj_meta = irods_path.meta
 print(type(obj_meta))
 ```
 
-Most probably you will see no metadata in the output of the above cell. 
+Most likely you will see no metadata in the output of the above cell. 
 
 > Note, that system metadata and user-defined metadata are two different entities in a data object and collection!
 
 With the command `IrodsPath.meta` we only retrieve the user-defined metadata.
 
-Now we can add some own metadata. The metadata comes as key-value-units triple:
+Now we can add some own metadata. The metadata comes as key-value-units triples:
 
 
 ```python
@@ -54,13 +54,13 @@ obj_meta.add('Author', 'Alice')
 print(obj_meta)
 ```
 
-You see, that in iRODS metadata keys can have different values. That is different from Python dictionaries where one key can only have one value. 
+You see that in iRODS metadata keys can have different values. That is different from Python dictionaries where one key can only have one value. 
 
-How then to overwrite a value?
+How then can we overwrite a value?
 
 ## Inspecting and extracting metadata parts
 
-We saw above how easily we can add and print the metadata. But sometimes we need to extract values or units for our workflows. You can inspect and extract each of the three parts like this:
+We saw above how easily we can add and print metadata. But sometimes we need to extract values or units for our workflows. You can inspect and extract each of the three parts like this:
 
 
 ```python
@@ -83,7 +83,7 @@ obj_meta["Author"]
 
 
 ```python
-print(obj_meta.find_all('Author'))
+print(obj_meta.find_all("Author"))
 ```
 
 Now we can retrieve the one where the author is `Christine`:
@@ -181,7 +181,7 @@ obj_meta.delete('Author')
 print(obj_meta)
 ```
 
-If you want to clear the whole metadata, use:
+If you want to remove all metadata for a path, use:
 
 
 ```python
@@ -204,8 +204,8 @@ print(result)
 
 By default the search will only search in our home collection.
 
-The output is a list of `CachedIrodsPaths` indicating the locations of the data objects and collections.
-If the parameter `path` is not provided, *ibridges* will automatically fall back on your `home`.
+The output is a list of paths of type `CachedIrodsPath`, indicating the locations of the data objects and collections.
+If the parameter `path` is not provided, *iBridges* will automatically fall back on your `home`.
 
 Let's see what we can find on the whole iRODS instance when we use the key "type" and the value "demo":
 
@@ -226,11 +226,11 @@ print(result)
 ```
 Now we receive three objects.
 
-And of course we can combine information about the path and the metadata. They will be connected with `and`.
+We can combine information about the path and the metadata. In this case any items will have to satisfy both the path and metadata requirements for them to be returned.
 
 ## Searches using wildcards
 
-Sometimes we are not sure about the exact pattern that we search for, be it metadata keys, values and units or path patterns. iRODS knows the `%` sign as a wild card.
+Sometimes we would like to search by pattern, be it on metadata keys, values and units or paths. You can use the `%` sign as a wild card for these cases.
 
 ### Wildcards in metadata
 
@@ -245,7 +245,7 @@ print(result)
 
 ### Wildcards in path patterns
 
-Let us go back to the very first example of this section, we are loking for collections and data objects called `demo` and they need to lie directly in our `home`:
+Let us go back to the very first example of this section, in which we are looking for collections and data objects called `my_books` which lie directly in our `home`:
 
 
 ```python
@@ -279,7 +279,7 @@ result = search_data(session, path=session.home, path_pattern="%/my_books/%")
 print('\n'.join([str(p) for p in result]))
 ```
 
-#### 4. Find all `txt` files that lie on a collection path that contains `my_books`
+#### 4. Find all `.txt` files that lie on a collection path that contains `my_books`
 
 For this case we have to think of a pattern for the collection path and the object name and separate both with `/`:
 
@@ -341,8 +341,8 @@ create_meta_archive(collection_path, "meta_archive.json")
 This creates a file `meta_archive.json` in your current working directory.  
 The archive contains all user-defined metadata of the collection `my_books`, including all subcollections and all data objects.
 
-```python
-!cat meta_archive.json
+```shell
+cat meta_archive.json
 ```
 
 ### Applying a metadata archive
@@ -372,7 +372,7 @@ for item in books_path.collection.data_objects:
 
 ### Exercise: Upload and download with metadata
 
-Have a look again at the uploads and downloads and inspect the metadata flag.
+Have a look again at the `upload` and `download` functions and inspect the metadata flag.
 
 - Remove or rename your iRODS books collection, or use a different destination for the upload.  
 - Do a dry run of an upload of your books collection specifying the metadata file we just created.  

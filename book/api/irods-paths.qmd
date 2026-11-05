@@ -13,14 +13,14 @@ Absolute paths must start with a slash:
 ```python
 from ibridges.path import IrodsPath
 
-p = IrodsPath(session, "/tempZone/home/christine/demo")
-print(p)
+ipath = IrodsPath(session, "/tempZone/home/christine/demo")
+print(ipath)
 ```
 
 The operator `/` extends paths:
 
 ```python
-sub = p / "experiment1"
+sub = ipath / "experiment1"
 print(sub)
 ```
 
@@ -66,8 +66,8 @@ print("home:", session.home)
 Relative paths are resolved against the session’s `cwd`:
 
 ```python
-p = IrodsPath(session, "subcoll")
-print(p)
+ipath = IrodsPath(session, "subcoll")
+print(ipath)
 ```
 
 > You can create instances of  `IrodsPath`, however, that does not mean that they are present on the iRODS server.
@@ -77,19 +77,19 @@ Let's have a look at how to check whether a path exists and how to create a new 
 ## Checking existence
 
 ```python
-print(p)
-print("Exists:", p.exists())
-print("Is a collection:", p.collection_exists())
-print("Is a data object:", p.dataobject_exists())
+print(ipath)
+print("Exists:", ipath.exists())
+print("Is a collection:", ipath.collection_exists())
+print("Is a data object:", ipath.dataobject_exists())
 ```
 
 ## Creating collections
 
-Creating an IrodsPath does not create anything on the server.  
+Creating an `IrodsPath` does not create anything on the server.  
 To create a collection:
 
 ```python
-coll = p.create_collection()
+coll = ipath.create_collection()
 ```
 
 This creates the entire path if needed.
@@ -100,36 +100,37 @@ print("Is a collection:", p.collection_exists())
 print("Is a data object:", p.dataobject_exists())
 ```
 
-And it returns the collection (not the path). We will investigate that later when we work with data.
+And it returns the collection (not the path). We will investigate the difference between a collection and a
+path to the collection in a later section when we work with data.
 
 ### Renaming or moving
 
 ```python
-print(p)
-q = p.rename("new_name")
-print(q)
+print(ipath)
+new_ipath = ipath.rename("new_name")
+print(new_ipath)
 ```
 
-The old variable `p` still contains our old path. But it does not exist any longer:
+The old variable `ipath` still contains our old path. But it does not exist any longer:
 
 ```
-p.exists()
+ipath.exists()
 ```
 
 The `rename` function returns the new `IrodsPath` which does exist:
 
 ```
-q.exists()
+new_ipath.exists()
 ```
 
 You can also use the `rename` function to move a collection or data object to a different location:
 
 ```python
 target = IrodsPath(session, "/tempZone/home/christine/archive/my_experiment")
-new_p = q.rename(target)
+moved_ipath = new_ipath.rename(target)
 
-print(new_p)
-print("Is a collection:", new_p.collection_exists())
+print(moved_ipath)
+print("Is a collection:", moved_ipath.collection_exists())
 ```
 
 We have moved our collection `new_name` to a completely new branch in the tree of iRODS.
@@ -145,15 +146,15 @@ new_p.collection_exists()
 new_p.parent.collection_exists()
 ```
 
-The IrodsPath object remains, but the server location is deleted.
+The `IrodsPath` object remains, but the server location is deleted.
 
 ### Inspecting properties
 
 ```python
-p.absolute()
-p.parts
-p.parent
-p.size
+ipath.absolute()
+ipath.parts
+ipath.parent
+ipath.size
 ```
 
 These help you understand the structure and contents of the path.

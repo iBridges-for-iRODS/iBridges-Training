@@ -7,7 +7,7 @@ toc-depth: 2
 In the previous chapter, we learned how to connect to an iRODS server and explore data using the **iBridges GUI**.  
 The GUI gives you a visual overview of collections, metadata, permissions, and replicas.
 
-In this chapter, we use the **same configuration** and perform the equivalent operations using the **Command Line Interface (CLI)**.  
+In this chapter, we use the same configuration and perform the equivalent operations using the **Command Line Interface (CLI)**.  
 The CLI exposes every action as a command, making it ideal for automation, scripting, and reproducible workflows.
 
 ## iBridges help system
@@ -21,7 +21,7 @@ ibridges -h
 Each subcommand also includes its own help:
 
 ```
-ibridges <command> -h
+ibridges <subcommand> -h
 ```
 
 This mirrors the GUI’s menu structure: every action is discoverable and documented.
@@ -55,7 +55,7 @@ In case you have access to multiple iRODS instances, or you have different confi
 ibridges alias a_new_alias /path/to/some/irods_environment_file.json
 ```
 
-You can of course also delet aliases when you don't need them anymore:
+You can of course also delete aliases when you don't need them anymore:
 
 ```shell
 ibridges alias a_new_alias --delete
@@ -76,7 +76,7 @@ or by its alias:
 ibridges init geo
 ```
 
-We only need the `init` to switch between configurations or when our passwords are expired and need to be refreshed.
+We only need the `init` subcommand to switch between configurations or when our passwords are expired and need to be refreshed.
 
 
 ## Browsing through data
@@ -253,6 +253,13 @@ While working in the shell you can also quickly open up the GUI by typing:
 ibshell:some_col>gui
 ```
 
+It can be very useful to run local commands while in the iBridges shell. This can be done with the exclamation mark:
+
+```shell
+ibshell:some_col>!ls
+some very nice files
+```
+
 In this case the GUI will start without you having to login, and it will navigate to the collection that you were in while working in the shell.
 
 ## Summary
@@ -263,7 +270,7 @@ The CLI gives you full control over iRODS operations:
 - Navigating collections  
 - Uploading, downloading, and synchronising data  
 - Creating and editing metadata  
-- Searching for data  
+- Searching for data
 - Inspecting permissions and replicas (via `ls` flags)
 
 It mirrors the GUI but exposes every operation as a command.
@@ -283,7 +290,7 @@ The GUI and CLI are two views on the same iRODS concepts.
 | **Create collection** | Button: *Create Collection* | `ibridges mkcoll` |
 | **Upload data** | Upload pop‑up | `ibridges upload` |
 | **Download data** | Download pop‑up | `ibridges download` |
-| **Metadata** | Metadata panel | `ibridges ls -m`, `ibridges meta-add`, `meta-rm`, `meta-edit` |
+| **Metadata** | Metadata panel | `ibridges ls -m`, `ibridges meta-add`, `meta-rm`, `meta-upload`, `meta-download` |
 | **Search** | Search tab | `ibridges search` |
 | **Synchronisation** | Synchronisation tab| `ibridges sync`|
 | **Permissions** | Permissions tab | `ibridges ls -A` |

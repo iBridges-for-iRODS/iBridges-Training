@@ -223,7 +223,7 @@ iRODS uses Permissions to share data among users. Click on the Permission tab.
 At the moment you have `own` rights. That means you are allowed to do anything with the data object. 
 There are also other access levels: `read`, `write` and rights can be retracted by choosing `delete`. Note, that the `write` access level means that you can overwrite the data and metadata but you are not allowed to delete or share. Only people with access level own, can do so.
 
-To prevent you from locking yourself out of your own data, in iBridges you cannot change your own permissions. Try it! Try to give yourself only `read` rights.
+To prevent you from locking yourself out of your own data, in iBridges you cannot change your own permissions. Try to give yourself only `read` rights!
 
 In the API tutorial we will show you how to give access to data and we will share data with each other.
 
@@ -231,7 +231,7 @@ You will also see that the person who uploaded the data will be known as the own
 
 ## Replicas
 
-The last part that belongs to a data object is the storage. In the *Replicas* tab you can see how many copies of the file you have under this path and on which storage they lie. Here it is relatively plain, we have one storage system called `TrainingResc`.
+The last important aspect of a data object is where it is stored. In the *Replicas* tab you can see how many copies of the file exist for a data object and on which storage system they are stored. Here it is relatively plain, we have one storage system called `TrainingResc`.
 
 There are iRODS systems that copy the file (not the data object) to another storage system and your data object would have two files under the same iRODS path. The status then shows you whether those data files on the two storage systems are synchronised or not.
 
@@ -259,9 +259,9 @@ The irods server automatically labels the data with some metadata, here `ibridge
 ## Take aways
 
 - We can annotate data with metadata.
-- We can open our data to other users.
+- We can make our data available to other users.
 - We can find data by their metadata.
-- The iRODS server executes policies which we have to be aware of **before** we start working with it.
+- It is important to be aware of iRODS policies when working with data.
 
 ## Exercise Slides
 
