@@ -141,14 +141,20 @@ Let us remove the whole new `archive` collection.
 We will use the `parent` of the path to navigate one level up and then apply the `remove` function to this collection:
 
 ```python
-new_p.parent.remove()
-new_p.collection_exists()
-new_p.parent.collection_exists()
+moved_ipath.parent.remove()
+print(moved_ipath.collection_exists())
+print(moved_ipath.parent.collection_exists())
 ```
 
 The `IrodsPath` object remains, but the server location is deleted.
 
 ### Inspecting properties
+
+Recreate the `ipath` with your demo collection:
+
+```
+ipath = IrodsPath(session, "/tempZone/home/christine/demo")
+```
 
 ```python
 ipath.absolute()
