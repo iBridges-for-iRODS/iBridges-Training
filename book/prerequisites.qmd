@@ -56,7 +56,7 @@ Download the **Anaconda Distribution** (the free version) from the [official Ana
 
 A terminal is a window where you type commands. With Anaconda there are two easy ways to open one:
 
-- Open **Anaconda Navigator** from your Start menu (Windows) or Applications folder (macOS), then start the **Terminal** from the main window.
+- Open **Anaconda Navigator** from your Start menu (Windows) or Applications folder (macOS), then start the **Terminal** from the main window or open the Jupyter Lab environment and start the terminal there (see screenshot below).
 - **Windows alternative:** open the Start menu and search for **Anaconda Prompt**. It does the same thing.
 
 ![](img/jupyter.png)
