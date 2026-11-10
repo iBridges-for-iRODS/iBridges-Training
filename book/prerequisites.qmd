@@ -101,8 +101,8 @@ python --version
 You should see something like `Python 3.12.4`.
 
 ::: {.callout-warning}
-## Version lower than 3.9, or an error?
-iBridges needs **Python 3.9 or newer**. If you see an older version or an error, go back to Step 1 and install a newer Python.
+## Version lower than 3.10, or an error?
+iBridges needs **Python 3.10 or newer**. If you see an older version or an error, go back to Step 1 and install a newer Python.
 :::
 
 ::: {.callout-note}
