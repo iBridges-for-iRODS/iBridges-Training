@@ -112,8 +112,8 @@ We will now walk through those one by one.
 
 ### Upload a file
 
-The first thing you usually want to do is uploading files and folders. So let us create a file on our computer and upload it. Please open a text editor like Notepad, TextPad or TextEdit and write a little "Hello iRODS World!" note. Please make sure that the file is saved as plain text, not RTF. 
-In TextEdit you need to press `Shift + Command + T`. Please check in your text editor if you can set the format with the **save as** button.
+The first thing you usually want to do is uploading files and folders. So let us create a file on our computer and upload it. Please open a text editor like Notepad, TextPad or TextEdit and write a little "Hello iRODS World!" note. Please make sure that the file is saved as plain text, not RTF, docx or else. 
+In TextEdit (Mac) you need to press `Shift + Command + T` to do so. Please check in your text editor if you can set the format with the **save as** button.
 
 To find this file easily please store it on your Desktop.
 
