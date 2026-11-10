@@ -151,11 +151,16 @@ ibridges download irods:demo/hello.txt .
 
 ### Synchronising
 
+The command
+
 ```
 ibridges sync
 ```
+synchronises a local folder with an iRODS collection.
 
-This synchronises a local folder with an iRODS collection.
+If you use the command as above you will run into an error since iBridges does not know which folder and which collection to synchronise. Use the help to get information how to use the command and what it does.
+
+Which parameters are there and what do they do? How would you test and try them out? (hint: `--dry-run`)
 
 ::: {.callout-tip}
 ## Exercise Uploading, Downloading, .. (15 minutes)
