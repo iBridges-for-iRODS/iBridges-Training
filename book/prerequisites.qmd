@@ -251,7 +251,7 @@ Each time you want to use iBridges:
 To get the newest versions, run:
 
 ```
-python -m pip install --upgrade ibridges ibridgesgui ibridges-uu-servers
+python -m pip install --upgrade ibridges ibridgesgui ibridges-servers-uu
 ```
 
 ## Troubleshooting {#troubleshooting}
