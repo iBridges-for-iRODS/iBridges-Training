@@ -46,7 +46,7 @@ session = interactive_auth(irods_env_path="/path/to/your/irods/environment.json"
 KEY = 'author'
 VALUE = 'Lewis Carroll'
  
-data = search_data(session, metadata=MetaSearch(key=KEY, value=VALUE))
+data = search_data(session, path=IrodsPath(session).parent, metadata=MetaSearch(key=KEY, value=VALUE))
 pprint(data)
 ```
 

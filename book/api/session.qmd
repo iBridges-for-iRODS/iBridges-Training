@@ -119,6 +119,12 @@ session.close()
 
 ## Session attributes
 
+Create a valid session again:
+
+```
+session = non_interactive_auth(ienv_path_or_alias="surf")
+```
+
 A Session contains useful information about your connection and user identity:
 
 ```python

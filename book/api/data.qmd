@@ -137,7 +137,7 @@ ops.print_summary()
 The `ops` variable is an `Operations` object, which contains all the suboperations that have to be performed. To perform the synchronisation operation we can simply type:
 
 ```python
-ops.execute()
+ops.execute(session)
 ```
 
 > Note, that the iBridges `sync` function will never delete files or data objects!

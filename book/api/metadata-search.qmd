@@ -120,6 +120,18 @@ meta_item.units = 'MyUnits'
 print("Overwriting the units:", meta_item)
 ```
 
+Take a look at the whole metadata record of that irods path:
+
+```python
+print("Metadata for", irods_path)
+print(irods_path.meta)
+```
+
+or
+```
+print(obj_meta)
+```
+
 ### Setting metadata
 
 Another way to set a metadata key to a new value and units is with the bracket `[]` notation.
@@ -127,11 +139,8 @@ Another way to set a metadata key to a new value and units is with the bracket `
 
 ```python
 print(obj_meta)
-```
-
-
-```python
 obj_meta['Author'] = 'person'
+print("Updated metadata")
 print(obj_meta)
 ```
 
@@ -148,10 +157,6 @@ If you like to set all metadata items to one new item, do:
 
 ```python
 obj_meta[['Key']] = [['OtherValue']]
-```
-
-
-```python
 print(obj_meta)
 ```
 
@@ -159,7 +164,7 @@ print(obj_meta)
 
 
 ```python
-obj_meta.delete('Author', 'AnotherAuthor')
+obj_meta.delete('Author', 'person')
 print(obj_meta)
 ```
 
@@ -167,22 +172,29 @@ print(obj_meta)
 
 To delete a single metadata item you will have to be again specific with your key, value and units information to identify the correct metadata item. To delete all metadata with the key `Key` we can simply use:
 
-
 ```python
 obj_meta.delete('Key')
 print(obj_meta)
 ```
 
-The same command on the metadata with the key `Author` would delete all of the entries:
+Let us add two metadata entries with the same key:
 
+```python
+obj_meta.add('Author', 'Alice')
+obj_meta.add('Author', 'Bob')
+```
+
+What does 
 
 ```python
 obj_meta.delete('Author')
-print(obj_meta)
 ```
 
-If you want to remove all metadata for a path, use:
+do?
+It removes **all metadata entries with the key "Author".**
 
+
+If you want to remove all metadata for a path, use:
 
 ```python
 obj_meta.clear()
@@ -212,7 +224,7 @@ Let's see what we can find on the whole iRODS instance when we use the key "type
 
 ```python
 result = search_data(session, path = "/tempZone/home",
-                     metadata=MetaSearch(key='type', value='demo'))
+                     metadata=MetaSearch(key='book_type', value='novel'))
 print(result)
 ```
 
@@ -221,7 +233,7 @@ If we do not want to specify the particular value for this metadata entry, we ca
 
 ```python
 result = search_data(session, path = "/tempZone/home",
-                     metadata=MetaSearch(key='type'))
+                     metadata=MetaSearch(key='book_type'))
 print(result)
 ```
 Now we receive three objects.
@@ -238,7 +250,7 @@ The following line will give us all objects and collections in our home collecti
 
 
 ```python
-result = search_data(session, path=IrodsPath(session),
+result = search_data(session, path=IrodsPath(session, "~"),
                      metadata=MetaSearch(key='%'))
 print(result)
 ```
@@ -249,43 +261,43 @@ Let us go back to the very first example of this section, in which we are lookin
 
 
 ```python
-result = search_data(session, path=session.home, path_pattern="my_books")
+result = search_data(session, path=session.home, path_pattern="demo")
 print(result)
 ```
 
 How can we retrieve also all data and possible subcollections?
 
-#### 1. Find all data and collections ending with `my_books` in your home
+#### 1. Find all data and collections ending with `demo` in your home
 
 
 ```python
-result = search_data(session, path=session.home, path_pattern="%my_books")
+result = search_data(session, path=session.home, path_pattern="%demo")
 print('\n'.join([str(p) for p in result]))
 ```
 
-#### 2. Find all data and collections starting with `my_books` in your home
+#### 2. Find all data and collections starting with `demo` in your home
 
 
 ```python
-result = search_data(session, path=session.home, path_pattern="my_books%")
+result = search_data(session, path=session.home, path_pattern="demo%")
 print('\n'.join([str(p) for p in result]))
 ```
 
-#### 3. Find all collections and data on a path containing `my_books` in your home
+#### 3. Find all collections and data on a path containing `demo` in your home
 
 
 ```python
-result = search_data(session, path=session.home, path_pattern="%/my_books/%")
+result = search_data(session, path=session.home, path_pattern="%/demo/%")
 print('\n'.join([str(p) for p in result]))
 ```
 
-#### 4. Find all `.txt` files that lie on a collection path that contains `my_books`
+#### 4. Find all `.txt` files that lie on a collection path that contains `demo`
 
 For this case we have to think of a pattern for the collection path and the object name and separate both with `/`:
 
 
 ```python
-coll_pattern = "%my_books%"
+coll_pattern = "%demo%"
 obj_pattern = "%.txt"
 print(f"Search pattern: {coll_pattern+'/'+obj_pattern}")
 result = search_data(session, path=session.home, path_pattern=coll_pattern+"/"+obj_pattern)

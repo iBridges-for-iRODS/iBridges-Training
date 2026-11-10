@@ -66,12 +66,20 @@
       become_user: irods
       changed_when: false
 
-    - name: Give the training group access
+    - name: Give the training group access to uploaded folders
       ansible.builtin.command: ichmod -r {{ dataset.group_permission }} {{ training_group }} {{ dataset.dest }}
       become: true
       become_user: irods
       changed_when: false
       when: dataset.group_permission | default('') | length > 0
+    - name: Give the training group access to the parent collection of a single uploaded file
+      ansible.builtin.command: ichmod {{ dataset.group_permission }} {{ training_group }} {{ ds_parent }}
+      become: true
+      become_user: irods
+      changed_when: false
+      when:
+        - dataset.group_permission | default('') | length > 0
+        - ds_is_file
 
     - name: Apply the metadata from the JSON export
       ansible.builtin.command:
