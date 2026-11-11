@@ -34,7 +34,7 @@ The iBridges GUI and CLI will help you create and store this configuration in th
 
 ## Creating a Configuration in the GUI
 
-Open the main menu **Configure** and select **Add Configuration**.  
+Open the main menu **Configure** and select **Open Configuration**.  
 A pop‑up window appears with:
 
 - A drop‑down menu listing previously stored environment files  
