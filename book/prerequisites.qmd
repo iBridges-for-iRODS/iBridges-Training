@@ -231,7 +231,7 @@ A desktop window should open. If it does, you are ready to connect to a server.
 If you work with Utrecht University iRODS servers, install the server profiles and workflow helpers:
 
 ```
-python -m pip install ibridges-uu-servers
+python -m pip install ibridges-servers-uu
 ```
 
 After installation, the GUI automatically detects the UU server profiles and makes them available in the connection menu. Restart the GUI if it was still open.
