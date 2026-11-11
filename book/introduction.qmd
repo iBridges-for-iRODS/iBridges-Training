@@ -141,7 +141,7 @@ It works on Windows, macOS and Linux.
 
 ## The iBridges Python API
 
-The iBridges API is a convenience layer around the python irods client. When you connect to iRODS using iBridges, an irods session is created automatically. You can still use all python irods client features.
+The iBridges API is a convenience layer around the Python irods client. When you connect to iRODS using iBridges, an iRODS session is created automatically. You can still use all python irods client features.
 If you are a scientific programmer, the API gives you a simple way to work with iRODS in scripts and workflows.
 
 ## The iBridges command line interface
@@ -150,7 +150,7 @@ If you only want to upload or download data, you do not need to write Python cod
 
 ## The iBridges graphical user interface
 
-The graphical interface is the easiest way to start working with iRODS. It lets you browse collections, upload files and edit metadata.
+The graphical user interface is the easiest way to start working with iRODS. It lets you browse collections, upload files and edit metadata.
 
 ## Relationship between python irods client and iBridges
 
