@@ -258,14 +258,14 @@ While working in the shell you can also quickly open up the GUI by typing:
 ibshell:some_col>gui
 ```
 
+In this case the GUI will start without you having to login, and it will navigate to the collection that you were in while working in the shell.
+
 It can be very useful to run local commands while in the iBridges shell. This can be done with the exclamation mark:
 
 ```shell
 ibshell:some_col>!ls
 some very nice files
 ```
-
-In this case the GUI will start without you having to login, and it will navigate to the collection that you were in while working in the shell.
 
 ## Summary
 
