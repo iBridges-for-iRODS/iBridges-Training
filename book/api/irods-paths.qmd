@@ -95,12 +95,12 @@ coll = ipath.create_collection()
 This creates the entire path if needed.
 
 ```
-print("Exists:", p.exists())
-print("Is a collection:", p.collection_exists())
-print("Is a data object:", p.dataobject_exists())
+print("Exists:", ipath.exists())
+print("Is a collection:", ipath.collection_exists())
+print("Is a data object:", ipath.dataobject_exists())
 ```
 
-And it returns the collection (not the path). We will investigate the difference between a collection and a
+Be aware, `create_collection()` returns the collection, not the path. We will investigate the difference between a collection and a
 path to the collection in a later section when we work with data.
 
 ### Renaming or moving
