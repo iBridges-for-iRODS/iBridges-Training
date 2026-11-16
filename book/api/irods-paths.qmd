@@ -133,7 +133,7 @@ print(moved_ipath)
 print("Is a collection:", moved_ipath.collection_exists())
 ```
 
-We have moved our collection `new_name` to a completely new branch in the tree of iRODS.
+We have moved our collection `new_ipath` to a completely new branch in the tree of iRODS.
 
 ### Removing collections or data objects
 
