@@ -146,7 +146,7 @@ print(moved_ipath.collection_exists())
 print(moved_ipath.parent.collection_exists())
 ```
 
-The `IrodsPath` object remains, but the server location is deleted.
+The `IrodsPath` object remains, but that what it points to on the server is deleted.
 
 ### Inspecting properties
 

@@ -110,14 +110,14 @@ print("iRODS source exists:", source.collection_exists())
 
 You can control how deeply the directory tree is synchronised:
 
-- max_level=None synchronises everything  
-- max_level=1 synchronises only the top level  
-- max_level=2 includes the first level of subcollections  
+- `max_level=None` synchronises everything  
+- `max_level=1` synchronises only the top level  
+- `max_level=2` includes the first level of subcollections  
 
 Other options:
 
-- copy_empty_folders controls whether empty folders are included  
-- dry_run lists planned changes without transferring data  
+- `copy_empty_folders` controls whether empty folders are included  
+- `dry_run` lists planned changes without transferring data  
 
 Dry run:
 
