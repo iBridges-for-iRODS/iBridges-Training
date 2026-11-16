@@ -45,19 +45,19 @@ If not set, it defaults to `/zone/home/username`.
 The `cwd` is optional and defaults to the `home`.  
 The dot symbol refers to the cwd:
 
-```
+```python
 IrodsPath(session, ".")
 ```
 
 The tilde symbol refers to the home:
 
-```
+```python
 IrodsPath(session, "~")
 ```
 
 You can set your `demo` collection as current working directory:
 
-```
+```python
 session.cwd = IrodsPath(session, "~", "demo")
 print("cwd:", session.cwd)
 print("home:", session.home)
@@ -89,15 +89,15 @@ Creating an `IrodsPath` does not create anything on the server.
 To create a collection:
 
 ```python
-coll = ipath.create_collection()
+ipath.create_collection()
 ```
 
 This creates the entire path if needed.
 
-```
-print("Exists:", p.exists())
-print("Is a collection:", p.collection_exists())
-print("Is a data object:", p.dataobject_exists())
+```python
+print("Exists:", ipath.exists())
+print("Is a collection:", ipath.collection_exists())
+print("Is a data object:", ipath.dataobject_exists())
 ```
 
 And it returns the collection (not the path). We will investigate the difference between a collection and a
@@ -113,13 +113,13 @@ print(new_ipath)
 
 The old variable `ipath` still contains our old path. But it does not exist any longer:
 
-```
+```python
 ipath.exists()
 ```
 
 The `rename` function returns the new `IrodsPath` which does exist:
 
-```
+```python
 new_ipath.exists()
 ```
 
@@ -152,7 +152,7 @@ The `IrodsPath` object remains, but the server location is deleted.
 
 Recreate the `ipath` with your demo collection:
 
-```
+```python
 ipath = IrodsPath(session, "/tempZone/home/christine/demo")
 ```
 

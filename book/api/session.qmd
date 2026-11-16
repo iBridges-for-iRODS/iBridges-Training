@@ -62,10 +62,16 @@ from ibridges.authenticate import non_interactive_auth
 session = non_interactive_auth()
 ```
 
-You can also specify an alias or an environment file:
+You can also specify an alias or an environment file. Replace "your-alias" with the alias you may have created during the CLI part of this training.
+
+You can list aliases by running the following command in your terminal:
+
+```bash
+ibridges alias
+```
 
 ```python
-session = non_interactive_auth(ienv_path_or_alias="surf")
+session = non_interactive_auth(ienv_path_or_alias="your-alias")
 ```
 
 or
@@ -121,8 +127,8 @@ session.close()
 
 Create a valid session again:
 
-```
-session = non_interactive_auth(ienv_path_or_alias="surf")
+```python
+session = non_interactive_auth(ienv_path_or_alias="your-alias")
 ```
 
 A Session contains useful information about your connection and user identity:

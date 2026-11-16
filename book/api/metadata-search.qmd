@@ -128,7 +128,7 @@ print(irods_path.meta)
 ```
 
 or
-```
+```python
 print(obj_meta)
 ```
 
@@ -389,7 +389,3 @@ Have a look again at the `upload` and `download` functions and inspect the metad
 - Remove or rename your iRODS books collection, or use a different destination for the upload.  
 - Do a dry run of an upload of your books collection specifying the metadata file we just created.  
 - Upload the data and the metadata and verify the result.
-
----
-
-If you want, I can also harmonise the introduction of the metadata chapter with the earlier *Working with data* module so the transition feels even smoother.
