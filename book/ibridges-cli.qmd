@@ -277,7 +277,7 @@ ibshell:some_col>!ls
 some very nice files
 ```
 
-In this case the GUI will start without you having to login, and it will navigate to the collection that you were in while working in the shell.
+In this case the GUI will start without you having to login.
 
 ## Summary
 
