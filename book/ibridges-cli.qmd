@@ -196,7 +196,19 @@ Try adding the same key again with a different value:
 ibridges meta-add demo type ascii
 ```
 
-As in the GUI, iRODS allows multiple triples with the same key and value if the units differ.
+As in the GUI, iRODS only allows to add metadata triples when at least one of the three, key, value or units are different.
+In the CLI we do not have a `meta-update` command. To update metadata first delete it and then add the new information:
+
+```bash
+ibridges ls -m
+/tempZone/home/irods1:
+ - (key: 'key', value: 'value', units: 'unit')
+meta-del /tempZone/home/irods1 --key key
+ibridges meta-add /tempZone/home/irods1 key new_value units
+ibridges ls -m
+/tempZone/home/irods1:
+ - (key: 'key', value: 'new_value', units: 'units')
+```
 
 ::: {.callout-tip}
 
@@ -265,7 +277,7 @@ ibshell:some_col>!ls
 some very nice files
 ```
 
-In this case the GUI will start without you having to login, and it will navigate to the collection that you were in while working in the shell.
+In this case the GUI will start without you having to login.
 
 ## Summary
 
