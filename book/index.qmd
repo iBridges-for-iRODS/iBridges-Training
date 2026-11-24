@@ -51,17 +51,17 @@ We hope you enjoy the day and feel confident exploring iRODS and iBridges.
 
 ### Upcoming trainings
 
-- Thursday, April 29, 2027; Utrecht University 
+- Thursday, January 28, 2027; Utrecht University 
 
-  <a href="https://bookings.uu.nl/calendar/intern/ibridgesApril2027"
+  <a href="https://bookings.uu.nl/calendar/intern/ibridges"
      style="background:#c8efe6; padding:6px 12px; color:#15a589 !important;
           border-radius:4px; text-decoration:none;">
      Register
   </a>
 
-- Thursday, January 28, 2028; Utrecht University 
+- Thursday, April 29, 2027; Utrecht University 
 
-  <a href="https://bookings.uu.nl/calendar/intern/ibridges"
+  <a href="https://bookings.uu.nl/calendar/intern/ibridgesApril2027"
      style="background:#c8efe6; padding:6px 12px; color:#15a589 !important;
           border-radius:4px; text-decoration:none;">
      Register
